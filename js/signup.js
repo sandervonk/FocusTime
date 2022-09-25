@@ -10,7 +10,7 @@ $("#raised-close").click(() => {
   if (window && window.history && false) {
     window.history.back();
   } else if (window) {
-    window.location.href = "../";
+    window.location.href = "./";
   } else {
     new ErrorToast("Error", "Unable to go back", 3000);
   }
