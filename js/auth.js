@@ -20,7 +20,7 @@ auth.onAuthStateChanged((userInfo) => {
     // https://firebase.google.com/docs/reference/js/firebase.User
     // ...
     if (!window.location.pathname.includes("/app/") && !window.location.pathname.includes("/signup.html") && !window.location.pathname.includes("/login.html")) {
-      window.location.href = "/app/";
+      window.location.href = "/lahacks-six/app/";
     } else {
       db.collection("users")
         .doc(user.uid)

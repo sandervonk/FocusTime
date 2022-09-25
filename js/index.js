@@ -13,6 +13,6 @@ const auth = firebase.auth();
 
 auth.onAuthStateChanged((userInfo) => {
   if (userInfo) {
-    window.location.href = "/app/";
+    window.location.href = "./app/";
   }
 });

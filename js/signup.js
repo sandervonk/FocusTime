@@ -67,7 +67,7 @@ $("#signup").click(() => {
           )
           .then(() => {
             new Toast("Account created!", "default", 1000, "./img/icon/toast/info-unlocked-icon.svg", "./app/");
-            window.location.href = "/app/";
+            window.location.href = "/lahacks-six/app/";
           })
           .catch((error) => {
             new ErrorToast("Error", cleanError(error), 3000);
