@@ -248,3 +248,8 @@ body,
 .raised-section {
   max-width: 500px;
 }
+input[type="text"] {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
