@@ -3,16 +3,22 @@ let buttonClicked = false;
 auth.onAuthStateChanged((userInfo) => {
   if (user && !buttonClicked) {
     // User is signed in, redirect to app with toast
-    new Toast("You are already signed in!", "default", 1000, "/img/icon/toast/info-unlocked-icon.svg", "./app/");
+    new Toast("You are already signed in!", "default", 1000, "./img/icon/toast/info-unlocked-icon.svg", "./app/");
   }
 });
 $("#raised-close").click(() => {
-  if (window && window.history) {
+  if (window && window.history && false) {
     window.history.back();
   } else if (window) {
     window.location.href = "../";
   } else {
     new ErrorToast("Error", "Unable to go back", 3000);
+  }
+});
+// listen for enter key and simulate signup click
+$(document).keypress(function (e) {
+  if (e.which == 13) {
+    $("#signup").click();
   }
 });
 $("#signup").click(() => {
@@ -60,7 +66,7 @@ $("#signup").click(() => {
             { merge: true }
           )
           .then(() => {
-            new SuccessToast("Account created", 3000);
+            new Toast("Account created!", "default", 1000, "./img/icon/toast/info-unlocked-icon.svg", "./app/");
             window.location.href = "/app/";
           })
           .catch((error) => {
@@ -93,13 +99,13 @@ $("#signup").click(() => {
                         { merge: true }
                       )
                       .then(() => {
-                        new Toast("Signed in and created missing userdoc", "default", 3000, "/img/icon/toast/success-icon.svg", "./app/");
+                        new Toast("Signed in and created missing userdoc", "default", 3000, "./img/icon/toast/success-icon.svg", "./app/");
                       })
                       .catch((error) => {
                         new ErrorToast("Error creating missing userdoc", cleanError(error), 3000);
                       });
                   } else {
-                    new Toast("Account already exists and password matched, signed in", "default", 3000, "/img/icon/toast/success-icon.svg", "./app/");
+                    new Toast("Account already exists and password matched, signed in", "default", 3000, "./img/icon/toast/success-icon.svg", "./app/");
                   }
                 });
             })

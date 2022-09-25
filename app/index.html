@@ -16,7 +16,15 @@
   </head>
   <body>
     <div id="content">
-      <button onclick="auth.signOut().then(()=>{window.location.href='../'})">Sign Out</button>
+      <div id="carousel" style="left: 0">
+        <div id="home" class="carousel-page">
+          <div id="raised-content"></div>
+        </div>
+        <div id="add" class="carousel-page"></div>
+        <div id="session" class="carousel-page">
+          <button data-auth-role="logoutprompt">Sign Out</button>
+        </div>
+      </div>
     </div>
     <nav>
       <div class="nav-item active" id="home">
@@ -44,6 +52,13 @@
         </object>
       </div>
     </nav>
+    <div id="fade-bars">
+      <div class="fade-bar-solid"></div>
+      <div class="fade-bar fade-right"></div>
+      <div class="fade-spacer"></div>
+      <div class="fade-bar fade-left"></div>
+      <div class="fade-bar-solid"></div>
+    </div>
   </body>
   <script src="../js/util.js"></script>
   <script src="../js/auth.js"></script>

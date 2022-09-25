@@ -19,12 +19,12 @@
   --toast-border: #242424;
   --toast-secondary: #3b3b3b;
   /*popup*/
-  --primary: hsl(36, 77%, 55%);
-  --primary-container: hsl(36, 100%, 18%);
-  --on-primary: hsl(36, 100%, 13%);
-  --on-primary-container: hsl(36, 100%, 84%);
-  --popup-bg: hsl(36, 7%, 11%);
-  --on-popup-bg: hsl(36, 3%, 89%);
+  --primary: hsl(131, 48%, 65%);
+  --primary-container: hsl(131, 100%, 18%);
+  --on-primary: hsl(131, 100%, 13%);
+  --on-primary-container: hsl(131, 100%, 84%);
+  --popup-bg: hsl(131, 7%, 11%);
+  --on-popup-bg: hsl(131, 3%, 89%);
   --popup-red: #de3730;
   /*login*/
   --login-box-bg: #ffffff0a;
@@ -205,4 +205,16 @@ button {
 }
 input::placeholder {
   opacity: 0.25;
+}
+body,
+#raised-controls,
+#raised-content {
+  max-width: 500px;
+  margin: 0 auto;
+}
+.bottom-button {
+  max-width: calc(500px - 60px);
+}
+.raised-section {
+  max-width: 500px;
 }
