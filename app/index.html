@@ -15,10 +15,58 @@
     <script src="//www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
   </head>
   <body>
-    <div id="content">
+    <div id="content" data-page="home">
       <div id="carousel" style="left: 0">
         <div id="home" class="carousel-page">
-          <div id="raised-content"></div>
+          <div id="home-head-row" class="flex-row flex-nowrap">
+            <div id="home-text" class="header-text">Hi&nbsp;<span data-auth-role="name">and Welcome</span>!</div>
+            <div id="home-logout" data-auth-role="logoutprompt">
+              <object data="../img/icon/interface/pfp.svg" type="image/svg+xml">
+                <img src="../img/icon/interface/pfp.png" />
+              </object>
+            </div>
+          </div>
+          <div id="raised-content" style="bottom: 80px">
+            <hr class="handle" />
+            <div class="raised-section">
+              <div class="raised-items">
+                <div id="daily-title" class="header-large">Daily Tasks</div>
+                <div id="progress-stats">
+                  <div class="flex-row flex-nowrap" id="progress-percentage">
+                    <div id="progress-completed" class="header-small">Your Progress</div>
+                    <div id="progress-total" class="header-small"><span data-role="progress-percentage">##</span>%</div>
+                  </div>
+                  <div id="progress-bar-container">
+                    <div id="progress-bar" style="width: 0%"></div>
+                  </div>
+                  <div id="progress-out-of">
+                    <span data-role="progress-completed">#</span>
+                    out of
+                    <span data-role="progress-total">##</span>
+                    completed
+                  </div>
+                </div>
+                <div id="data-cards">
+                  <div class="data-card">
+                    <div data-role="data-num" class="header-large">##</div>
+                    <div id="bottom-row" class="flex-row flex-nowrap">
+                      <div data-role="datatype-icon"></div>
+                      <div data-role="datatype-text">Tasks Completed</div>
+                    </div>
+                  </div>
+                  <div class="data-card">
+                    <div data-role="data-num" class="header-large">##</div>
+                    <div id="bottom-row" class="flex-row flex-nowrap">
+                      <div data-role="datatype-icon"></div>
+                      <div data-role="datatype-text">Minutes Spent</div>
+                    </div>
+                  </div>
+                </div>
+                <!-- <hr id="button-spacer" /> -->
+              </div>
+              <button onclick="$('#session.nav-item').click()">Start A Focus Session</button>
+            </div>
+          </div>
         </div>
         <div id="add" class="carousel-page"></div>
         <div id="session" class="carousel-page">

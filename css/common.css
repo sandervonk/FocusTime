@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,600;1,700&family=Roboto:wght@400;500;600;700&display=swap");
 :root {
   --primary-bg: #2e271c;
+  --primary-bg-transparent: #2f281d33;
   --secondary-bg: #fff;
   --on-primary-bg: #fff;
   --on-secondary-bg: #2e271c;
@@ -85,7 +86,8 @@ button {
 #raised-content {
   position: fixed;
   bottom: 0;
-  animation: raise 0.5s ease-out forwards;
+  left: 50%;
+  animation: raise-centered 0.5s ease-out forwards;
 }
 .raised-section {
   background: var(--secondary-bg);
@@ -130,10 +132,26 @@ button {
 }
 @keyframes raise {
   0% {
-    transform: translateY(100%);
+    transform: translateY(calc(100% + 20px));
   }
   100% {
     transform: translateY(0);
+  }
+}
+@keyframes raise-centered {
+  0% {
+    transform: translate(-50%, calc(100% + 20px));
+  }
+  100% {
+    transform: translate(-50%, 0);
+  }
+}
+@keyframes raise-centered-reversed {
+  0% {
+    transform: translate(-50%, 0);
+  }
+  100% {
+    transform: translate(-50%, calc(100% + 20px));
   }
 }
 @keyframes fadein {
@@ -146,6 +164,16 @@ button {
 }
 .header-text {
   font-size: 26px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+}
+.header-small {
+  font-size: 17px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+}
+.header-large {
+  font-size: 34px;
   font-family: "Montserrat", sans-serif;
   font-weight: 700;
 }

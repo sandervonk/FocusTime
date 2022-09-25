@@ -1,7 +1,8 @@
 "use strict";
 /** URI SEARCH TERMS **/
-var params = new URLSearchParams(window.location.search);
-var user;
+var params = new URLSearchParams(window.location.search),
+  user,
+  userDocCache = {};
 if (window.history) {
   history.replaceState({}, "", window.location.href.substr(0, window.location.href.length - window.location.search.length));
 }

@@ -21,6 +21,21 @@ auth.onAuthStateChanged((userInfo) => {
     // ...
     if (!window.location.pathname.includes("/app/") && !window.location.pathname.includes("/signup.html") && !window.location.pathname.includes("/login.html")) {
       window.location.href = "/app/";
+    } else {
+      db.collection("users")
+        .doc(user.uid)
+        .get()
+        .then((doc) => {
+          if (doc.exists) {
+            $("[data-auth-role='name']").text(doc.data().name.split(" ")[0]);
+            userDocCache = doc.data();
+          } else {
+            new ErrorToast("Error", "Userdoc does not exist", 3000);
+          }
+        })
+        .catch((error) => {
+          new ErrorToast("Error", cleanError(error), 3000);
+        });
     }
   } else {
     // User is signed out
