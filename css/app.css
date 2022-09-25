@@ -84,7 +84,7 @@ nav {
 }
 @media (min-width: 500px) {
   nav {
-    width: 500px;
+    width: 600px;
     left: 50%;
     transform: translateX(-50%);
     border-radius: 20px 20px 0 0;
