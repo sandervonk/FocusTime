@@ -4,6 +4,8 @@ $(".nav-item").click(function () {
   $("#carousel").css({ left: -$(this).index() * 100 + "vw" });
   $("#carousel").attr("data-page-index", $(this).index());
   $("#content").attr("data-page", $(this).prop("id"));
+  $(".carousel-page").removeClass("active");
+  $("#" + $(this).prop("id")).addClass("active");
 });
 $('[data-role="create-task"]').click(function () {
   //save task to userdoc db as json using firebase

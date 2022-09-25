@@ -346,3 +346,6 @@ select:invalid {
   width: 100%;
   opacity: 0.25;
 }
+.carousel-page:not(.active) {
+  overflow-y: hidden !important;
+}
