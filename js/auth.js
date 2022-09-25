@@ -19,15 +19,15 @@ auth.onAuthStateChanged((userInfo) => {
     // User is signed in, see docs for a list of available properties
     // https://firebase.google.com/docs/reference/js/firebase.User
     // ...
-    if (window.location.pathname !== "/app/" && window.location.pathname !== "/signup.html") {
+    if (!window.location.pathname.includes("/app/") && !window.location.pathname.includes("/signup.html")) {
       window.location.href = "/app/";
     }
   } else {
     // User is signed out
     // ...
-    if (window.location.pathname !== "/signup.html") {
+    if (!window.location.pathname.includes("/signup.html")) {
       // tell user they are not signed in, and that this page requires that they are, toast
-      new Toast("Sorry, yneed to be signed in to access this page!", "default", 3000, "/img/icon/toast/info-locked-icon.svg", "./signup.html");
+      new Toast("Sorry, you need to be signed in to access this page!", "default", 3000, "//sander.vonk.one/img/icon/toast/info-locked-icon.svg", "./signup.html");
     }
   }
 });
