@@ -68,10 +68,44 @@
             </div>
           </div>
         </div>
-        <div id="add" class="carousel-page"></div>
-        <div id="session" class="carousel-page">
-          <button data-auth-role="logoutprompt">Sign Out</button>
+        <div id="add" class="carousel-page">
+          <div id="task-add-title" class="header-large">Create Task</div>
+          <div id="cards">
+            <div class="card">
+              <div class="card-title header-small">Timing</div>
+              <div class="card-subtitle">Estimate how long it'll take you to finish this task</div>
+              <div class="radio-group" data-role="time-radio-group">
+                <input type="radio" value="15" name="time-allocated" id="time-15" />
+                <label for="time-15">15 min</label>
+                <input type="radio" checked value="30" name="time-allocated" id="time-30" />
+                <label for="time-30">30 min</label>
+                <input type="radio" value="60" name="time-allocated" id="time-60" />
+                <label for="time-60">60 min</label>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-title header-small">Title & Details</div>
+              <div class="card-subtitle">Set a goal for this task</div>
+              <input data-role="task-info-title" type="text" placeholder="Read pages 12-65..." />
+            </div>
+            <div class="card">
+              <div class="card-title header-small">Class or Tag</div>
+              <div class="card-subtitle">Attach a tag or class name to this task</div>
+              <select name="info-tag" data-role="task-info-tag" required>
+                <option disabled selected hidden value="">English Literature 101</option>
+                <option value="apush">AP US History</option>
+                <option value="calc">AP Calc BC</option>
+                <option value="french">AP French Language</option>
+                <option value="mads">Madrigals</option>
+                <option value="physics">AP Physics 1</option>
+                <option value="hamlit">Honors American Literature</option>
+              </select>
+            </div>
+          </div>
+          <hr id="button-spacer" style="height: 80px" />
+          <button data-role="create-task" class="bottom-button" style="bottom: 110px">Create</button>
         </div>
+        <div id="session" class="carousel-page"></div>
       </div>
     </div>
     <nav>

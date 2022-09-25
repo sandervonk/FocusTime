@@ -73,6 +73,7 @@ nav {
   height: 100%;
   box-sizing: border-box;
   padding: 30px;
+  overflow-y: auto;
 }
 #carousel,
 .carousel-page {
@@ -179,13 +180,7 @@ nav {
   margin: 10px 0 !important;
   background-color: var(--primary-bg-transparent);
 }
-#progress-out-of {
-  font-family: "Lato", sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  color: var(--primary-bg);
-  opacity: 0.5;
-}
+
 #data-cards {
   display: flex;
   flex-flow: row wrap;
@@ -223,4 +218,101 @@ nav {
 
 #home-logout * {
   pointer-events: none;
+}
+#carousel #add {
+  padding: 20px;
+}
+#carousel #add #cards {
+  margin-top: 40px;
+}
+#carousel #add #cards .card {
+  padding: 20px;
+  border-radius: 10px;
+  background-color: var(--secondary-bg);
+  margin: 15px 0;
+}
+.card-subtitle,
+#progress-out-of {
+  font-family: "Lato", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--primary-bg);
+  opacity: 0.5;
+}
+[data-role="task-info-title"],
+[data-role="task-info-tag"] {
+  margin-top: 20px;
+  font-size: 12px;
+  height: 40px;
+  width: 100%;
+  padding-left: 20px;
+  border: solid 1px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: solid 1px var(--primary-bg-half);
+}
+
+input::placeholder,
+select:invalid {
+  color: var(--primary-bg-half) !important;
+}
+.radio-group {
+  margin-top: 10px;
+  padding: 10px;
+  flex-flow: row nowrap;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  display: flex;
+}
+.radio-group input {
+  width: 0;
+  height: 0;
+  opacity: 0;
+  position: absolute;
+  cursor: pointer;
+  pointer-events: all;
+  user-select: none;
+}
+.radio-group label {
+  font-family: "Roboto", sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  opacity: 0.5;
+  transition: opacity 0.15s ease-in-out, background-color 0.15s ease-in-out;
+  color: var(--primary-bg);
+  flex-grow: 1;
+  padding: 10px;
+  text-align: center;
+  /*placeholder*/
+}
+.radio-group label:nth-last-of-type(2) {
+  margin: 0 10px;
+}
+.radio-group input:checked + label {
+  opacity: 1;
+  background-color: var(--accent-2);
+  border-radius: 10px;
+}
+@media (min-width: 500px) {
+  ::-webkit-scrollbar-track {
+    opacity: 0 !important;
+    background: var(--bg);
+    display: none !important;
+    width: 16px;
+    height: 16px;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 16px;
+    background: var(--scrollbar-transparent);
+    border: solid 4px var(--bg);
+  }
+  ::-webkit-scrollbar {
+    width: 16px !important;
+    height: 16px !important;
+  }
+  ::-webkit-scrollbar-corner {
+    opacity: 0;
+    background: transparent;
+  }
 }

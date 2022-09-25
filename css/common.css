@@ -2,6 +2,7 @@
 :root {
   --primary-bg: #2e271c;
   --primary-bg-transparent: #2f281d33;
+  --primary-bg-half: #2f281d80;
   --secondary-bg: #fff;
   --on-primary-bg: #fff;
   --on-secondary-bg: #2e271c;
@@ -11,6 +12,7 @@
   --accent-1-transparent: hsl(93, 56%, 94%);
   --accent-2-alt: #fffb9e;
   --accent-3: #f6cd64;
+  --scrollbar-transparent: #2f281d33;
   --accent-4: #faf4f2;
   --handle: #0000001a;
   /*toast*/
