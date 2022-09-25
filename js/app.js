@@ -31,3 +31,46 @@ $('[data-role="create-task"]').click(function () {
       });
   }
 });
+
+/*code to use scroll snapping
+
+$(".carousel-page").css("scroll-snap-align", "start")
+$("#carousel").css({
+    "scroll-snap-type": "x mandatory",
+    "overflow-x": "scroll",
+    "width": "500px",
+    "justify-content": "start",
+    
+})
+$("#content").css("left", "0")
+$(".fade-spacer").css("flex-basis", "440px")
+$(".nav-item").off()
+$(".nav-item").click(function(){
+    $(".nav-item").removeClass("active")
+    $(this).addClass("active")
+    $(".carousel-page")[$(this).index()].scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+      inline: "start",
+    });
+    
+  $("#carousel").attr("data-page-index", $(this).index());
+  $("#content").attr("data-page", $(this).prop("id"));
+  $(".carousel-page").removeClass("active");
+  $("#" + $(this).prop("id")).addClass("active");
+})
+$("#carousel").scroll(function(e){
+    let next_item = $(".nav-item")[(parseInt(($("#carousel").scrollLeft() / $("#carousel").outerWidth()) + 0.5))]
+    if (!$(next_item).hasClass("active")){
+        $(".nav-item").removeClass("active")
+        $(next_item).addClass("active")
+          $("#carousel").attr("data-page-index", $(next_item).index());
+  $("#content").attr("data-page", $(next_item).prop("id"));
+  $(".carousel-page").removeClass("active");
+  $("#" + $(next_item).prop("id")).addClass("active");
+    }
+    
+})
+
+
+*/
