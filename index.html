@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FocusTime - Get Started</title>
+    <link rel="shortcut icon" href="./img/icon/favicon.png" type="image/png" />
+    <link rel="stylesheet" href="./css/common.css" />
+    <link rel="stylesheet" href="./css/util.css" />
+    <link rel="stylesheet" href="./css/index.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="//www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="//www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  </head>
+  <body>
+    <header>
+      <object id="page-logo" data="./img/icon/favicon-monochrome.svg" type="image/svg+xml">
+        <img src="./img/icon/favicon-monochrome.png" />
+      </object>
+      <div id="app-name" class="header-text">FocusTime</div>
+    </header>
+    <div id="hero-content">
+      <div id="hero-text">Make your time work for <i>you</i></div>
+      <object id="hero-img" data="./img/art/onboarding-art.svg" type="image/svg+xml">
+        <img src="./img/art/onboarding-art.png" />
+      </object>
+    </div>
+    <hr id="button-spacer" />
+    <button id="get-started" onclick="window.location.href='./signup.html'">Get Started</button>
+    <div id="stars" style="display: none">
+      <object id="star-1" class="star" data="./img/art/star.svg" type="image/svg+xml">
+        <img src="./img/art/star.png" />
+      </object>
+      <object id="star-2" class="star" data="./img/art/star.svg" type="image/svg+xml">
+        <img src="./img/art/star.png" />
+      </object>
+    </div>
+  </body>
+  <script src="./js/index.js"></script>
+</html>

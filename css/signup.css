@@ -1,0 +1,125 @@
+body,
+html {
+  background-color: var(--accent-1);
+  --bg: var(--accent-1);
+}
+body {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: space-between;
+}
+#content {
+  padding: 30px;
+  /* padding: 30px 30px 50px 30px; */
+}
+.raised-section {
+  min-height: 75vh;
+}
+#centered-title {
+  width: 100%;
+  text-align: center;
+}
+
+/*format for box*/
+.input-pair {
+  margin: 10px 0;
+}
+input[type="checkbox"] {
+  position: absolute;
+  height: 0px;
+  width: 0px;
+  z-index: -1;
+  opacity: 0;
+}
+.checkbox-label {
+  color: var(--login-secondary);
+  font-size: 16px;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 500;
+  transition: color 0.1s ease-out;
+}
+.checkbox-label .checkbox-icon {
+  width: 25px;
+  height: 25px;
+  border-radius: 50px;
+  background-color: var(--login-secondary);
+  margin-right: 10px;
+  transition: background-color 0.1s ease-out;
+  background-image: url(../img/icon/login/check-alt.png);
+  background-image: url(../img/icon/login/check-alt.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+input:checked + .checkbox-label {
+  color: var(--accent-1);
+}
+input:checked + .checkbox-label .checkbox-icon {
+  background-color: var(--login-accent);
+  background-image: url(../img/icon/login/check.png);
+  background-image: url(../img/icon/login/check.svg);
+}
+input[type="text"],
+input[type="email"],
+input[type="name"],
+input[type="password"] {
+  border-radius: 7px;
+  border: solid 1px var(--login-secondary);
+  transition: border-color 0.2s;
+  background-color: rgba(0, 0, 0, 0);
+  height: 50px;
+  box-sizing: border-box;
+  padding: 10px 10px 10px 70px;
+  font-size: 18px;
+  color: var(--text-primary);
+  width: 100%;
+  transition: border-color 0.2s;
+}
+
+input[type="text"]:active,
+input[type="text"]:focus,
+input[type="email"]:active,
+input[type="email"]:focus,
+input[type="name"]:active,
+input[type="name"]:focus,
+input[type="password"]:active,
+input[type="password"]:focus {
+  border: solid 1px var(--login-accent);
+  outline: none;
+}
+input[type="text"]::placeholder {
+  color: var(--login-secondary);
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-internal-autofill-selected {
+  border: solid 1px var(--text-primary) !important;
+  color: var(--text-primary-autofill) !important;
+  -webkit-text-fill-color: var(--text-primary) !important;
+  background: #afe433aa !important;
+  appearance: none;
+  -webkit-box-shadow: 0 0 0 50px var(--accent-1-transparent) inset !important;
+}
+.input-icon {
+  position: absolute;
+  box-sizing: border-box;
+  height: 50px;
+  width: 70px;
+  padding: 15px 25px;
+  font-size: 0px;
+  color: transparent;
+  overflow: hidden;
+  cursor: help;
+  user-select: none;
+}
+.input-icon > * {
+  pointer-events: none;
+  user-select: none;
+}
+a[href] {
+  color: var(--login-accent);
+  text-decoration: none;
+  font-weight: bold;
+}

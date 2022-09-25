@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FocusTime - App Home</title>
+    <link rel="shortcut icon" href="../img/icon/favicon.png" type="image/png" />
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/util.css" />
+    <link rel="stylesheet" href="../css/app.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="//www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="//www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="//www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  </head>
+  <body>
+    <div id="content">
+      <button onclick="auth.signOut().then(()=>{window.location.href='../'})">Sign Out</button>
+    </div>
+    <nav>
+      <div class="nav-item active" id="home">
+        <object class="icon-primary" data="../img/icon/pages/home.svg" type="image/svg+xml">
+          <img src="../img/icon/pages/home.png" />
+        </object>
+        <object class="icon-alt" data="../img/icon/pages/home-alt.svg" type="image/svg+xml">
+          <img src="../img/icon/pages/home-alt.png" />
+        </object>
+      </div>
+      <div class="nav-item" id="add">
+        <object class="icon-primary" data="../img/icon/pages/add.svg" type="image/svg+xml">
+          <img src="../img/icon/pages/add.png" />
+        </object>
+        <object class="icon-alt" data="../img/icon/pages/add-alt.svg" type="image/svg+xml">
+          <img src="../img/icon/pages/add-alt.png" />
+        </object>
+      </div>
+      <div class="nav-item" id="session">
+        <object class="icon-primary" data="../img/icon/pages/session.svg" type="image/svg+xml">
+          <img src="../img/icon/pages/session.png" />
+        </object>
+        <object class="icon-alt" data="../img/icon/pages/session-alt.svg" type="image/svg+xml">
+          <img src="../img/icon/pages/session-alt.png" />
+        </object>
+      </div>
+    </nav>
+  </body>
+  <script src="../js/util.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/app.js"></script>
+</html>
