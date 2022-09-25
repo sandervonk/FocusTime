@@ -202,7 +202,7 @@ nav {
   background-color: var(--primary-bg);
   border-radius: 20px;
 }
-[data-role="data-num"] {
+.data-card .header-large {
   margin-bottom: 15px;
 }
 #home-head-row {

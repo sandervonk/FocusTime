@@ -29,6 +29,24 @@ auth.onAuthStateChanged((userInfo) => {
           if (doc.exists) {
             $("[data-auth-role='name']").text(doc.data().name.split(" ")[0]);
             userDocCache = doc.data();
+            try {
+              let total = 0,
+                completed = 0,
+                tasks = doc.data().tasks ? doc.data().tasks : [];
+              for (task of doc.data().tasks) {
+                total++;
+                if (task.is_completed) {
+                  completed++;
+                }
+              }
+
+              $('[data-role="progress-percentage"]').text(`${parseInt((completed * 100) / total)}`);
+              $('[data-role="progress-bar"]').css("width", `${parseInt((completed * 100) / total)}%`);
+              $('[data-role="progress-completed"]').text(completed);
+              $('[data-role="progress-total"]').text(total);
+            } catch (err) {
+              console.error(err);
+            }
           } else {
             new ErrorToast("Error", "Userdoc does not exist", 3000);
           }
