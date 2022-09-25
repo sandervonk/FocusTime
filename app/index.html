@@ -69,7 +69,7 @@
           </div>
         </div>
         <div id="add" class="carousel-page">
-          <div id="task-add-title" class="header-large">Create a Task</div>
+          <div id="task-add-title" class="header-large page-title">Create a Task</div>
           <div id="cards">
             <div class="card">
               <div class="card-title header-small">Timing</div>
@@ -105,7 +105,30 @@
           <hr id="button-spacer" style="height: 80px" />
           <button data-role="create-task" class="bottom-button" style="bottom: 110px">Create</button>
         </div>
-        <div id="session" class="carousel-page"></div>
+        <div id="session" class="carousel-page">
+          <div id="task-add-title" class="header-large page-title">Start A Focus Session</div>
+          <div id="cards">
+            <div class="card">
+              <div class="card-title header-small">Set a Goal</div>
+              <div class="card-subtitle">Choose how long to spend on the selected tasks</div>
+              <div class="radio-group" data-role="time-radio-group">
+                <input type="radio" value="20" name="time-allocated" id="time-20" />
+                <label for="time-20">20 min</label>
+                <input type="radio" checked value="40" name="time-allocated" id="time-40" />
+                <label for="time-40">40 min</label>
+                <input type="radio" value="80" name="time-allocated" id="time-80" />
+                <label for="time-80">80 min</label>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-title header-small">Pick some tunes (optional)</div>
+              <div class="card-subtitle">Paste a Spotify playlist link below to listen as you work</div>
+              <input data-role="task-info-title" type="text" placeholder="Read pages 12-65..." />
+            </div>
+          </div>
+          <hr id="button-spacer" style="height: 80px" />
+          <button data-role="start-session" class="bottom-button" style="bottom: 110px">Begin</button>
+        </div>
       </div>
     </div>
     <nav>

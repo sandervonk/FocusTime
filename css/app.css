@@ -222,10 +222,12 @@ nav {
 #carousel #add {
   padding: 20px;
 }
-#carousel #add #cards {
+#carousel #add #cards,
+#carousel #session #cards {
   margin-top: 40px;
 }
-#carousel #add #cards .card {
+#carousel #add #cards .card,
+#carousel #session #cards .card {
   padding: 20px;
   border-radius: 10px;
   background-color: var(--secondary-bg);
@@ -315,4 +317,9 @@ select:invalid {
     opacity: 0;
     background: transparent;
   }
+}
+.page-title {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
