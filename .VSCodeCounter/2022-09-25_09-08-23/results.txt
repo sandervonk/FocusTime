@@ -1,0 +1,84 @@
+Date : 2022-09-25 09:08:23
+Directory : c:\Users\sande\Documents\GitHub\lahacksVI
+Total : 44 files,  2128 codes, 47 comments, 68 blanks, all 2243 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| CSS        |          5 |      1,078 |         18 |         22 |      1,118 |
+| XML        |         29 |        365 |          0 |         29 |        394 |
+| JavaScript |          5 |        349 |         27 |         12 |        388 |
+| HTML       |          4 |        304 |          2 |          4 |        310 |
+| YAML       |          1 |         32 |          0 |          1 |         33 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++---------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                            | files      | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                               |         44 |      2,128 |         47 |         68 |      2,243 |
+| .github                                                                         |          1 |         32 |          0 |          1 |         33 |
+| .github\workflows                                                               |          1 |         32 |          0 |          1 |         33 |
+| app                                                                             |          2 |        184 |          2 |          2 |        188 |
+| css                                                                             |          5 |      1,078 |         18 |         22 |      1,118 |
+| img                                                                             |         29 |        365 |          0 |         29 |        394 |
+| img\art                                                                         |          2 |          9 |          0 |          2 |         11 |
+| img\icon                                                                        |         27 |        356 |          0 |         27 |        383 |
+| img\icon\interface                                                              |          4 |         16 |          0 |          4 |         20 |
+| img\icon\login                                                                  |          5 |         22 |          0 |          5 |         27 |
+| img\icon\pages                                                                  |          6 |         20 |          0 |          6 |         26 |
+| img\icon\toast                                                                  |         10 |        291 |          0 |         10 |        301 |
+| js                                                                              |          5 |        349 |         27 |         12 |        388 |
++---------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++---------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                        | language   | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| c:\Users\sande\Documents\GitHub\lahacksVI\.github\workflows\main.yml            | YAML       |         32 |          0 |          1 |         33 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\app\index.html                        | HTML       |        178 |          1 |          1 |        180 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\app\signup.html                       | HTML       |          6 |          1 |          1 |          8 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\css\app.css                           | CSS        |        346 |          2 |          4 |        352 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\css\common.css                        | CSS        |        259 |          6 |          4 |        269 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\css\index.css                         | CSS        |         70 |          1 |          3 |         74 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\css\signup.css                        | CSS        |        121 |          2 |          3 |        126 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\css\util.css                          | CSS        |        282 |          7 |          8 |        297 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\img\art\onboarding-art.svg            | XML        |          6 |          0 |          1 |          7 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\img\art\star.svg                      | XML        |          3 |          0 |          1 |          4 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\img\icon\favicon-monochrome.svg       | XML        |          3 |          0 |          1 |          4 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\img\icon\favicon.svg                  | XML        |          4 |          0 |          1 |          5 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\img\icon\interface\Vector.svg         | XML        |          4 |          0 |          1 |          5 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\img\icon\interface\close-icon.svg     | XML        |          3 |          0 |          1 |          4 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\img\icon\interface\more-icon.svg      | XML        |          5 |          0 |          1 |          6 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\img\icon\interface\pfp.svg            | XML        |          4 |          0 |          1 |          5 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\img\icon\login\check-alt.svg          | XML        |          3 |          0 |          1 |          4 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\img\icon\login\check.svg              | XML        |          3 |          0 |          1 |          4 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\img\icon\login\email.svg              | XML        |          3 |          0 |          1 |          4 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\img\icon\login\password.svg           | XML        |          3 |          0 |          1 |          4 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\img\icon\login\profile.svg            | XML        |         10 |          0 |          1 |         11 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\img\icon\pages\add-alt.svg            | XML        |          3 |          0 |          1 |          4 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\img\icon\pages\add.svg                | XML        |          4 |          0 |          1 |          5 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\img\icon\pages\home-alt.svg           | XML        |          3 |          0 |          1 |          4 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\img\icon\pages\home.svg               | XML        |          3 |          0 |          1 |          4 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\img\icon\pages\session-alt.svg        | XML        |          3 |          0 |          1 |          4 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\img\icon\pages\session.svg            | XML        |          4 |          0 |          1 |          5 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\img\icon\toast\clipboard-icon.svg     | XML        |         30 |          0 |          1 |         31 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\img\icon\toast\error-icon.svg         | XML        |         28 |          0 |          1 |         29 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\img\icon\toast\group-info-icon.svg    | XML        |         28 |          0 |          1 |         29 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\img\icon\toast\info-icon.svg          | XML        |         28 |          0 |          1 |         29 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\img\icon\toast\info-locked-icon.svg   | XML        |         29 |          0 |          1 |         30 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\img\icon\toast\info-unlocked-icon.svg | XML        |         29 |          0 |          1 |         30 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\img\icon\toast\print-icon.svg         | XML        |         29 |          0 |          1 |         30 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\img\icon\toast\success-icon.svg       | XML        |         28 |          0 |          1 |         29 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\img\icon\toast\unimplemented-icon.svg | XML        |         34 |          0 |          1 |         35 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\img\icon\toast\warning-icon.svg       | XML        |         28 |          0 |          1 |         29 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\index.html                            | HTML       |         41 |          0 |          1 |         42 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\js\app.js                             | JavaScript |         30 |          3 |          1 |         34 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\js\auth.js                            | JavaScript |         65 |          8 |          3 |         76 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\js\index.js                           | JavaScript |         16 |          1 |          2 |         19 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\js\signup.js                          | JavaScript |        109 |         11 |          1 |        121 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\js\util.js                            | JavaScript |        129 |          4 |          5 |        138 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\signup.html                           | HTML       |         79 |          0 |          1 |         80 |
+| Total                                                                           |            |      2,128 |         47 |         68 |      2,243 |
++---------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

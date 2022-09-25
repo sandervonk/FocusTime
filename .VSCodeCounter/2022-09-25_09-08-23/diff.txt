@@ -1,0 +1,46 @@
+Date : 2022-09-25 09:08:23
+Directory : c:\Users\sande\Documents\GitHub\lahacksVI
+Total : 10 files,  468 codes, 5 comments, 7 blanks, all 480 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| CSS        |          2 |        259 |          1 |          3 |        263 |
+| HTML       |          1 |        112 |          1 |          0 |        113 |
+| JavaScript |          3 |         56 |          3 |          1 |         60 |
+| YAML       |          1 |         32 |          0 |          1 |         33 |
+| XML        |          3 |          9 |          0 |          2 |         11 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                    | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                       |         10 |        468 |          5 |          7 |        480 |
+| .github                                                                 |          1 |         32 |          0 |          1 |         33 |
+| .github\workflows                                                       |          1 |         32 |          0 |          1 |         33 |
+| app                                                                     |          1 |        112 |          1 |          0 |        113 |
+| css                                                                     |          2 |        259 |          1 |          3 |        263 |
+| img                                                                     |          3 |          9 |          0 |          2 |         11 |
+| img\icon                                                                |          3 |          9 |          0 |          2 |         11 |
+| img\icon\interface                                                      |          2 |          8 |          0 |          2 |         10 |
+| js                                                                      |          3 |         56 |          3 |          1 |         60 |
++-------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                | language   | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| c:\Users\sande\Documents\GitHub\lahacksVI\.github\workflows\main.yml    | YAML       |         32 |          0 |          1 |         33 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\app\index.html                | HTML       |        112 |          1 |          0 |        113 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\css\app.css                   | CSS        |        211 |          1 |          3 |        215 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\css\common.css                | CSS        |         48 |          0 |          0 |         48 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\img\icon\favicon.svg          | XML        |          1 |          0 |          0 |          1 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\img\icon\interface\Vector.svg | XML        |          4 |          0 |          1 |          5 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\img\icon\interface\pfp.svg    | XML        |          4 |          0 |          1 |          5 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\js\app.js                     | JavaScript |         23 |          3 |          0 |         26 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\js\auth.js                    | JavaScript |         32 |          0 |          1 |         33 |
+| c:\Users\sande\Documents\GitHub\lahacksVI\js\util.js                    | JavaScript |          1 |          0 |          0 |          1 |
+| Total                                                                   |            |        468 |          5 |          7 |        480 |
++-------------------------------------------------------------------------+------------+------------+------------+------------+------------+
