@@ -52,7 +52,7 @@ auth.onAuthStateChanged((userInfo) => {
           }
         })
         .catch((error) => {
-          new ErrorToast("Error", cleanError(error), 3000);
+          new ErrorToast("Error", cleanError(error), 2000);
         });
     }
   } else {
@@ -60,7 +60,7 @@ auth.onAuthStateChanged((userInfo) => {
     // ...
     if (!window.location.pathname.includes("/signup.html") && !window.location.pathname.includes("/login.html")) {
       // tell user they are not signed in, and that this page requires that they are, toast
-      new Toast("Sorry, you need to be signed in to access this page!", "default", 3000, "//sander.vonk.one/lahacks-six/img/icon/toast/info-locked-icon.svg", "./signup.html");
+      new Toast("Sorry, you need to be signed in to access this page!", "default", 1000, "//sander.vonk.one/lahacks-six/img/icon/toast/info-locked-icon.svg", "./signup.html");
     }
   }
 });

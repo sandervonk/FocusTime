@@ -27,7 +27,7 @@ $('[data-role="create-task"]').click(function () {
         new Toast("Task created!", "default", 1000, "//sander.vonk.one/lahacks-six/img/icon/toast/success-icon.svg", ".");
       })
       .catch((error) => {
-        new ErrorToast("Could not save task to userdoc", cleanError(error), 3000);
+        new ErrorToast("Could not save task to userdoc", cleanError(error), 2000);
       });
   }
 });

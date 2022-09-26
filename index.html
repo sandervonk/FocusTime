@@ -9,9 +9,38 @@
     <link rel="stylesheet" href="./css/common.css" />
     <link rel="stylesheet" href="./css/util.css" />
     <link rel="stylesheet" href="./css/index.css" />
+    <!-- load pwa manifest -->
+    <link rel="manifest" href="./manifest.json" />
+    <!-- setup theme colors and apple icons -->
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="FocusTime" />
+    <link rel="apple-touch-icon" href="./img/icon/icon-192x192.png" />
+    <link rel="apple-touch-startup-image" href="./img/icon/icon-192x192.png" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="//www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="//www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <!-- opengraph info -->
+    <meta property="og:title" content="FocusTime" />
+    <meta property="og:description" content="Improve your productivity by scheduling out your time into more meaningful 'focus sessions' with FocusTime." />
+    <meta property="og:image" content="https://sander.vonk.one/lahacks-six/img/hero-img.png" />
+    <meta property="og:url" content="https://sander.vonk.one/lahacks-six/" />
+    <!-- add serviceworker for installability -->
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+          navigator.serviceWorker.register("./sw.js").then(
+            function (registration) {
+              console.log("ServiceWorker registration successful with scope: ", registration.scope);
+            },
+            function (err) {
+              console.log("ServiceWorker registration failed: ", err);
+            }
+          );
+        });
+      }
+    </script>
   </head>
   <body>
     <header>

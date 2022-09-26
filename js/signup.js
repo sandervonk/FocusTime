@@ -70,7 +70,7 @@ $("#signup").click(() => {
             window.location.href = "/lahacks-six/app/";
           })
           .catch((error) => {
-            new ErrorToast("Error", cleanError(error), 3000);
+            new ErrorToast("Error", cleanError(error), 2000);
           });
       })
       .catch((error) => {
@@ -102,7 +102,7 @@ $("#signup").click(() => {
                         new Toast("Signed in and created missing userdoc", "default", 3000, "./img/icon/toast/success-icon.svg", "./app/");
                       })
                       .catch((error) => {
-                        new ErrorToast("Error creating missing userdoc", cleanError(error), 3000);
+                        new ErrorToast("Error creating missing userdoc", cleanError(error), 2000);
                       });
                   } else {
                     new Toast("Account already exists and password matched, signed in", "default", 3000, "./img/icon/toast/success-icon.svg", "./app/");
@@ -110,10 +110,10 @@ $("#signup").click(() => {
                 });
             })
             .catch((error) => {
-              new ErrorToast("Account already exists but could not log in:", cleanError(error), 3000);
+              new ErrorToast("Account already exists but could not log in:", cleanError(error), 2000);
             });
         } else {
-          new ErrorToast("Error creating account", cleanError(error), 3000);
+          new ErrorToast("Error creating account", cleanError(error), 2000);
         }
       });
   }

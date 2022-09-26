@@ -1,0 +1,81 @@
+{
+  "short_name": "FocusTime",
+  "name": "FocusTime - Making your time work for you",
+  "icons": [
+    {
+      "src": "/lahacks-six/img/icon/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "128x128"
+    },
+    {
+      "src": "/lahacks-six/img/icon/favicon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/lahacks-six/img/icon/favicon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "id": "/lahacks-six/",
+  "start_url": "/lahacks-six/",
+  "background_color": "#3367D6",
+  "display": "standalone",
+  "scope": "/lahacks-six/",
+  "theme_color": "#3367D6",
+  "shortcuts": [
+    {
+      "name": "Get Started With FocusTime",
+      "short_name": "Sign Up",
+      "description": "Sign up for / Log into an account",
+      "url": "/lahacks-six/signup.html",
+      "icons": [{ "src": "/lahacks-six/img/icon/favicon.png", "sizes": "256x256" }]
+    },
+    {
+      "name": "Open my FocusTime dashboard",
+      "short_name": "Dashboard",
+      "description": "Open the FocusTime dashboard",
+      "url": "/lahacks-six/app/",
+      "icons": [{ "src": "/lahacks-six/img/icon/favicon.png", "sizes": "256x256" }]
+    }
+  ],
+  "description": "Improve your productivity by scheduling out your time into more meaningful 'focus sessions' with FocusTime.",
+  "screenshots": [
+    {
+      "src": "/lahacks-six/img/screenshot/onboard.jpeg",
+      "type": "image/jpeg",
+      "sizes": "390x844",
+      "platform": "narrow",
+      "label": "Onboarding - Mobile"
+    },
+    {
+      "src": "/lahacks-six/img/screenshot/app-home.jpeg",
+      "type": "image/jpeg",
+      "sizes": "390x844",
+      "platform": "narrow",
+      "label": "FocusTime Dashboard - Mobile"
+    },
+    {
+      "src": "/lahacks-six/img/screenshot/app-session.jpeg",
+      "type": "image/jpeg",
+      "sizes": "390x844",
+      "platform": "narrow",
+      "label": "Start a Focus Session - Mobile"
+    },
+    {
+      "src": "/lahacks-six/img/screenshot/signup.jpeg",
+      "type": "image/jpeg",
+      "sizes": "390x844",
+      "platform": "narrow",
+      "label": "Sign Up for FocusTime - Mobile"
+    },
+    {
+      "src": "/lahacks-six/img/screenshot/app-create.jpeg",
+      "type": "image/jpeg",
+      "sizes": "390x844",
+      "platform": "narrow",
+      "label": "Create a Task - Mobile"
+    }
+  ]
+}
