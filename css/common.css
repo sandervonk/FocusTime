@@ -148,6 +148,7 @@ button {
     transform: translate(-50%, 0);
   }
 }
+
 @keyframes raise-centered-reversed {
   0% {
     transform: translate(-50%, 0);
@@ -247,6 +248,7 @@ body,
 }
 .raised-section {
   max-width: 500px;
+  overflow-y: auto;
 }
 input[type="text"] {
   white-space: nowrap;
@@ -265,4 +267,14 @@ input[type="text"] {
   font-size: 18px;
   user-select: none;
   cursor: pointer;
+}
+
+#raised-content.raise-class {
+  transition: transform 0.25s ease-in-out;
+}
+#raised-content.raise-class:not(.raised) {
+  transform: translate(-50%, 100%) !important;
+}
+.raised {
+  transform: translate(-50%, 0) !important;
 }

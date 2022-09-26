@@ -135,3 +135,6 @@ function cleanError(error) {
       return error.message.replace("Error ", "");
   }
 }
+$("#raised-content.raise-class .handle").click(function () {
+  $(this).parent("#raised-content").toggleClass("raised");
+});

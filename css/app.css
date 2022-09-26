@@ -158,6 +158,12 @@ nav {
   transform: translate(-50%, 0) !important;
   animation: raise-centered 0.5s ease-in-out;
 }
+.raised-section {
+  max-height: calc(100vh - 80px - 30px - 25px);
+}
+#daily-task-section {
+  max-height: calc(100vh - 80px - 30px - 25px - 40px);
+}
 #content:not([data-page="home"]) #home #raised-content {
   transform: translate(-50%, calc(100% + 20px)) !important;
 }
