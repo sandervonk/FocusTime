@@ -23,7 +23,7 @@
   "background_color": "#d4edbf",
   "display": "standalone",
   "scope": "/lahacks-six/",
-  "theme_color": "#3367D6",
+  "theme_color": "#d4edbf",
   "shortcuts": [
     {
       "name": "Get Started With FocusTime",
