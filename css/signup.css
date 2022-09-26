@@ -14,7 +14,13 @@ body {
   /* padding: 30px 30px 50px 30px; */
 }
 .raised-section {
-  min-height: 75vh;
+  height: 75vh;
+  max-height: 500px;
+  overflow-y: auto;
+  padding-bottom: 30px;
+}
+.raised-section::-webkit-scrollbar {
+  display: none;
 }
 #centered-title {
   width: 100%;
@@ -88,9 +94,7 @@ input[type="password"]:focus {
   border: solid 1px var(--login-accent);
   outline: none;
 }
-input[type="text"]::placeholder {
-  color: var(--login-secondary);
-}
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -103,7 +107,8 @@ input:-internal-autofill-selected {
   -webkit-box-shadow: 0 0 0 50px var(--accent-1-transparent) inset !important;
 }
 .input-icon {
-  position: absolute;
+  position: relative;
+  margin-right: -70px;
   box-sizing: border-box;
   height: 50px;
   width: 70px;

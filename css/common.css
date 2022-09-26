@@ -234,7 +234,7 @@ button {
   margin: 0;
 }
 input::placeholder {
-  opacity: 0.25;
+  opacity: 0.25 !important;
 }
 body,
 #raised-controls,
