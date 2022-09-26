@@ -109,7 +109,8 @@ button {
   opacity: 0;
   animation: fadein 0.5s 0.25s ease-out forwards;
   padding: 25px;
-  height: 110px !important;
+  padding-bottom: 0;
+  height: 85px !important;
   box-sizing: border-box;
   width: 100vw;
   display: flex !important;
@@ -273,8 +274,12 @@ input[type="text"] {
   transition: transform 0.25s ease-in-out;
 }
 #raised-content.raise-class:not(.raised) {
-  transform: translate(-50%, 100%) !important;
+  transform: translate(-50%, calc(100% - 25px)) !important;
 }
 .raised {
   transform: translate(-50%, 0) !important;
+}
+
+#raised-content.raise-class .handle {
+  cursor: pointer;
 }
