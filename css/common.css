@@ -82,8 +82,17 @@ button {
   border-radius: 5px;
   width: 95px;
   background-color: var(--handle);
-  margin: 10px auto;
   border: none;
+  margin: 0;
+  pointer-events: none;
+}
+.handle-container {
+  border-radius: 25px;
+  padding: 10px;
+  margin: 0 auto;
+  width: 95px;
+  box-sizing: content-box;
+  pointer-events: all;
 }
 #raised-content {
   position: fixed;
@@ -280,6 +289,25 @@ input[type="text"] {
   transform: translate(-50%, 0) !important;
 }
 
-#raised-content.raise-class .handle {
+#raised-content.raise-class .handle-container {
   cursor: pointer;
+}
+#raised-content.raise-class {
+  transition: transform 0.25s ease-in-out !important;
+  animation: none !important;
+}
+#raised-content.raise-class {
+  left: 50%;
+}
+#raised-content.raised {
+  transform: translate(-50%, 0) !important;
+  /* animation: raise-centered 0.5s ease-in-out; */
+}
+button {
+  transition: opacity 0.25s ease-in-out;
+}
+button[disabled],
+button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

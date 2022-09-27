@@ -135,6 +135,6 @@ function cleanError(error) {
       return error.message.replace("Error ", "");
   }
 }
-$("#raised-content.raise-class .handle").on("click touchstart mousedown", function () {
+$("#raised-content.raise-class .handle, #raised-content.raise-class .handle-container").on("click touchstart mousedown", function () {
   $(this).parent("#raised-content").toggleClass("raised");
 });

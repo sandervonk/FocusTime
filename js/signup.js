@@ -21,28 +21,34 @@ $(document).keypress(function (e) {
     $("#signup").click();
   }
 });
+$(".input-pair input").on("change input click", function () {
+  //change button's disabled property depending on if all fields are completed
+  if ($("#name-input").val() != "" && $("#email-input").val() != "" && $("#password-input").val() != "" && $("#age-input").prop("checked") && $("#terms-input").prop("checked")) {
+    $("#signup").removeClass("disabled");
+  } else {
+    $("#signup").addClass("disabled");
+  }
+});
 $("#signup").click(() => {
   buttonClicked = true;
-  if (!$("[data-auth-role='age-check']").prop("checked")) {
-    new WarningToast("You must be at least 13 years of age to continue", 3000);
-    return;
-  }
-  if (!$("[data-auth-role='agree-to-terms']").prop("checked")) {
-    new WarningToast("You must agree to the terms of service to continue", 3000);
-    return;
-  }
   //login with firebase using email and password
   const email = $("[data-auth-role='email-input']").val();
   const password = $("[data-auth-role='password-input']").val();
   const name = $("[data-auth-role='name']").val();
-  if (email.length < 4) {
+  if (!email.length) {
     new WarningToast("Please enter a email.", 3000);
     return;
-  } else if (password.length < 4) {
+  } else if (!password.length) {
     new WarningToast("Please enter a password.", 3000);
     return;
-  } else if (name.length < 4) {
+  } else if (!name.length) {
     new WarningToast("Please enter a name.", 3000);
+    return;
+  } else if (!$("[data-auth-role='age-check']").prop("checked")) {
+    new WarningToast("You must be at least 13 years of age to continue", 3000);
+    return;
+  } else if (!$("[data-auth-role='agree-to-terms']").prop("checked")) {
+    new WarningToast("You must agree to the terms of service to continue", 3000);
     return;
   }
   // Sign in with email and pass.
