@@ -31,6 +31,14 @@ $('[data-role="create-task"]').click(function () {
       });
   }
 });
+$("#add .card *").on("change input click", function () {
+  //check if all fields are filled out
+  if ($('[data-role="task-info-title"]').val() && $('[data-role="task-info-tag"]').val() && $("[name='time-allocated']:checked").length) {
+    $('[data-role="create-task"]').removeClass("disabled");
+  } else {
+    $('[data-role="create-task"]').addClass("disabled");
+  }
+});
 
 /*code to use scroll snapping
 
