@@ -55,7 +55,9 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+body {
+  overscroll-behavior-y: contain;
+}
 button {
   border: none;
   background: var(--primary-bg);
