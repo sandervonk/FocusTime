@@ -22,37 +22,28 @@ auth.onAuthStateChanged((userInfo) => {
     if (!window.location.pathname.includes("/app/") && !window.location.pathname.includes("/signup.html") && !window.location.pathname.includes("/login.html")) {
       window.location.href = "/lahacks-six/app/";
     } else {
+      try {
+        makeTasksFromDoc(JSON.parse(localStorage[user.uid]));
+        setupFieldsFromDoc(JSON.parse(localStorage[user.uid]));
+      } catch (err) {
+        console.warn("Could not setup from cashe", err);
+      }
+      // load tasks initially
       db.collection("users")
         .doc(user.uid)
         .get()
-        .then((doc) => {
-          if (doc.exists) {
-            $("[data-auth-role='name']").text(doc.data().name.split(" ")[0]);
-            userDocCache = doc.data();
-            try {
-              let total = 0,
-                completed = 0,
-                tasks = doc.data().tasks ? doc.data().tasks : [];
-              for (task of doc.data().tasks) {
-                total++;
-                if (task.is_completed) {
-                  completed++;
-                }
-              }
-
-              $('[data-role="progress-percentage"]').text(`${parseInt((completed * 100) / total)}`);
-              $('[data-role="progress-bar"]').css("width", `${parseInt((completed * 100) / total)}%`);
-              $('[data-role="progress-completed"]').text(completed);
-              $('[data-role="progress-total"]').text(total);
-            } catch (err) {
-              console.error(err);
-            }
-          } else {
-            new ErrorToast("Error", "Userdoc does not exist", 3000);
-          }
-        })
-        .catch((error) => {
-          new ErrorToast("Error", cleanError(error), 2000);
+        .then((d) => {
+          casheUserDoc(d);
+          makeTasksFromDoc(d);
+          setupFieldsFromDoc(d);
+        });
+      // update tasks on change
+      db.collection("users")
+        .doc(user.uid)
+        .onSnapshot((d) => {
+          casheUserDoc(d);
+          makeTasksFromDoc(d);
+          setupFieldsFromDoc(d);
         });
     }
   } else {
@@ -73,3 +64,53 @@ $("[data-auth-role='logoutprompt']").click(function () {
 $(document.body).on("click", "[data-auth-role='logout'], .data-auth-logout", function () {
   auth.signOut();
 });
+function casheUserDoc(doc) {
+  localStorage[user.uid] = JSON.stringify(doc);
+}
+function setupFieldsFromDoc(doc) {
+  if (doc.exists) {
+    $("[data-auth-role='name']").text(doc.data().name.split(" ")[0]);
+    userDocCache = doc.data();
+    try {
+      let total = 0,
+        completed = 0,
+        tasks = doc.data().tasks ? doc.data().tasks : [];
+      for (task of doc.data().tasks) {
+        total++;
+        if (task.is_completed) {
+          completed++;
+        }
+      }
+
+      $('[data-role="progress-percentage"]').text(`${parseInt((completed * 100) / total)}`);
+      $('[data-role="progress-bar"]').css("width", `${parseInt((completed * 100) / total)}%`);
+      $('[data-role="progress-completed"]').text(completed);
+      $('[data-role="progress-total"]').text(total);
+    } catch (err) {
+      console.error(err);
+    }
+  } else {
+    new ErrorToast("Error", "Userdoc does not exist", 3000);
+  }
+}
+function makeTasksFromDoc(doc) {
+  if (doc.exists) {
+    let tasks = doc.data().tasks;
+    if (tasks) {
+      $('[data-role="tasks-list"]').html("");
+      tasks.forEach((task) => {
+        $('[data-role="tasks-list"]').append(`
+      <div class="task-card">
+        <div class="task-card-header">
+          <div>${task.title}</div>
+          <div>${task.tag}</div>
+        </div>
+        <div class="task-card-body">
+          <div>${task.time} minutes</div>
+        </div>
+      </div>
+      `);
+      });
+    }
+  }
+}
