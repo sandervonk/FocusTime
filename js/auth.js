@@ -22,17 +22,12 @@ auth.onAuthStateChanged((userInfo) => {
     if (!window.location.pathname.includes("/app/") && !window.location.pathname.includes("/signup.html") && !window.location.pathname.includes("/login.html")) {
       window.location.href = "/lahacks-six/app/";
     } else {
-      try {
-        makeTasksFromDoc(docFromCashe());
-        setupFieldsFromDoc(docFromCashe());
-      } catch (err) {
-        console.warn("Could not setup from cashe", err);
-      }
       // load tasks initially
       db.collection("users")
         .doc(user.uid)
         .get()
         .then((d) => {
+          console.log("setting up from db");
           casheUserDoc(d);
           makeTasksFromDoc(d);
           setupFieldsFromDoc(d);
@@ -55,6 +50,13 @@ auth.onAuthStateChanged((userInfo) => {
     }
   }
 });
+try {
+  console.log("setting up from cache");
+  makeTasksFromDoc(docFromCashe());
+  setupFieldsFromDoc(docFromCashe());
+} catch (err) {
+  console.warn("Could not setup from cashe", err);
+}
 $("[data-auth-role='logoutprompt']").click(function () {
   new Popup("Are you sure you want to sign out?", "default", 10000, "//sander.vonk.one/lahacks-six/img/icon/toast/info-icon.svg", [
     ["removePopup()", "Cancel", "secondary-action fullborder"],
@@ -62,18 +64,19 @@ $("[data-auth-role='logoutprompt']").click(function () {
   ]);
 });
 $(document.body).on("click", "[data-auth-role='logout'], .data-auth-logout", function () {
+  localStorage.clear();
   auth.signOut();
 });
 function docFromCashe() {
   return {
     exists: true,
     data: function () {
-      return JSON.parse(localStorage[user.uid]);
+      return JSON.parse(localStorage["user-data"]);
     },
   };
 }
 function casheUserDoc(doc) {
-  localStorage[user.uid] = JSON.stringify(doc);
+  localStorage["user-data"] = JSON.stringify(doc.data());
 }
 function setupFieldsFromDoc(doc) {
   if (doc.exists) {
@@ -103,22 +106,46 @@ function setupFieldsFromDoc(doc) {
 }
 function makeTasksFromDoc(doc) {
   if (doc.exists) {
-    let tasks = doc.data().tasks;
+    let tasks = doc.data().tasks,
+      newHTML = $(`<div data-role="tasks-list"></div>`);
     if (tasks) {
-      $('[data-role="tasks-list"]').html("");
       tasks.forEach((task) => {
-        $('[data-role="tasks-list"]').append(`
+        $(newHTML).append(`
       <div class="task-card">
-        <div class="task-card-header">
-          <div>${task.title}</div>
-          <div>${task.tag}</div>
-        </div>
-        <div class="task-card-body">
-          <div>${task.time} minutes</div>
+        <div class="task-card-content">
+          <div class="task-card-widgets">
+            <div class="task-card-time-widget">
+              <object class="task-card-widget-icon" data="../img/icon/tasks/clock-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/clock-icon.png" /></object>
+              <span class="task-card-time">${task.time} minutes</span>
+            </div>
+            <div class="task-card-date-widget">
+              <object class="task-card-widget-icon" data="../img/icon/tasks/date-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/date-icon.png" /></object>
+              <span class="task-card-time">#/##/####</span>
+            </div>
+          </div>
+          <hr />
+          <div class="task-card-info">
+            <div class="task-card-title">${task.title}</div>
+            <div class="task-card-tag">${task.tag}</div>
+          </div>
+          <div data-role="edit-card" class="task-card-action"><object class="task-card-action-icon" data="../img/icon/tasks/edit-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/edit-icon.png" /></object></div>
         </div>
       </div>
       `);
       });
+    }
+    //check that the current element does not match the new one, if it does, do not replace
+    if (!$(newHTML).is($("[data-role='tasks-list']"))) {
+      $("[data-role='tasks-list']").replaceWith(newHTML);
+      $(".task-card").onSwipe(function (data) {
+        if (data.right) {
+          $(this).removeClass("editing");
+        } else if (data.left) {
+          $(this).addClass("editing");
+        }
+      });
+    } else {
+      console.log("task content matched, not replacing");
     }
   }
 }

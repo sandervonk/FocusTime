@@ -101,6 +101,10 @@ button {
   bottom: 0;
   left: 50%;
   animation: raise-centered 0.5s ease-out forwards;
+  pointer-events: none;
+}
+#raised-content.raised .raised-section {
+  box-shadow: 0 0 30px var(--primary-bg-transparent);
 }
 .raised-section {
   background: var(--secondary-bg);
@@ -113,6 +117,8 @@ button {
   flex-flow: column;
   align-items: stretch;
   justify-content: space-between;
+  pointer-events: all;
+  transition: box-shadow 0.5s ease-out;
 }
 .raised-controls {
   position: fixed;

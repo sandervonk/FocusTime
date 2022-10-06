@@ -206,5 +206,4 @@ $("#raised-content.raise-class").onSwipe(function (data) {
     // $(this).addClass("raised");
     $(".raise-class").addClass("raised");
   }
-  console.log("swipe");
 });
