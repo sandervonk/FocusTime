@@ -23,8 +23,8 @@ auth.onAuthStateChanged((userInfo) => {
       window.location.href = "/lahacks-six/app/";
     } else {
       try {
-        makeTasksFromDoc(JSON.parse(localStorage[user.uid]));
-        setupFieldsFromDoc(JSON.parse(localStorage[user.uid]));
+        makeTasksFromDoc(docFromCashe());
+        setupFieldsFromDoc(docFromCashe());
       } catch (err) {
         console.warn("Could not setup from cashe", err);
       }
@@ -64,6 +64,14 @@ $("[data-auth-role='logoutprompt']").click(function () {
 $(document.body).on("click", "[data-auth-role='logout'], .data-auth-logout", function () {
   auth.signOut();
 });
+function docFromCashe() {
+  return {
+    exists: true,
+    data: function () {
+      return JSON.parse(localStorage[user.uid]);
+    },
+  };
+}
 function casheUserDoc(doc) {
   localStorage[user.uid] = JSON.stringify(doc);
 }
