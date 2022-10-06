@@ -159,7 +159,6 @@ nav {
 }
 #daily-task-section {
   max-height: calc(100vh - 80px - 30px - 25px - 40px);
-  overflow-y: hidden;
 }
 #content:not([data-page="home"]) #home #raised-content {
   transform: translate(-50%, calc(100% + 20px)) !important;
