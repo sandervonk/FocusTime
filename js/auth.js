@@ -52,7 +52,7 @@ auth.onAuthStateChanged((userInfo) => {
 });
 try {
   console.log("setting up from cache");
-  makeTasksFromDoc(docFromCashe());
+  //makeTasksFromDoc(docFromCashe());
   setupFieldsFromDoc(docFromCashe());
 } catch (err) {
   console.warn("Could not setup from cashe", err);
