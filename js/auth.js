@@ -104,6 +104,14 @@ function setupFieldsFromDoc(doc) {
     new ErrorToast("Error", "Userdoc does not exist", 3000);
   }
 }
+var classJSON = {
+  apush: "AP US History",
+  calc: "AP Calc BC",
+  french: "AP French Language",
+  mads: "Madrigals",
+  physics: "AP Physics 1",
+  hamlit: "Honors American Literature",
+};
 function makeTasksFromDoc(doc) {
   if (doc.exists) {
     let tasks = doc.data().tasks,
@@ -126,7 +134,7 @@ function makeTasksFromDoc(doc) {
           <hr />
           <div class="task-card-info">
             <div class="task-card-title">${task.title}</div>
-            <div class="task-card-tag">${task.tag}</div>
+            <div class="task-card-tag">${Object.keys(classJSON).includes(task.tag) ? classJSON[task.tag] : task.tag}</div>
           </div>
           <div data-role="edit-card" class="task-card-action">
             <object class="task-card-action-icon edit-icon" data="../img/icon/tasks/edit-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/edit-icon.png" /></object>
