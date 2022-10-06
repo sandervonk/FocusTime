@@ -111,7 +111,7 @@ function makeTasksFromDoc(doc) {
     if (tasks) {
       tasks.forEach((task) => {
         $(newHTML).append(`
-      <div class="task-card">
+      <div class="task-card" data-task-json-content='${JSON.stringify(task)}'>
         <div class="task-card-content">
           <div class="task-card-widgets">
             <div class="task-card-time-widget">
@@ -128,8 +128,18 @@ function makeTasksFromDoc(doc) {
             <div class="task-card-title">${task.title}</div>
             <div class="task-card-tag">${task.tag}</div>
           </div>
-          <div data-role="edit-card" class="task-card-action"><object class="task-card-action-icon" data="../img/icon/tasks/edit-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/edit-icon.png" /></object></div>
+          <div data-role="edit-card" class="task-card-action">
+            <object class="task-card-action-icon edit-icon" data="../img/icon/tasks/edit-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/edit-icon.png" /></object>
+            <object class="task-card-action-icon editing-icon" data="../img/icon/tasks/editing-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/editing-icon.png" /></object>
+          </div>
         </div>
+        <div class="task-card-swipe">
+          <div class="task-card-swipe-done">
+            <object class="task-card-swipe-icon" data="../img/icon/tasks/done-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/done-icon.png" /></object>
+          </div>
+          <div class="task-card-swipe-archive">
+            <object class="task-card-swipe-icon" data="../img/icon/tasks/archive-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/archive-icon.png" /></object>
+          </div>
       </div>
       `);
       });
@@ -137,11 +147,11 @@ function makeTasksFromDoc(doc) {
     //check that the current element does not match the new one, if it does, do not replace
     if (!$(newHTML).is($("[data-role='tasks-list']"))) {
       $("[data-role='tasks-list']").replaceWith(newHTML);
-      $(".task-card").onSwipe(function (data) {
+      $(".task-card-content").onSwipe(function (data) {
         if (data.right) {
-          $(this).removeClass("editing");
+          $(this).closest(".task-card").removeClass("editing");
         } else if (data.left) {
-          $(this).addClass("editing");
+          $(this).closest(".task-card").addClass("editing");
         }
       });
     } else {

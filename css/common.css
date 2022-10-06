@@ -14,6 +14,7 @@
   --accent-3: #f6cd64;
   --scrollbar-transparent: #2f281d33;
   --accent-4: #faf4f2;
+  --accent-5: #ffc6ab;
   --handle: #0000001a;
   /*login*/
   --login-box-bg: #ffffff0a;
@@ -39,6 +40,14 @@
   --popup-bg: #edebe4;
   --on-popup-bg: #474743;
   --popup-red: #93000a;
+  /*tasks*/
+  --task-bg: var(--secondary-bg);
+  --task-action: #ffe7ab;
+  --task-action-alt: #ffc6ab;
+  --task-info-1: #bfedeb;
+  --task-info-2: #d4edbf;
+  --task-archive: #bfcfed;
+  --task-done: #d4edbf;
 }
 body,
 html {

@@ -41,5 +41,5 @@ $("#add .card *").on("change input click", function () {
 });
 
 $(document.body).on("click", ".task-card-action", function () {
-  $(this).parent(".task-card").toggleClass("editing");
+  $(this).closest(".task-card").toggleClass("editing");
 });
