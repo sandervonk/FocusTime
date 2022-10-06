@@ -366,6 +366,7 @@ select:invalid {
   flex-flow: row nowrap;
   align-items: stretch;
   justify-content: flex-start;
+  max-height: 110px;
 }
 
 .task-card-content {
