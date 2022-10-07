@@ -158,7 +158,7 @@ function makeTasksFromDoc(doc) {
     //check that the current element does not match the new one, if it does, do not replace
     if ($(newHTML).html() != $("[data-role='tasks-list']").html()) {
       $("[data-role='tasks-list']").replaceWith(newHTML);
-      $(".task-card-content").onSwipe(function (data) {
+      $(".task-card").onSwipe(function (data) {
         if (data.right) {
           $(".task-card").removeClass("editing");
         } else if (data.left) {
