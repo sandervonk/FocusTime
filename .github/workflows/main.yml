@@ -19,7 +19,7 @@ jobs:
         uses: jacobtomlinson/gha-find-replace@v2
         with:
           find: "[-version-number-]"
-          replace: "${{github_sha::6}}"
+          replace: "${{github_sha}}"
           exclude: "**/*.yml"
           regex: false
       #- name: Minify
@@ -27,7 +27,7 @@ jobs:
       - name: Commit to deployment
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: Sync & minify '${{github.ref_name}}' from main
+          commit_message: Sync & minify '${{github_sha}}' from main
           branch: deployed
           skip_checkout: true
           push_options: "--force"
