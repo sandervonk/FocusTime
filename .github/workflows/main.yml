@@ -19,7 +19,7 @@ jobs:
         uses: jacobtomlinson/gha-find-replace@v2
         with:
           find: "[-version-number-]"
-          replace: "${{GITHUB_SHA::6}}"
+          replace: "${{github_sha::6}}"
           exclude: "**/*.yml"
           regex: false
       #- name: Minify
