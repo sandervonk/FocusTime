@@ -65,7 +65,10 @@ $(document.body).on("click", ".task-card-swipe-archive", function () {
               archive: firebase.firestore.FieldValue.arrayUnion(task),
             })
             .then(() => {
-              new Toast("Task archived!", "default", 1000, "//sander.vonk.one/FocusTime/img/icon/toast/success-icon.svg");
+              new Toast("Task archived!", "default", 1000, "//sander.vonk.one/FocusTime/img/icon/toast/archive-icon.svg");
+            })
+            .catch((err) => {
+              throw err;
             });
         } catch (err) {
           new ErrorToast("Could not archive task", cleanError(err), 2000, ".");
@@ -88,15 +91,18 @@ $(document.body).on("click", ".task-card-swipe-done", function () {
             doneTask = JSON.parse($(this).attr("data-task-json-content"));
           doneTask.is_completed = true;
           $(this).remove();
-          if (!task.is_completed) {
-            db.collection("users")
-              .doc(user.uid)
-              .update({
-                tasks: firebase.firestore.FieldValue.arrayRemove(task),
-                tasks: firebase.firestore.FieldValue.arrayUnion(doneTask),
-              })
+          if (task != doneTask) {
+            let docref = db.collection("users").doc(user.uid),
+              batch = db.batch();
+            batch.update(docref, { tasks: firebase.firestore.FieldValue.arrayRemove(task) });
+            batch.update(docref, { tasks: firebase.firestore.FieldValue.arrayUnion(doneTask) });
+            batch
+              .commit()
               .then(() => {
                 new Toast("Task marked as done!", "default", 1000, "//sander.vonk.one/FocusTime/img/icon/toast/success-icon.svg");
+              })
+              .catch((err) => {
+                throw err;
               });
           } else {
             console.log("Task already marked as done");
@@ -106,4 +112,28 @@ $(document.body).on("click", ".task-card-swipe-done", function () {
         }
       }
     );
+});
+$("#card-completed, [data-role='clear-tasks']").click(function () {
+  //archive all tasks from userdoc
+  db.collection("users")
+    .doc(user.uid)
+    .get()
+    .then((doc) => {
+      let tasks = doc.data().tasks;
+      if (tasks.length > 0) {
+        db.collection("users")
+          .doc(user.uid)
+
+          .update({
+            archive: firebase.firestore.FieldValue.arrayUnion(...tasks),
+            tasks: [],
+          })
+          .then(() => {
+            new Toast("Tasks cleared!", "default", 1000, "//sander.vonk.one/FocusTime/img/icon/toast/archive-icon.svg");
+          })
+          .catch((err) => {
+            new ErrorToast("Could not clear tasks", cleanError(err), 2000, ".");
+          });
+      }
+    });
 });
