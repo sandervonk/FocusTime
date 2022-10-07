@@ -52,7 +52,7 @@ auth.onAuthStateChanged((userInfo) => {
 });
 try {
   console.log("setting up from cache");
-  //makeTasksFromDoc(docFromCashe());
+  makeTasksFromDoc(docFromCashe());
   setupFieldsFromDoc(docFromCashe());
 } catch (err) {
   console.warn("Could not setup from cashe", err);
@@ -92,9 +92,10 @@ function setupFieldsFromDoc(doc) {
           completed++;
         }
       }
-
-      $('[data-role="progress-percentage"]').text(`${parseInt((completed * 100) / total)}`);
-      $('[data-role="progress-bar"]').css("width", `${parseInt((completed * 100) / total)}%`);
+      let percentage_completed = parseInt((completed * 100) / total);
+      percentage_completed = isNaN(percentage_completed) ? 0 : percentage_completed;
+      $('[data-role="progress-percentage"]').text(percentage_completed);
+      $('[data-role="progress-bar"]').css("width", `${percentage_completed}%`);
       $('[data-role="progress-completed"]').text(completed);
       $('[data-role="progress-total"]').text(total);
     } catch (err) {
@@ -118,48 +119,50 @@ function makeTasksFromDoc(doc) {
       newHTML = $(`<div data-role="tasks-list"></div>`);
     if (tasks) {
       tasks.forEach((task) => {
-        $(newHTML).append(`
-      <div class="task-card" data-task-json-content='${JSON.stringify(task)}'>
-        <div class="task-card-content">
-          <div class="task-card-widgets">
-            <div class="task-card-time-widget">
-              <object class="task-card-widget-icon" data="../img/icon/tasks/clock-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/clock-icon.png" /></object>
-              <span class="task-card-time">${task.time} minutes</span>
+        if (!task.is_completed) {
+          $(newHTML).append(`
+            <div class="task-card" data-task-json-content='${JSON.stringify(task)}'>
+              <div class="task-card-content">
+                <div class="task-card-widgets">
+                  <div class="task-card-time-widget">
+                    <object class="task-card-widget-icon" data="../img/icon/tasks/clock-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/clock-icon.png" /></object>
+                    <span class="task-card-time">${task.time} minutes</span>
+                  </div>
+                  <div class="task-card-date-widget">
+                    <object class="task-card-widget-icon" data="../img/icon/tasks/date-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/date-icon.png" /></object>
+                    <span class="task-card-time">#/##/####</span>
+                  </div>
+                </div>
+                <hr />
+                <div class="task-card-info">
+                  <div class="task-card-title">${task.title}</div>
+                  <div class="task-card-tag">${Object.keys(classJSON).includes(task.tag) ? classJSON[task.tag] : task.tag}</div>
+                </div>
+                <div data-role="edit-card" class="task-card-action">
+                  <object class="task-card-action-icon edit-icon" data="../img/icon/tasks/edit-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/edit-icon.png" /></object>
+                  <object class="task-card-action-icon editing-icon" data="../img/icon/tasks/editing-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/editing-icon.png" /></object>
+                </div>
+              </div>
+              <div class="task-card-swipe">
+                <div class="task-card-swipe-done">
+                  <object class="task-card-swipe-icon" data="../img/icon/tasks/done-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/done-icon.png" /></object>
+                </div>
+                <div class="task-card-swipe-archive">
+                  <object class="task-card-swipe-icon" data="../img/icon/tasks/archive-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/archive-icon.png" /></object>
+                </div>
             </div>
-            <div class="task-card-date-widget">
-              <object class="task-card-widget-icon" data="../img/icon/tasks/date-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/date-icon.png" /></object>
-              <span class="task-card-time">#/##/####</span>
-            </div>
-          </div>
-          <hr />
-          <div class="task-card-info">
-            <div class="task-card-title">${task.title}</div>
-            <div class="task-card-tag">${Object.keys(classJSON).includes(task.tag) ? classJSON[task.tag] : task.tag}</div>
-          </div>
-          <div data-role="edit-card" class="task-card-action">
-            <object class="task-card-action-icon edit-icon" data="../img/icon/tasks/edit-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/edit-icon.png" /></object>
-            <object class="task-card-action-icon editing-icon" data="../img/icon/tasks/editing-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/editing-icon.png" /></object>
-          </div>
-        </div>
-        <div class="task-card-swipe">
-          <div class="task-card-swipe-done">
-            <object class="task-card-swipe-icon" data="../img/icon/tasks/done-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/done-icon.png" /></object>
-          </div>
-          <div class="task-card-swipe-archive">
-            <object class="task-card-swipe-icon" data="../img/icon/tasks/archive-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/archive-icon.png" /></object>
-          </div>
-      </div>
-      `);
+          `);
+        }
       });
     }
     //check that the current element does not match the new one, if it does, do not replace
-    if (!$(newHTML).is($("[data-role='tasks-list']"))) {
+    if ($(newHTML).html() != $("[data-role='tasks-list']").html()) {
       $("[data-role='tasks-list']").replaceWith(newHTML);
       $(".task-card-content").onSwipe(function (data) {
         if (data.right) {
-          $(this).closest(".task-card").removeClass("editing");
+          $(".task-card").removeClass("editing");
         } else if (data.left) {
-          $(this).closest(".task-card").addClass("editing");
+          $(".task-card").addClass("editing");
         }
       });
     } else {

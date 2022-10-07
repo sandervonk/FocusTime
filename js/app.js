@@ -6,6 +6,7 @@ $(".nav-item").click(function () {
   $("#content").attr("data-page", $(this).prop("id"));
   $(".carousel-page").removeClass("active");
   $("#" + $(this).prop("id")).addClass("active");
+  $(".task-card").removeClass("editing");
 });
 $('[data-role="create-task"]').click(function () {
   //save task to userdoc db as json using firebase
@@ -24,7 +25,7 @@ $('[data-role="create-task"]').click(function () {
       .doc(user.uid)
       .update({ tasks: firebase.firestore.FieldValue.arrayUnion(task) })
       .then(() => {
-        new Toast("Task created!", "default", 1000, "//sander.vonk.one/FocusTime/img/icon/toast/success-icon.svg", ".");
+        new Toast("Task created!", "default", 1000, "//sander.vonk.one/FocusTime/img/icon/toast/success-icon.svg");
       })
       .catch((error) => {
         new ErrorToast("Could not save task to userdoc", cleanError(error), 2000);
@@ -41,5 +42,68 @@ $("#add .card *").on("change input click", function () {
 });
 
 $(document.body).on("click", ".task-card-action", function () {
+  $(".task-card").not($(this).closest(".task-card")).removeClass("editing");
   $(this).closest(".task-card").toggleClass("editing");
+});
+$(document.body).on("click", ".task-card-swipe-archive", function () {
+  $(this).closest(".task-card").addClass("swipe-out");
+  $(this)
+    .closest(".task-card")
+    .animate(
+      {
+        left: "-100%",
+      },
+      500,
+      function () {
+        try {
+          let task = JSON.parse($(this).attr("data-task-json-content"));
+          $(this).remove();
+          db.collection("users")
+            .doc(user.uid)
+            .update({
+              tasks: firebase.firestore.FieldValue.arrayRemove(task),
+              archive: firebase.firestore.FieldValue.arrayUnion(task),
+            })
+            .then(() => {
+              new Toast("Task archived!", "default", 1000, "//sander.vonk.one/FocusTime/img/icon/toast/success-icon.svg");
+            });
+        } catch (err) {
+          new ErrorToast("Could not archive task", cleanError(err), 2000, ".");
+        }
+      }
+    );
+});
+$(document.body).on("click", ".task-card-swipe-done", function () {
+  $(this).closest(".task-card").addClass("swipe-out");
+  $(this)
+    .closest(".task-card")
+    .animate(
+      {
+        left: "-100%",
+      },
+      500,
+      function () {
+        try {
+          let task = JSON.parse($(this).attr("data-task-json-content")),
+            doneTask = JSON.parse($(this).attr("data-task-json-content"));
+          doneTask.is_completed = true;
+          $(this).remove();
+          if (!task.is_completed) {
+            db.collection("users")
+              .doc(user.uid)
+              .update({
+                tasks: firebase.firestore.FieldValue.arrayRemove(task),
+                tasks: firebase.firestore.FieldValue.arrayUnion(doneTask),
+              })
+              .then(() => {
+                new Toast("Task marked as done!", "default", 1000, "//sander.vonk.one/FocusTime/img/icon/toast/success-icon.svg");
+              });
+          } else {
+            console.log("Task already marked as done");
+          }
+        } catch (err) {
+          new ErrorToast("Could not mark task as done", cleanError(err), 2000, ".");
+        }
+      }
+    );
 });

@@ -368,6 +368,19 @@ select:invalid {
   justify-content: flex-start;
   max-height: 110px;
   height: 110px;
+  position: relative;
+  transition: transform 0.5s ease-out, opacity 0.25s ease-out, height 0.25s ease-out, margin 0.25s ease-out;
+  transform-origin: left center;
+}
+.task-card.swipe-out {
+  transform: scale(0);
+  opacity: 0;
+  margin: 0;
+  height: 0;
+}
+.task-card.swipe-out:only-child,
+.task-card.swipe-out:last-child {
+  height: 110px;
 }
 
 .task-card-content {
