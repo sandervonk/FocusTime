@@ -20,7 +20,7 @@ auth.onAuthStateChanged((userInfo) => {
     // https://firebase.google.com/docs/reference/js/firebase.User
     // ...
     if (!window.location.pathname.includes("/app/") && !window.location.pathname.includes("/signup.html") && !window.location.pathname.includes("/login.html")) {
-      window.location.href = "/lahacks-six/app/";
+      window.location.href = "/FocusTime/app/";
     } else {
       // load tasks initially
       db.collection("users")
@@ -46,7 +46,7 @@ auth.onAuthStateChanged((userInfo) => {
     // ...
     if (!window.location.pathname.includes("/signup.html") && !window.location.pathname.includes("/login.html")) {
       // tell user they are not signed in, and that this page requires that they are, toast
-      new Toast("Sorry, you need to be signed in to access this page!", "default", 1000, "//sander.vonk.one/lahacks-six/img/icon/toast/info-locked-icon.svg", "./signup.html");
+      new Toast("Sorry, you need to be signed in to access this page!", "default", 1000, "//sander.vonk.one/FocusTime/img/icon/toast/info-locked-icon.svg", "./signup.html");
     }
   }
 });
@@ -58,7 +58,7 @@ try {
   console.warn("Could not setup from cashe", err);
 }
 $("[data-auth-role='logoutprompt']").click(function () {
-  new Popup("Are you sure you want to sign out?", "default", 10000, "//sander.vonk.one/lahacks-six/img/icon/toast/info-icon.svg", [
+  new Popup("Are you sure you want to sign out?", "default", 10000, "//sander.vonk.one/FocusTime/img/icon/toast/info-icon.svg", [
     ["removePopup()", "Cancel", "secondary-action fullborder"],
     ["removePopup()", "Yes", "primary-action data-auth-logout"],
   ]);
