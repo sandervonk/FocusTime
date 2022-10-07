@@ -1,5 +1,8 @@
 name: Deploy and Minify
 on:
+  push:
+    branches:
+      - main
   release:
     branch: main
     types: [published]
@@ -16,11 +19,11 @@ jobs:
         uses: jacobtomlinson/gha-find-replace@v2
         with:
           find: "[-version-number-]"
-          replace: "${{github.ref_name}}"
+          replace: "${{GITHUB_SHA::6}}"
           exclude: "**/*.yml"
           regex: false
-      - name: Minify
-        uses: anthonyftwang/minify-action@v1.0.1
+      #- name: Minify
+      #  uses: anthonyftwang/minify-action@v1.0.1
       - name: Commit to deployment
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
