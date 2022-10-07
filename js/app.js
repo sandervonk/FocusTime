@@ -25,6 +25,8 @@ $('[data-role="create-task"]').click(function () {
       .doc(user.uid)
       .update({ tasks: firebase.firestore.FieldValue.arrayUnion(task) })
       .then(() => {
+        $('[data-role="task-info-title"], [data-role="task-info-tag"]').val("");
+        $("#time-30").prop("checked", true);
         new Toast("Task created!", "default", 1000, "//sander.vonk.one/FocusTime/img/icon/toast/success-icon.svg");
       })
       .catch((error) => {
@@ -121,18 +123,20 @@ $("#card-completed, [data-role='clear-tasks']").click(function () {
     .then((doc) => {
       let tasks = doc.data().tasks;
       if (tasks.length > 0) {
+        let archivedTasks = $.grep(tasks, function (t) {
+          return t.is_completed;
+        });
         db.collection("users")
           .doc(user.uid)
-
           .update({
-            archive: firebase.firestore.FieldValue.arrayUnion(...tasks),
-            tasks: [],
+            archive: firebase.firestore.FieldValue.arrayUnion(...archivedTasks),
+            tasks: firebase.firestore.FieldValue.arrayRemove(...archivedTasks),
           })
           .then(() => {
-            new Toast("Tasks cleared!", "default", 1000, "//sander.vonk.one/FocusTime/img/icon/toast/archive-icon.svg");
+            new Toast("Completed tasks cleared!", "default", 1000, "//sander.vonk.one/FocusTime/img/icon/toast/archive-icon.svg");
           })
           .catch((err) => {
-            new ErrorToast("Could not clear tasks", cleanError(err), 2000, ".");
+            new ErrorToast("Could not clear completed tasks", cleanError(err), 2000, ".");
           });
       }
     });
