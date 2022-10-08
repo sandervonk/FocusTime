@@ -123,7 +123,6 @@ function makeTasksFromDoc(doc) {
         if (!task.is_completed) {
           let card_content;
           if (!task.iframe_url) {
-            has_iframe = true;
             card_content = `
             <div class="task-card-content">
               <div class="task-card-widgets">
@@ -147,6 +146,7 @@ function makeTasksFromDoc(doc) {
               </div>
             </div>`;
           } else {
+            has_iframe = true;
             card_content = `
             <div class="iframe-content task-card-content" style="background: ${task.iframe_bg ? task.iframe_bg : "ffffff"}'">
               <iframe src="${task.iframe_url}" style="border: none; border-radius: 15px; overflow:hidden; background: ${task.iframe_bg};" name="vite-task" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" height="100%" width="100%"></iframe>
@@ -174,6 +174,7 @@ function makeTasksFromDoc(doc) {
     //check that the current element does not match the new one, if it does, do not replace
     if ($(newHTML).html() != $("[data-role='tasks-list']").html()) {
       $("[data-role='tasks-list']").replaceWith(newHTML);
+      console.log(has_iframe);
       if (has_iframe) {
         $('[data-role="vite-add-card"]').hide();
       } else {

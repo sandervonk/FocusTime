@@ -144,7 +144,7 @@ $("#card-completed, [data-role='clear-tasks']").click(function () {
 $('[data-role="add-vite-card"]').click(function () {
   db.collection("users")
     .doc(user.uid)
-    .update({ tasks: firebase.firestore.FieldValue.arrayUnion({ iframe_url: "/VITE/embed/task.html" }), iframe_bg: "#1d55a8" })
+    .update({ tasks: firebase.firestore.FieldValue.arrayUnion({ iframe_url: "/VITE/embed/task.html", iframe_bg: "#1d55a8" }) })
     .then(() => {
       new Toast("Added VITE! card!", "default", 4000, "//sander.vonk.one/VITE/img/icon/concern-icon.svg");
     })
