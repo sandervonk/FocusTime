@@ -120,29 +120,43 @@ function makeTasksFromDoc(doc) {
     if (tasks) {
       tasks.forEach((task) => {
         if (!task.is_completed) {
-          $(newHTML).append(`
-            <div class="task-card" data-task-json-content='${JSON.stringify(task)}'>
-              <div class="task-card-content">
-                <div class="task-card-widgets">
-                  <div class="task-card-time-widget">
-                    <object class="task-card-widget-icon" data="../img/icon/tasks/clock-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/clock-icon.png" /></object>
-                    <span class="task-card-time">${task.time} minutes</span>
-                  </div>
-                  <div class="task-card-date-widget">
-                    <object class="task-card-widget-icon" data="../img/icon/tasks/date-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/date-icon.png" /></object>
-                    <span class="task-card-time">#/##/####</span>
-                  </div>
+          let card_content;
+          if (!task.iframe_url) {
+            card_content = `
+            <div class="task-card-content">
+              <div class="task-card-widgets">
+                <div class="task-card-time-widget">
+                  <object class="task-card-widget-icon" data="../img/icon/tasks/clock-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/clock-icon.png" /></object>
+                  <span class="task-card-time">${task.time} minutes</span>
                 </div>
-                <hr />
-                <div class="task-card-info">
-                  <div class="task-card-title">${task.title}</div>
-                  <div class="task-card-tag">${Object.keys(classJSON).includes(task.tag) ? classJSON[task.tag] : task.tag}</div>
-                </div>
-                <div data-role="edit-card" class="task-card-action">
-                  <object class="task-card-action-icon edit-icon" data="../img/icon/tasks/edit-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/edit-icon.png" /></object>
-                  <object class="task-card-action-icon editing-icon" data="../img/icon/tasks/editing-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/editing-icon.png" /></object>
+                <div class="task-card-date-widget">
+                  <object class="task-card-widget-icon" data="../img/icon/tasks/date-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/date-icon.png" /></object>
+                  <span class="task-card-time">#/##/####</span>
                 </div>
               </div>
+              <hr />
+              <div class="task-card-info">
+                <div class="task-card-title">${task.title}</div>
+                <div class="task-card-tag">${Object.keys(classJSON).includes(task.tag) ? classJSON[task.tag] : task.tag}</div>
+              </div>
+              <div data-role="edit-card" class="task-card-action">
+                <object class="task-card-action-icon edit-icon" data="../img/icon/tasks/edit-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/edit-icon.png" /></object>
+                <object class="task-card-action-icon editing-icon" data="../img/icon/tasks/editing-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/editing-icon.png" /></object>
+              </div>
+            </div>`;
+          } else {
+            card_content = `
+            <div class="iframe-content task-card-content" style="background: ${task.iframe_bg}">
+              <iframe src="${task.iframe_url}" style="border: none; border-radius: 15px; overflow:hidden; background: ${task.iframe_bg};" name="vite-task" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" height="100%" width="100%"></iframe>
+              <div data-role="edit-card" class="task-card-action">
+                <object class="task-card-action-icon edit-icon" data="../img/icon/tasks/edit-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/edit-icon.png" /></object>
+                <object class="task-card-action-icon editing-icon" data="../img/icon/tasks/editing-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/editing-icon.png" /></object>
+              </div>
+            </div>`;
+          }
+          $(newHTML).append(`
+            <div class="task-card" data-task-json-content='${JSON.stringify(task)}'>
+              ${card_content}
               <div class="task-card-swipe">
                 <div class="task-card-swipe-done">
                   <object class="task-card-swipe-icon" data="../img/icon/tasks/done-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/done-icon.png" /></object>

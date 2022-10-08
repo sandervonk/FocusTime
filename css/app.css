@@ -401,6 +401,10 @@ select:invalid {
   transition: margin-left 0.15s ease-out;
   z-index: 1;
 }
+iframe.task-card-content,
+.iframe-content.task-card-content {
+  padding: 0 !important;
+}
 .task-card.editing > .task-card-content {
   margin-left: -150px;
 }
@@ -519,6 +523,12 @@ select:invalid {
   border-radius: 10px;
   flex-shrink: 0;
   flex-grow: 0;
+}
+.iframe-content .task-card-action {
+  margin-bottom: 10px;
+  margin-right: 10px;
+  margin-left: -50px;
+  box-shadow: 0 0 10px var(--primary-bg-transparent);
 }
 .task-card-action * {
   pointer-events: none;
