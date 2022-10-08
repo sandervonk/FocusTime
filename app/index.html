@@ -20,6 +20,11 @@
     <meta property="og:description" content="Improve your productivity by scheduling out your time into more meaningful 'focus sessions' with FocusTime." />
     <meta property="og:image" content="https://sander.vonk.one/FocusTime/img/hero-img.png" />
     <meta property="og:url" content="https://sander.vonk.one/FocusTime/" />
+    <!-- preload common icons -->
+    <link rel="preload" href="../img/icon/tasks/clock-icon.svg" as="image" />
+    <link rel="preload" href="../img/icon/tasks/date-icon.svg" as="image" />
+    <link rel="preload" href="../img/icon/tasks/clock-icon.png" as="image" />
+    <link rel="preload" href="../img/icon/tasks/date-icon.png" as="image" />
   </head>
   <body>
     <div id="content" data-page="home">
@@ -112,6 +117,11 @@
                 <option value="physics">AP Physics 1</option>
                 <option value="hamlit">Honors American Literature</option>
               </select>
+            </div>
+            <div class="card" data-role="vite-add-card" style="display: none">
+              <div class="card-title header-small">VITE! Card (Optional)</div>
+              <div class="card-subtitle">Connect your VITE! French Practice account to view practice statistics at a glance</div>
+              <button style="margin-top: 20px" data-role="add-vite-card">Add VITE! Integration</button>
             </div>
           </div>
           <hr id="button-spacer" style="height: 80px" />

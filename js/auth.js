@@ -116,12 +116,14 @@ var classJSON = {
 function makeTasksFromDoc(doc) {
   if (doc.exists) {
     let tasks = doc.data().tasks,
-      newHTML = $(`<div data-role="tasks-list"></div>`);
+      newHTML = $(`<div data-role="tasks-list"></div>`),
+      has_iframe = false;
     if (tasks) {
       tasks.forEach((task) => {
         if (!task.is_completed) {
           let card_content;
           if (!task.iframe_url) {
+            has_iframe = true;
             card_content = `
             <div class="task-card-content">
               <div class="task-card-widgets">
@@ -146,7 +148,7 @@ function makeTasksFromDoc(doc) {
             </div>`;
           } else {
             card_content = `
-            <div class="iframe-content task-card-content" style="background: ${task.iframe_bg}">
+            <div class="iframe-content task-card-content" style="background: ${task.iframe_bg ? task.iframe_bg : "ffffff"}'">
               <iframe src="${task.iframe_url}" style="border: none; border-radius: 15px; overflow:hidden; background: ${task.iframe_bg};" name="vite-task" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" height="100%" width="100%"></iframe>
               <div data-role="edit-card" class="task-card-action">
                 <object class="task-card-action-icon edit-icon" data="../img/icon/tasks/edit-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/edit-icon.png" /></object>
@@ -155,7 +157,7 @@ function makeTasksFromDoc(doc) {
             </div>`;
           }
           $(newHTML).append(`
-            <div class="task-card" data-task-json-content='${JSON.stringify(task)}'>
+            <div class="task-card${task.iframe_url ? " task-iframe-card" : ""}" data-task-json-content='${JSON.stringify(task)}' ${task.iframe_url ? "style='display:none'" : ""}>
               ${card_content}
               <div class="task-card-swipe">
                 <div class="task-card-swipe-done">
@@ -172,13 +174,21 @@ function makeTasksFromDoc(doc) {
     //check that the current element does not match the new one, if it does, do not replace
     if ($(newHTML).html() != $("[data-role='tasks-list']").html()) {
       $("[data-role='tasks-list']").replaceWith(newHTML);
-      $(".task-card").onSwipe(function (data) {
-        if (data.right) {
-          $(".task-card").removeClass("editing");
-        } else if (data.left) {
-          $(".task-card").addClass("editing");
-        }
+      if (has_iframe) {
+        $('[data-role="vite-add-card"]').hide();
+      } else {
+        $('[data-role="vite-add-card"]').show();
+      }
+      $(".task-iframe-card iframe").on("load", function () {
+        $(this).closest(".task-card").show();
       });
+      // $(".task-card").onSwipe(function (data) {
+      //   if (data.right) {
+      //     $(".task-card").removeClass("editing");
+      //   } else if (data.left) {
+      //     $(".task-card").addClass("editing");
+      //   }
+      // });
     } else {
       console.log("task content matched, not replacing");
     }
