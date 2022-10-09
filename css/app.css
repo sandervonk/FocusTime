@@ -563,8 +563,8 @@ iframe.task-card-content,
   opacity: 0;
 }
 .task-card-swipe {
-  /* width: 0px; */
-  width: 150px;
+  width: 60px;
+  /* width: 150px; */
   padding-left: 15px;
   margin-left: -15px;
   flex-shrink: 0;
@@ -575,13 +575,14 @@ iframe.task-card-content,
   flex-flow: row nowrap;
   z-index: 0;
   transform-origin: left center;
-  transform: scaleX(0.1);
+  /* transform: scaleX(0.1); */
 }
 .task-card.editing .task-card-swipe {
   transform: none;
+  width: 150px;
 }
 .task-card-swipe > * {
-  width: 75px;
+  width: 50%;
   margin-left: -15px;
   padding-left: 15px;
   border-radius: 0 15px 15px 0;

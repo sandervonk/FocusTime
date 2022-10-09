@@ -183,13 +183,20 @@ function makeTasksFromDoc(doc) {
       $(".task-iframe-card iframe").on("load", function () {
         $(this).closest(".task-card").show();
       });
-      // $(".task-card").onSwipe(function (data) {
-      //   if (data.right) {
-      //     $(".task-card").removeClass("editing");
-      //   } else if (data.left) {
-      //     $(".task-card").addClass("editing");
-      //   }
-      // });
+      try {
+        $(".task-card").swipe("destroy");
+        $(".task-card").swipe({
+          swipeLeft: function () {
+            $(".task-card").removeClass("editing");
+            $(this).addClass("editing");
+          },
+          swipeRight: function () {
+            $(this).removeClass("editing");
+          },
+        });
+      } catch (err) {
+        console.warn("could not setup swipe events", err);
+      }
     } else {
       console.log("task content matched, not replacing");
     }
