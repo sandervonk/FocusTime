@@ -58,7 +58,7 @@ try {
   console.warn("Could not setup from cashe", err);
 }
 $("[data-auth-role='logoutprompt']").click(function () {
-  new Popup("Are you sure you want to sign out?", "default", 10000, "//sander.vonk.one/FocusTime/img/icon/toast/info-icon.svg", [
+  new Popup(["Sign Out", "Are you sure you want to sign out?"], "default", 10000, "", [
     ["removePopup()", "Cancel", "secondary-action fullborder"],
     ["removePopup()", "Yes", "primary-action data-auth-logout"],
   ]);

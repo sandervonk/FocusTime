@@ -42,11 +42,11 @@ $("#add .card *").on("change input click", function () {
     $('[data-role="create-task"]').addClass("disabled");
   }
 });
-$(document.body).click(function(e){
-    if (!$(e.target).closest(".task-card.editing").length && !$(e.target).hasClass("task-card-action")){
-        $(".task-card.editing").removeClass("editing")
-    }
-})
+$(document.body).click(function (e) {
+  if (!$(e.target).closest(".task-card.editing").length && !$(e.target).hasClass("task-card-action")) {
+    $(".task-card.editing").removeClass("editing");
+  }
+});
 $(document.body).on("click", ".task-card-action", function () {
   $(".task-card").not($(this).closest(".task-card")).removeClass("editing");
   $(this).closest(".task-card").toggleClass("editing");
@@ -120,8 +120,18 @@ $(document.body).on("click", ".task-card-swipe-done", function () {
       }
     );
 });
-$("#card-completed, [data-role='clear-tasks']").click(function () {
+$("#card-completed").click(function () {
+  // show popup to delete completed tasks with options to cancel, delete permanantly or archive
+  new Popup(["Completed tasks", "Are you sure you want to delete all completed tasks?"], "default", 10000, "/FocusTime/img/icon/popup-done.svg", [
+    ["removePopup();", "Cancel", "secondary-action fullborder"],
+    ["", "", "popup-divider"],
+    ["", "Delete", "secondary-action blue-button DATA-clear-completed-tasks"],
+    ["", "Archive", "primary-action blue-button DATA-clear-completed-tasks DATA-save-archive"],
+  ]);
+});
+$(document.body).on("click", "[data-role='clear-completed'], .DATA-clear-completed-tasks", function () {
   //archive all tasks from userdoc
+  let save_archive = $(this).attr("data-save-archive") || $(this).hasClass("DATA-save-archive");
   db.collection("users")
     .doc(user.uid)
     .get()
@@ -131,12 +141,15 @@ $("#card-completed, [data-role='clear-tasks']").click(function () {
         let archivedTasks = $.grep(tasks, function (t) {
           return t.is_completed;
         });
+        let update_json = {
+          tasks: firebase.firestore.FieldValue.arrayRemove(...archivedTasks),
+        };
+        if (save_archive) {
+          update_json.archive = firebase.firestore.FieldValue.arrayUnion(...archivedTasks);
+        }
         db.collection("users")
           .doc(user.uid)
-          .update({
-            archive: firebase.firestore.FieldValue.arrayUnion(...archivedTasks),
-            tasks: firebase.firestore.FieldValue.arrayRemove(...archivedTasks),
-          })
+          .update(update_json)
           .then(() => {
             new Toast("Completed tasks cleared!", "default", 1000, "//sander.vonk.one/FocusTime/img/icon/toast/archive-icon.svg");
           })

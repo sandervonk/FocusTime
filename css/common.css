@@ -67,7 +67,7 @@ html {
 body {
   overscroll-behavior-y: contain;
 }
-button {
+button:not(.popup-button) {
   border: none;
   background: var(--primary-bg);
   color: var(--on-primary-bg);
@@ -320,7 +320,7 @@ input[type="text"] {
   transform: translate(-50%, 0) !important;
   /* animation: raise-centered 0.5s ease-in-out; */
 }
-button {
+button:not(.popup-button) {
   transition: opacity 0.25s ease-in-out;
 }
 button[disabled],

@@ -640,3 +640,16 @@ iframe.task-card-content,
   margin-bottom: -20px;
   background: linear-gradient(180deg, var(--bg) 0%, rgba(255, 255, 255, 0) 100%);
 }
+[data-role="clear-completed"],
+.DATA-clear-completed-tasks,
+#card-completed {
+  cursor: pointer !important;
+  user-select: none;
+  pointer-events: all;
+}
+[data-role="clear-completed"] *,
+.DATA-clear-completed-tasks *,
+#card-completed * {
+  pointer-events: none;
+  user-select: none;
+}
