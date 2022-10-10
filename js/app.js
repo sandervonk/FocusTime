@@ -125,8 +125,8 @@ $("#card-completed").click(function () {
   new Popup(["Completed tasks", "Are you sure you want to delete all completed tasks?"], "default", 10000, "/FocusTime/img/icon/popup-done.svg", [
     ["removePopup();", "Cancel", "secondary-action fullborder"],
     ["", "", "popup-divider"],
-    ["", "Delete", "secondary-action blue-button DATA-clear-completed-tasks"],
-    ["", "Archive", "primary-action blue-button DATA-clear-completed-tasks DATA-save-archive"],
+    ["removePopup();", "Delete", "secondary-action blue-button DATA-clear-completed-tasks"],
+    ["removePopup();", "Archive", "primary-action blue-button DATA-clear-completed-tasks DATA-save-archive"],
   ]);
 });
 $(document.body).on("click", "[data-role='clear-completed'], .DATA-clear-completed-tasks", function () {
@@ -151,7 +151,11 @@ $(document.body).on("click", "[data-role='clear-completed'], .DATA-clear-complet
           .doc(user.uid)
           .update(update_json)
           .then(() => {
-            new Toast("Completed tasks cleared!", "default", 1000, "//sander.vonk.one/FocusTime/img/icon/toast/archive-icon.svg");
+            if (save_archive) {
+              new Toast("Completed tasks archived!", "default", 1000, "//sander.vonk.one/FocusTime/img/icon/toast/archive-icon.svg");
+            } else {
+              new Toast("Completed tasks deleted!", "default", 1000, "//sander.vonk.one/FocusTime/img/icon/toast/success-icon.svg");
+            }
           })
           .catch((err) => {
             new ErrorToast("Could not clear completed tasks", cleanError(err), 2000, ".");
