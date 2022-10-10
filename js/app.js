@@ -42,7 +42,11 @@ $("#add .card *").on("change input click", function () {
     $('[data-role="create-task"]').addClass("disabled");
   }
 });
-
+$(document.body).click(function(e){
+    if (!$(e.target).closest(".task-card.editing").length && !$(e.target).hasClass("task-card-action")){
+        $(".task-card.editing").removeClass("editing")
+    }
+})
 $(document.body).on("click", ".task-card-action", function () {
   $(".task-card").not($(this).closest(".task-card")).removeClass("editing");
   $(this).closest(".task-card").toggleClass("editing");
@@ -78,6 +82,7 @@ $(document.body).on("click", ".task-card-swipe-archive", function () {
       }
     );
 });
+
 $(document.body).on("click", ".task-card-swipe-done", function () {
   $(this).closest(".task-card").addClass("swipe-out");
   $(this)
