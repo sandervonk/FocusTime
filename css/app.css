@@ -249,7 +249,8 @@ nav {
   opacity: 0.5;
 }
 [data-role="task-info-title"],
-[data-role="task-info-tag"] {
+[data-role="task-info-tag"],
+[data-role="task-info-date"] {
   margin-top: 20px;
   font-size: 12px;
   height: 40px;
@@ -259,6 +260,11 @@ nav {
   box-sizing: border-box;
   border-radius: 5px;
   border: solid 1px var(--primary-bg-half);
+}
+[data-role="task-info-date"] {
+  padding-right: 10px;
+  font-size: 14px;
+  font-family: "Roboto", sans-serif;
 }
 
 input::placeholder,

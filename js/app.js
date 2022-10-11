@@ -15,6 +15,7 @@ $('[data-role="create-task"]').click(function () {
     title: $('[data-role="task-info-title"]').val(),
     tag: $('[data-role="task-info-tag"]')[0].value,
     time: parseInt($('[data-role="time-radio-group"] input:checked').val()),
+    date: $('[data-role="task-info-date"]').val(),
   };
   if (Object.values(task).includes("")) {
     new WarningToast("Please fill out all fields", 3000);
@@ -25,7 +26,7 @@ $('[data-role="create-task"]').click(function () {
       .doc(user.uid)
       .update({ tasks: firebase.firestore.FieldValue.arrayUnion(task) })
       .then(() => {
-        $('[data-role="task-info-title"], [data-role="task-info-tag"]').val("");
+        $('[data-role="task-info-title"], [data-role="task-info-tag"], [data-role="task-info-date"]').val("");
         $("#time-30").prop("checked", true);
         new Toast("Task created!", "default", 1000, "//sander.vonk.one/FocusTime/img/icon/toast/success-icon.svg");
       })
@@ -36,7 +37,7 @@ $('[data-role="create-task"]').click(function () {
 });
 $("#add .card *").on("change input click", function () {
   //check if all fields are filled out
-  if ($('[data-role="task-info-title"]').val() && $('[data-role="task-info-tag"]').val() && $("[name='time-allocated']:checked").length) {
+  if ($('[data-role="task-info-title"]').val() && $('[data-role="task-info-tag"]').val() && $('[data-role="task-info-date"]').val() && $("[name='time-allocated']:checked").length) {
     $('[data-role="create-task"]').removeClass("disabled");
   } else {
     $('[data-role="create-task"]').addClass("disabled");
@@ -173,4 +174,10 @@ $('[data-role="add-vite-card"]').click(function () {
     .catch((error) => {
       new ErrorToast("Could not save VITE! card data userdoc", cleanError(error), 2000);
     });
+});
+// set min and max dates on data-role="task-info-date"
+
+$('[data-role="task-info-date"]').attr({
+  min: new Date().toISOString().split("T")[0],
+  max: new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 365).toISOString().split("T")[0],
 });
