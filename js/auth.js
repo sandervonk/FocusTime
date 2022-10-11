@@ -132,7 +132,7 @@ function makeTasksFromDoc(doc) {
                 </div>
                 <div class="task-card-date-widget">
                   <object class="task-card-widget-icon" data="../img/icon/tasks/date-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/date-icon.png" /></object>
-                  <span class="task-card-time">#/##/####</span>
+                  <span class="task-card-time">${task.date ? task.date : "####-##-##"}</span>
                 </div>
               </div>
               <hr />
