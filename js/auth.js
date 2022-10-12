@@ -114,7 +114,9 @@ var classJSON = {
   hamlit: "Honors American Literature",
 };
 function sortByDate(a, b) {
-  let is_lower = !a.date || a.is_pinned || a.date == "priority" || a.date == "top" || (b.date && b.date != "priority" && b.date != "top" && new Date(a.date).getTime() > new Date(b.date).getTime());
+  let a_is_raised = !a.date || a.is_pinned || a.date == "priority" || a.date == "top";
+  let b_is_raised = !b.date || b.is_pinned || b.date == "priority" || b.date == "top";
+  let is_lower = a_is_raised || (!b.is_raised && new Date(a.date).getTime() < new Date(b.date).getTime());
   return !is_lower ? 1 : -1;
 }
 function makeTasksFromDoc(doc) {
@@ -146,7 +148,7 @@ function makeTasksFromDoc(doc) {
           //if date different from last date, show message in console, will add header later
           this_date = getDateText(task.date);
           if (lastDate != this_date) {
-            $("<div></div>", { class: "task-section-header", text: this_date }).appendTo(newHTML);
+            $("<div></div>", { class: "task-section-header", text: this_date, "data-date": this_date }).appendTo(newHTML);
             lastDate = this_date;
           }
 
@@ -160,7 +162,6 @@ function makeTasksFromDoc(doc) {
     //check that the current element does not match the new one, if it does, do not replace
     if ($(newHTML).html() != $("[data-role='tasks-list']").html()) {
       $("[data-role='tasks-list']").replaceWith(newHTML);
-      console.log(has_iframe);
       if (has_iframe) {
         $('[data-role="vite-add-card"]').hide();
       } else {
@@ -193,6 +194,8 @@ function getDateText(date) {
     return "Priority";
   } else if (date == "top") {
     return "Pinned";
+  } else if (new Date().toISOString().split("T")[0] == date) {
+    return "Today";
   } else {
     //format date and add th, nd, st, etc endings
     let formatted_date = new Date(date).toLocaleDateString("en-us", { weekday: "long", month: "long", day: "numeric" });

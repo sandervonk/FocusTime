@@ -678,3 +678,6 @@ iframe.task-card-content,
 [data-role="tasks-list"] .task-section-header:not(:first-child) {
   margin-top: 30px;
 }
+.task-section-header[data-date="Pinned"] {
+  color: var(--task-today);
+}

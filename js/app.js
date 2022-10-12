@@ -15,7 +15,7 @@ $('[data-role="create-task"]').click(function () {
     title: $('[data-role="task-info-title"]').val(),
     tag: $('[data-role="task-info-tag"]')[0].value,
     time: parseInt($('[data-role="time-radio-group"] input:checked').val()),
-    date: new Date($('[data-role="task-info-date"]').val()).getTime(),
+    date: new Date($('[data-role="task-info-date"]').val()).toISOString().split("T")[0],
   };
   if (Object.values(task).includes("")) {
     new WarningToast("Please fill out all fields", 3000);
