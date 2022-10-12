@@ -113,12 +113,19 @@ var classJSON = {
   physics: "AP Physics 1",
   hamlit: "Honors American Literature",
 };
+function sortByDate(a, b) {
+  let is_lower = !a.date || a.date == "priority" || a.date == "top" || (b.date && b.date != "priority" && b.date != "top" && new Date(a.date).getTime() > new Date(b.date).getTime());
+  return !is_lower ? 1 : -1;
+}
 function makeTasksFromDoc(doc) {
   if (doc.exists) {
     let tasks = doc.data().tasks,
       newHTML = $(`<div data-role="tasks-list"></div>`),
-      has_iframe = false;
+      has_iframe = false,
+      lastDate = 0,
+      this_date;
     if (tasks) {
+      tasks.sort(sortByDate);
       tasks.forEach((task) => {
         if (!task.is_completed) {
           let card_content;
@@ -132,7 +139,7 @@ function makeTasksFromDoc(doc) {
                 </div>
                 <div class="task-card-date-widget">
                   <object class="task-card-widget-icon" data="../img/icon/tasks/date-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/date-icon.png" /></object>
-                  <span class="task-card-time">${task.date ? task.date : "####-##-##"}</span>
+                  <span class="task-card-time">${task.date && task.date != "priority" ? task.date : "No Goal Date"}</span>
                 </div>
               </div>
               <hr />
@@ -156,6 +163,13 @@ function makeTasksFromDoc(doc) {
               </div>
             </div>`;
           }
+          //if date different from last date, show message in console, will add header later
+          this_date = task.date && task.date != "priority" && task.date != "top" ? new Date(task.date).toDateString() : "Pinned";
+          if (lastDate != this_date) {
+            $("<div></div>", { class: "task-section-header", text: this_date }).appendTo(newHTML);
+            lastDate = this_date;
+          }
+
           $(newHTML).append(`
             <div class="task-card${task.iframe_url ? " task-iframe-card" : ""}" data-task-json-content='${JSON.stringify(task)}' ${task.iframe_url ? "style='display:none'" : ""}>
               ${card_content}
