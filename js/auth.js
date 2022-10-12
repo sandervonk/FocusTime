@@ -114,7 +114,7 @@ var classJSON = {
   hamlit: "Honors American Literature",
 };
 function sortByDate(a, b) {
-  let is_lower = !a.date || a.date == "priority" || a.date == "top" || (b.date && b.date != "priority" && b.date != "top" && new Date(a.date).getTime() > new Date(b.date).getTime());
+  let is_lower = !a.date || a.is_pinned || a.date == "priority" || a.date == "top" || (b.date && b.date != "priority" && b.date != "top" && new Date(a.date).getTime() > new Date(b.date).getTime());
   return !is_lower ? 1 : -1;
 }
 function makeTasksFromDoc(doc) {
@@ -131,57 +131,29 @@ function makeTasksFromDoc(doc) {
           let card_content;
           if (!task.iframe_url) {
             card_content = `
-            <div class="task-card-content">
-              <div class="task-card-widgets">
-                <div class="task-card-time-widget">
-                  <object class="task-card-widget-icon" data="../img/icon/tasks/clock-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/clock-icon.png" /></object>
-                  <span class="task-card-time">${task.time} minutes</span>
-                </div>
-                <div class="task-card-date-widget">
-                  <object class="task-card-widget-icon" data="../img/icon/tasks/date-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/date-icon.png" /></object>
-                  <span class="task-card-time">${task.date && task.date != "priority" ? task.date : "No Goal Date"}</span>
-                </div>
-              </div>
-              <hr />
-              <div class="task-card-info">
-                <div class="task-card-title">${task.title}</div>
-                <div class="task-card-tag">${Object.keys(classJSON).includes(task.tag) ? classJSON[task.tag] : task.tag}</div>
-              </div>
-              <div data-role="edit-card" class="task-card-action">
-                <object class="task-card-action-icon edit-icon" data="../img/icon/tasks/edit-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/edit-icon.png" /></object>
-                <object class="task-card-action-icon editing-icon" data="../img/icon/tasks/editing-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/editing-icon.png" /></object>
-              </div>
-            </div>`;
+            <div class="task-card-content"><div class="task-card-widgets"><div class="task-card-time-widget"><object class="task-card-widget-icon" data="../img/icon/tasks/clock-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/clock-icon.png" /></object><span class="task-card-time">${
+              task.time
+            } minutes</span></div><div class="task-card-date-widget"><object class="task-card-widget-icon" data="../img/icon/tasks/date-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/date-icon.png" /></object><span class="task-card-time">${task.date && task.date != "priority" ? task.date : "No Goal Date"}</span></div></div><hr /><div class="task-card-info"><div class="task-card-title">${task.title}</div><div class="task-card-tag">${
+              Object.keys(classJSON).includes(task.tag) ? classJSON[task.tag] : task.tag
+            }</div></div><div data-role="edit-card" class="task-card-action"><object class="task-card-action-icon edit-icon" data="../img/icon/tasks/edit-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/edit-icon.png" /></object><object class="task-card-action-icon editing-icon" data="../img/icon/tasks/editing-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/editing-icon.png" /></object></div></div>`;
           } else {
             has_iframe = true;
             card_content = `
-            <div class="iframe-content task-card-content" style="background: ${task.iframe_bg ? task.iframe_bg : "ffffff"}'">
-              <iframe src="${task.iframe_url}" style="border: none; border-radius: 15px; overflow:hidden; background: ${task.iframe_bg};" name="vite-task" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" height="100%" width="100%"></iframe>
-              <div data-role="edit-card" class="task-card-action">
-                <object class="task-card-action-icon edit-icon" data="../img/icon/tasks/edit-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/edit-icon.png" /></object>
-                <object class="task-card-action-icon editing-icon" data="../img/icon/tasks/editing-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/editing-icon.png" /></object>
-              </div>
-            </div>`;
+            <div class="iframe-content task-card-content" style="background: ${task.iframe_bg ? task.iframe_bg : "ffffff"}'"><iframe src="${task.iframe_url}" style="border: none; border-radius: 15px; overflow:hidden; background: ${
+              task.iframe_bg
+            };" name="vite-task" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" height="100%" width="100%"></iframe><div data-role="edit-card" class="task-card-action"><object class="task-card-action-icon edit-icon" data="../img/icon/tasks/edit-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/edit-icon.png" /></object><object class="task-card-action-icon editing-icon" data="../img/icon/tasks/editing-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/editing-icon.png" /></object></div></div>`;
           }
           //if date different from last date, show message in console, will add header later
-          this_date = task.date && task.date != "priority" && task.date != "top" ? new Date(task.date).toDateString() : "Pinned";
+          this_date = getDateText(task.date);
           if (lastDate != this_date) {
             $("<div></div>", { class: "task-section-header", text: this_date }).appendTo(newHTML);
             lastDate = this_date;
           }
 
           $(newHTML).append(`
-            <div class="task-card${task.iframe_url ? " task-iframe-card" : ""}" data-task-json-content='${JSON.stringify(task)}' ${task.iframe_url ? "style='display:none'" : ""}>
-              ${card_content}
-              <div class="task-card-swipe">
-                <div class="task-card-swipe-done">
-                  <object class="task-card-swipe-icon" data="../img/icon/tasks/done-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/done-icon.png" /></object>
-                </div>
-                <div class="task-card-swipe-archive">
-                  <object class="task-card-swipe-icon" data="../img/icon/tasks/archive-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/archive-icon.png" /></object>
-                </div>
-            </div>
-          `);
+            <div class="task-card${task.iframe_url ? " task-iframe-card" : ""}" data-task-json-content='${JSON.stringify(task)}' ${
+            task.iframe_url ? "style='display:none'" : ""
+          }>${card_content}<div class="task-card-swipe"><div class="task-card-swipe-done"><object class="task-card-swipe-icon" data="../img/icon/tasks/done-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/done-icon.png" /></object></div><div class="task-card-swipe-archive"><object class="task-card-swipe-icon" data="../img/icon/tasks/archive-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/archive-icon.png" /></object></div></div>`);
         }
       });
     }
@@ -214,5 +186,33 @@ function makeTasksFromDoc(doc) {
     } else {
       console.log("task content matched, not replacing");
     }
+  }
+}
+function getDateText(date) {
+  if (!date || date == "priority") {
+    return "Priority";
+  } else if (date == "top") {
+    return "Pinned";
+  } else {
+    //format date and add th, nd, st, etc endings
+    let formatted_date = new Date(date).toLocaleDateString("en-us", { weekday: "long", month: "long", day: "numeric" });
+    let day = formatted_date.split(" ")[2],
+      day_endings = ["th", "st", "nd", "rd"];
+    let day_ending = day_endings[0];
+    if (day > 3 && day < 21) {
+      day_ending = day_endings[0];
+    }
+    switch (day % 10) {
+      case 1:
+        day_ending = day_endings[1];
+        break;
+      case 2:
+        day_ending = day_endings[2];
+        break;
+      case 3:
+        day_ending = day_endings[3];
+        break;
+    }
+    return formatted_date.split(" ").slice(0, 2).join(" ") + " " + day + day_ending;
   }
 }
