@@ -601,7 +601,11 @@ iframe.task-card-content,
   flex-shrink: 0;
   cursor: pointer;
 }
-
+.task-card-swipe-pin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .task-card-swipe-icon {
   opacity: 0.3;
   width: 30px;
@@ -612,6 +616,39 @@ iframe.task-card-content,
 }
 .task-card:not(.editing) .task-card-swipe-icon {
   opacity: 0;
+}
+/* .task-card:not(.pinning) .task-card-pin-icon {
+  opacity: 0;
+} */
+@keyframes showpin {
+  0% {
+    margin-right: -75px;
+    width: 60px;
+  }
+  50% {
+    margin-right: -15px;
+    width: 80px;
+  }
+  70% {
+    margin-right: -15px;
+    width: 80px;
+  }
+  100% {
+    margin-right: -75px;
+    width: 60px;
+  }
+}
+.task-card-swipe-pin {
+  background-color: var(--task-pin);
+  width: 60px;
+  padding-right: 15px;
+  margin-right: -75px;
+  flex-shrink: 0;
+  flex-grow: 0;
+  box-sizing: content-box;
+}
+.task-card.pinning .task-card-swipe-pin {
+  animation: showpin 0.75s ease;
 }
 .task-card-swipe-archive {
   background-color: var(--task-archive);

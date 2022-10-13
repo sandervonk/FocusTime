@@ -48,8 +48,17 @@ $(document.body).click(function (e) {
     $(".task-card.editing").removeClass("editing");
   }
 });
-$(document.body).on("click", ".task-card-action", function () {
+$(document.body).on("click", ".task-card-date-widget", function () {
   $(".task-card").not($(this).closest(".task-card")).removeClass("editing");
+  $(this)
+    .closest(".task-card")
+    .toggleClass("pinning")
+    .animate({ scrollTop: 0 }, 750, function () {
+      $(this).closest(".task-card").removeClass("pinning").children(".task-card-swipe-pin").click();
+    });
+});
+$(document.body).on("click", ".task-card-action", function () {
+  $(".task-card").not($(this).closest(".task-card")).removeClass("editing pinning");
   $(this).closest(".task-card").toggleClass("editing");
 });
 $(document.body).on("click", ".task-card-swipe-archive", function () {
@@ -248,10 +257,14 @@ function makeTasksFromDoc(doc) {
             $("<div></div>", { class: "task-section-header", text: this_date, "data-date": this_date }).appendTo(newHTML);
             lastDate = this_date;
           }
-          let task_card = $(
-            `<div class="task-card${
-              task.iframe_url ? " task-iframe-card" : ""
-            }">${card_content}<div class="task-card-swipe"><div class="task-card-swipe-done"><object class="task-card-swipe-icon" data="../img/icon/tasks/done-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/done-icon.png" /></object></div><div class="task-card-swipe-archive"><object class="task-card-swipe-icon" data="../img/icon/tasks/archive-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/archive-icon.png" /></object></div></div>`
+          $(
+            `<div class="task-card${task.iframe_url ? " task-iframe-card" : ""}">
+            <div class="task-card-swipe-pin"><object class="task-card-pin-icon" data="../img/icon/tasks/pin-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/pin-icon.png" /></object></div>
+            ${card_content}
+            <div class="task-card-swipe">
+              <div class="task-card-swipe-done"><object class="task-card-swipe-icon" data="../img/icon/tasks/done-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/done-icon.png" /></object></div>
+              <div class="task-card-swipe-archive"><object class="task-card-swipe-icon" data="../img/icon/tasks/archive-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/archive-icon.png" /></object></div>
+            </div>`
           )
             .attr({ "data-task-json-content": JSON.stringify(task), style: task.iframe_url ? "background: " + task.iframe_bg : "" })
             .appendTo(newHTML);
@@ -274,11 +287,22 @@ function makeTasksFromDoc(doc) {
         $(".task-card").swipe("destroy");
         $(".task-card").swipe({
           swipeLeft: function () {
-            $(".task-card").removeClass("editing");
+            $(".task-card").removeClass("editing").removeClass("pinning");
             $(this).addClass("editing");
           },
           swipeRight: function () {
-            $(this).removeClass("editing");
+            if ($(this).hasClass("editing")) {
+              $(this).removeClass("editing");
+            } else {
+              $(this)
+                .closest(".task-card")
+                .removeClass("pinning")
+                .addClass("pinning")
+                .animate({ scrollTop: 0 }, 750, function () {
+                  $(this).closest(".task-card").removeClass("pinning").children(".task-card-swipe-pin").click();
+                });
+              console.log($(this).closest(".task-card")[0].className);
+            }
           },
         });
       } catch (err) {

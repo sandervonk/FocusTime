@@ -48,6 +48,7 @@
   --task-info-2: #d4edbf;
   --task-archive: #bfcfed;
   --task-done: #d4edbf;
+  --task-pin: #d6bfed;
 }
 body,
 html {
