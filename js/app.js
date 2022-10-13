@@ -37,7 +37,7 @@ $('[data-role="create-task"]').click(function () {
 });
 $("#add .card *").on("change input click", function () {
   //check if all fields are filled out
-  if ($('[data-role="task-info-title"]').val() && $('[data-role="task-info-tag"]').val() && $('[data-role="task-info-date"]').val() && $("[name='time-allocated']:checked").length) {
+  if ($('[data-role="task-info-title"]').val() && $('[data-role="task-info-tag"]').val() && $("[name='time-allocated']:checked").length) {
     $('[data-role="create-task"]').removeClass("disabled");
   } else {
     $('[data-role="create-task"]').addClass("disabled");
@@ -209,44 +209,7 @@ function docFromCashe() {
     },
   };
 }
-function casheUserDoc(doc) {
-  localStorage["user-data"] = JSON.stringify(doc.data());
-}
-function setupFieldsFromDoc(doc) {
-  if (doc.exists) {
-    $("[data-auth-role='name']").text(doc.data().name.split(" ")[0]);
-    userDocCache = doc.data();
-    try {
-      let total = 0,
-        completed = 0,
-        tasks = doc.data().tasks ? doc.data().tasks : [];
-      for (task of doc.data().tasks) {
-        total++;
-        if (task.is_completed) {
-          completed++;
-        }
-      }
-      let percentage_completed = parseInt((completed * 100) / total);
-      percentage_completed = isNaN(percentage_completed) ? 0 : percentage_completed;
-      $('[data-role="progress-percentage"]').text(percentage_completed);
-      $('[data-role="progress-bar"]').css("width", `${percentage_completed}%`);
-      $('[data-role="progress-completed"]').text(completed);
-      $('[data-role="progress-total"]').text(total);
-    } catch (err) {
-      console.error(err);
-    }
-  } else {
-    new ErrorToast("Error", "Userdoc does not exist", 3000);
-  }
-}
-var classJSON = {
-  apush: "AP US History",
-  calc: "AP Calc BC",
-  french: "AP French Language",
-  mads: "Madrigals",
-  physics: "AP Physics 1",
-  hamlit: "Honors American Literature",
-};
+
 function sortByDate(a, b) {
   let a_is_raised = !a.date || a.is_pinned || a.date == "priority" || a.date == "top";
   let b_is_raised = !b.date || b.is_pinned || b.date == "priority" || b.date == "top";
@@ -270,12 +233,12 @@ function makeTasksFromDoc(doc) {
             <div class="task-card-content"><div class="task-card-widgets"><div class="task-card-time-widget"><object class="task-card-widget-icon" data="../img/icon/tasks/clock-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/clock-icon.png" /></object><span class="task-card-time">${
               task.time
             } minutes</span></div><div class="task-card-date-widget"><object class="task-card-widget-icon" data="../img/icon/tasks/date-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/date-icon.png" /></object><span class="task-card-time">${task.date && task.date != "priority" ? task.date : "No Goal Date"}</span></div></div><hr /><div class="task-card-info"><div class="task-card-title">${task.title}</div><div class="task-card-tag">${
-              Object.keys(classJSON).includes(task.tag) ? classJSON[task.tag] : task.tag
+              Object.keys(getClassJSON()).includes(task.tag) ? getClassJSON()[task.tag] : task.tag
             }</div></div><div data-role="edit-card" class="task-card-action"><object class="task-card-action-icon edit-icon" data="../img/icon/tasks/edit-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/edit-icon.png" /></object><object class="task-card-action-icon editing-icon" data="../img/icon/tasks/editing-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/editing-icon.png" /></object></div></div>`;
           } else {
             has_iframe = true;
             card_content = `
-            <div class="iframe-content task-card-content" style="background: ${task.iframe_bg ? task.iframe_bg : "ffffff"}'"><iframe src="${task.iframe_url}" style="border: none; border-radius: 15px; overflow:hidden; background: ${
+            <div class="iframe-content task-card-loading task-card-content" style="background: ${task.iframe_bg ? task.iframe_bg : "ffffff"}'"><iframe src="${task.iframe_url}" style="border: none; border-radius: 15px; overflow:hidden; background: ${
               task.iframe_bg
             };" name="vite-task" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" height="100%" width="100%"></iframe><div data-role="edit-card" class="task-card-action"><object class="task-card-action-icon edit-icon" data="../img/icon/tasks/edit-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/edit-icon.png" /></object><object class="task-card-action-icon editing-icon" data="../img/icon/tasks/editing-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/editing-icon.png" /></object></div></div>`;
           }
@@ -285,16 +248,19 @@ function makeTasksFromDoc(doc) {
             $("<div></div>", { class: "task-section-header", text: this_date, "data-date": this_date }).appendTo(newHTML);
             lastDate = this_date;
           }
-
-          $(newHTML).append(`
-            <div class="task-card${task.iframe_url ? " task-iframe-card" : ""}" data-task-json-content='${JSON.stringify(task)}' ${
-            task.iframe_url ? "style='display:none'" : ""
-          }>${card_content}<div class="task-card-swipe"><div class="task-card-swipe-done"><object class="task-card-swipe-icon" data="../img/icon/tasks/done-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/done-icon.png" /></object></div><div class="task-card-swipe-archive"><object class="task-card-swipe-icon" data="../img/icon/tasks/archive-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/archive-icon.png" /></object></div></div>`);
+          let task_card = $(
+            `<div class="task-card${
+              task.iframe_url ? " task-iframe-card" : ""
+            }">${card_content}<div class="task-card-swipe"><div class="task-card-swipe-done"><object class="task-card-swipe-icon" data="../img/icon/tasks/done-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/done-icon.png" /></object></div><div class="task-card-swipe-archive"><object class="task-card-swipe-icon" data="../img/icon/tasks/archive-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/archive-icon.png" /></object></div></div>`
+          )
+            .attr({ "data-task-json-content": JSON.stringify(task), style: task.iframe_url ? "background: " + task.iframe_bg : "" })
+            .appendTo(newHTML);
         }
       });
     }
     //check that the current element does not match the new one, if it does, do not replace
     if ($(newHTML).html() != $("[data-role='tasks-list']").html()) {
+      console.log("TASKSLIST: replacing");
       $("[data-role='tasks-list']").replaceWith(newHTML);
       if (has_iframe) {
         $('[data-role="vite-add-card"]').hide();
@@ -302,7 +268,7 @@ function makeTasksFromDoc(doc) {
         $('[data-role="vite-add-card"]').show();
       }
       $(".task-iframe-card iframe").on("load", function () {
-        $(this).closest(".task-card").show();
+        $(this).closest(".task-card").show().removeClass("task-card-loading");
       });
       try {
         $(".task-card").swipe("destroy");
@@ -319,7 +285,7 @@ function makeTasksFromDoc(doc) {
         console.warn("could not setup swipe events", err);
       }
     } else {
-      console.log("task content matched, not replacing");
+      console.log("TASKSLIST: matched");
     }
   }
 }

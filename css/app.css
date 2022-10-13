@@ -687,3 +687,40 @@ iframe.task-card-content,
   padding: 0 34px;
   /* padding-right: 0; */
 }
+@keyframes task-section-header-pulse {
+  0% {
+    opacity: 0.75;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.75;
+  }
+}
+.task-section-header {
+  pointer-events: hover;
+  user-select: none;
+}
+.task-section-header[data-date="Pinned"]:hover {
+  animation: task-section-header-pulse 2s infinite;
+}
+/* animate iframe height in when it loads*/
+@keyframes iframe-height-in {
+  0% {
+    transform-origin: top center;
+    transform: scaleY(0);
+    opacity: 0;
+    margin-bottom: -100px;
+  }
+  100% {
+    transform-origin: top center;
+    transform: scaleY(1);
+    opacity: 1;
+    margin-bottom: 10px;
+  }
+}
+.task-iframe-card {
+  overflow: hidden;
+  animation: iframe-height-in 0.5s ease-in-out;
+}
