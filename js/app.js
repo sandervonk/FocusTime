@@ -6,7 +6,7 @@ $(".nav-item").click(function () {
   $("#content").attr("data-page", $(this).prop("id"));
   $(".carousel-page").removeClass("active");
   $("#" + $(this).prop("id")).addClass("active");
-  $(".task-card").removeClass("editing");
+  $(".task-card").removeClass("editing pinning");
 });
 $('[data-role="create-task"]').click(function () {
   //save task to userdoc db as json using firebase
@@ -48,14 +48,16 @@ $(document.body).click(function (e) {
     $(".task-card.editing").removeClass("editing");
   }
 });
+//skip here
 $(document.body).on("click", ".task-card-date-widget", function () {
-  $(".task-card").not($(this).closest(".task-card")).removeClass("editing");
   $(this)
     .closest(".task-card")
+    .removeClass("pinning editing")
     .addClass("pinning")
-    .toggleClass("pinned")
     .animate({ scrollTop: 0 }, 750, function () {
-      $(this).closest(".task-card").removeClass("pinning").children(".task-card-swipe-pin").click();
+      pinTask($(this));
+      $(this).removeClass("pinning");
+      $(this).closest(".task-card").removeClass("pinning");
     });
 });
 $(document.body).on("click", ".task-card-action", function () {
@@ -230,22 +232,28 @@ function pinTask(task) {
   // update task in userdoc
   try {
     (taskData = JSON.parse(task.attr("data-task-json-content"))), (task_is_pinned = task.hasClass("pinned"));
+
+    // send updates as batch
+    let docref = db.collection("users").doc(auth.currentUser.uid),
+      batch = db.batch();
+    batch.update(docref, { tasks: firebase.firestore.FieldValue.arrayRemove(taskData) });
+    batch.update(docref, { tasks: firebase.firestore.FieldValue.arrayUnion({ ...taskData, is_pinned: !task_is_pinned }) });
+    batch
+      .commit()
+      .then(() => {
+        task.toggleClass("pinned");
+        if (!task_is_pinned) {
+          new Toast("Task pinned to the top of the list", "default", 3000, "../img/icon/toast/info-pinned-icon.svg");
+        } else {
+          new Toast("Task unpinned from the top of the list", "default", 3000, "../img/icon/toast/info-unpinned-icon.svg");
+        }
+      })
+      .catch((err) => {
+        throw err;
+      });
   } catch (err) {
-    return new ErrorToast(`Could not ${task.hasClass("pinned") ? "un" : ""}pin task`, cleanError(err), 2000);
+    return new ErrorToast(`Could not ${task.hasClass("pinned") ? "un" : ""}pin task`, err.toString().includes("uid") ? "authentication has not been established yet" : cleanError(err), 2000);
   }
-  // send updates as batch
-  let docref = db.collection("users").doc(auth.currentUser.uid),
-    batch = db.batch();
-  batch.update(docref, { tasks: firebase.firestore.FieldValue.arrayRemove(taskData) });
-  batch.update(docref, { tasks: firebase.firestore.FieldValue.arrayUnion({ ...taskData, is_pinned: !task_is_pinned }) });
-  batch.commit().then(() => {
-    task.toggleClass("pinned");
-    if (!task_is_pinned) {
-      new Toast("Task pinned to the top of the list", "default", 3000, "../img/icon/toast/info-pinned-icon.svg");
-    } else {
-      new Toast("Task unpinned from the top of the list", "default", 3000, "../img/icon/toast/info-unpinned-icon.svg");
-    }
-  });
 }
 function makeTasksFromDoc(doc) {
   if (doc.exists) {
