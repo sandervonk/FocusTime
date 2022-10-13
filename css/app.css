@@ -606,7 +606,8 @@ iframe.task-card-content,
   justify-content: center;
   align-items: center;
 }
-.task-card-swipe-icon {
+.task-card-swipe-icon,
+.task-card-pin-icon {
   opacity: 0.3;
   width: 30px;
   height: 30px;
