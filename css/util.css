@@ -177,7 +177,7 @@ button {
   width: calc(100% - 40px);
   z-index: 262143;
   border-radius: 30px;
-  margin: 20px;
+  /* margin: 20px; */
   padding: 15px;
   box-sizing: border-box;
   background-color: var(--popup-bg);

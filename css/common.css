@@ -81,7 +81,7 @@ button:not(.popup-button) {
   box-sizing: border-box;
   margin: 0;
   height: 50px;
-  width: 100%;
+  /* width: 100%; */
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
