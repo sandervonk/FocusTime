@@ -356,6 +356,9 @@ select:invalid {
   width: 100%;
   opacity: 0.25;
 }
+#todo-container:not(:empty) {
+  padding-bottom: 10px;
+}
 .carousel-page:not(.active) {
   overflow-y: hidden !important;
 }
@@ -770,4 +773,51 @@ iframe.task-card-content,
 .task-card:not(.pinned) .task-card-pin-icon.alt-icon,
 .task-card.pinned .task-card-pin-icon:not(.alt-icon) {
   display: none;
+}
+.session-task-card {
+  background-color: var(--secondary-bg);
+  border-radius: 50px;
+  height: 30px;
+  padding: 5px;
+  margin: 0 0 10px 0;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+.session-task-card-title {
+  font-family: "Montserrat", sans-serif;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-basis: 30px;
+  flex-shrink: 1;
+  flex-grow: 1;
+  padding-left: 10px;
+  padding-right: 5px;
+  text-align: left;
+}
+.session-task-card * {
+  pointer-events: none;
+  user-select: none;
+}
+.session-task-card::before {
+  content: "";
+  background-color: var(--accent-4);
+  background-image: url(../img/icon/login/check-alt.svg);
+  background-size: 24px;
+  background-repeat: none;
+  background-position: center center;
+  border-radius: 30px;
+  width: 30px;
+  height: 30px;
+  z-index: 2;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+.session-task-card.checked::before {
+  background-color: var(--accent-1);
+  background-image: url(../img/icon/login/check.svg);
+  background-size: 28px;
 }

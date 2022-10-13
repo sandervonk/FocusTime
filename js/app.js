@@ -179,7 +179,7 @@ $(document.body).on("click", "[data-role='clear-completed'], .DATA-clear-complet
 $('[data-role="add-vite-card"]').click(function () {
   db.collection("users")
     .doc(user.uid)
-    .update({ tasks: firebase.firestore.FieldValue.arrayUnion({ iframe_url: "/VITE/embed/task.html", iframe_bg: "#1d55a8", date: "top", is_pinned: true }) })
+    .update({ tasks: firebase.firestore.FieldValue.arrayUnion({ iframe_url: "/VITE/embed/task.html", iframe_bg: "#1d55a8", date: "top", is_pinned: true, title: "VITE! French Practice" }) })
     .then(() => {
       new Toast("Added VITE! card!", "default", 4000, "//sander.vonk.one/VITE/img/icon/concern-icon.svg");
     })
@@ -212,6 +212,9 @@ $("[data-auth-role='logoutprompt']").click(function () {
 $(document.body).on("click", "[data-auth-role='logout'], .data-auth-logout", function () {
   localStorage.clear();
   auth.signOut();
+});
+$(document.body).on("click", ".session-task-card", function () {
+  $(this).toggleClass("checked");
 });
 function docFromCashe() {
   return {
@@ -259,6 +262,7 @@ function makeTasksFromDoc(doc) {
   if (doc.exists) {
     let tasks = doc.data().tasks,
       newHTML = $(`<div data-role="tasks-list"></div>`),
+      sessionHTML = $(`<div id="todo-container" data-role="todo-container"></div>`),
       has_iframe = false,
       lastDate = 0,
       this_date;
@@ -287,6 +291,9 @@ function makeTasksFromDoc(doc) {
             $("<div></div>", { class: "task-section-header", text: this_date, "data-date": this_date }).appendTo(newHTML);
             lastDate = this_date;
           }
+          $(`<div><div class='session-task-card-title'>${task.title ? task.title : "No Title / iframe"}</div></div>`)
+            .attr({ class: "session-task-card", "data-task-json-content": JSON.stringify(task) })
+            .appendTo(sessionHTML);
           $(
             `<div class="task-card${task.iframe_url ? " task-iframe-card" : ""}${task.is_pinned ? " pinned" : ""}">
             <div class="task-card-swipe-pin"><object class="task-card-pin-icon" data="../img/icon/tasks/pin-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/pin-icon.png" /></object><object class="task-card-pin-icon alt-icon" data="../img/icon/tasks/pin-icon-alt.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/pin-icon-alt.png" /></object></div>
@@ -305,6 +312,7 @@ function makeTasksFromDoc(doc) {
     if ($(newHTML).text() != $("[data-role='tasks-list']").text()) {
       console.log("TASKSLIST: replacing");
       $("[data-role='tasks-list']").replaceWith(newHTML);
+      $("[data-role='todo-container']").replaceWith(sessionHTML);
       if (has_iframe) {
         $('[data-role="vite-add-card"]').hide();
       } else {
