@@ -239,17 +239,17 @@ function makeTasksFromDoc(doc) {
           let card_content;
           if (!task.iframe_url) {
             card_content = `
-            <div class="task-card-content"><div class="task-card-widgets"><div class="task-card-time-widget"><object class="task-card-widget-icon" data="../img/icon/tasks/clock-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/clock-icon.png" /></object><span class="task-card-time">${
+            <div class="task-card-content"><div class="task-card-widgets"><div class="task-card-time-widget"><object class="task-card-widget-icon" data="../img/icon/tasks/clock-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/clock-icon.png" /></object><span class="task-card-time">${
               task.time
-            } minutes</span></div><div class="task-card-date-widget"><object class="task-card-widget-icon" data="../img/icon/tasks/date-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/date-icon.png" /></object><span class="task-card-time">${task.date && task.date != "priority" ? task.date : "No Goal Date"}</span></div></div><hr /><div class="task-card-info"><div class="task-card-title">${task.title}</div><div class="task-card-tag">${
+            } minutes</span></div><div class="task-card-date-widget"><object class="task-card-widget-icon" data="../img/icon/tasks/date-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/date-icon.png" /></object><span class="task-card-time">${task.date && task.date != "priority" ? task.date : "No Goal Date"}</span></div></div><hr /><div class="task-card-info"><div class="task-card-title">${task.title}</div><div class="task-card-tag">${
               Object.keys(getClassJSON()).includes(task.tag) ? getClassJSON()[task.tag] : task.tag
-            }</div></div><div data-role="edit-card" class="task-card-action"><object class="task-card-action-icon edit-icon" data="../img/icon/tasks/edit-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/edit-icon.png" /></object><object class="task-card-action-icon editing-icon" data="../img/icon/tasks/editing-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/editing-icon.png" /></object></div></div>`;
+            }</div></div><div data-role="edit-card" class="task-card-action"><object class="task-card-action-icon edit-icon" data="../img/icon/tasks/edit-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/edit-icon.png" /></object><object class="task-card-action-icon editing-icon" data="../img/icon/tasks/editing-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/editing-icon.png" /></object></div></div>`;
           } else {
             has_iframe = true;
             card_content = `
-            <div class="iframe-content task-card-loading task-card-content" style="background: ${task.iframe_bg ? task.iframe_bg : "ffffff"}'"><iframe src="${task.iframe_url}" style="border: none; border-radius: 15px; overflow:hidden; background: ${
+            <div class="iframe-content task-card-loading task-card-content" style="background: ${task.iframe_bg ? task.iframe_bg : "ffffff"}'"><iframe title="Task Embed Content" src="${task.iframe_url}" style="border: none; border-radius: 15px; overflow:hidden; background: ${
               task.iframe_bg
-            };" name="vite-task" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" height="100%" width="100%"></iframe><div data-role="edit-card" class="task-card-action"><object class="task-card-action-icon edit-icon" data="../img/icon/tasks/edit-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/edit-icon.png" /></object><object class="task-card-action-icon editing-icon" data="../img/icon/tasks/editing-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/editing-icon.png" /></object></div></div>`;
+            };" name="vite-task" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" height="100%" width="100%"></iframe><div data-role="edit-card" class="task-card-action"><object class="task-card-action-icon edit-icon" data="../img/icon/tasks/edit-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/edit-icon.png" /></object><object class="task-card-action-icon editing-icon" data="../img/icon/tasks/editing-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/editing-icon.png" /></object></div></div>`;
           }
           //if date different from last date, show message in console, will add header later
           this_date = getDateText(task.date);
@@ -259,11 +259,11 @@ function makeTasksFromDoc(doc) {
           }
           $(
             `<div class="task-card${task.iframe_url ? " task-iframe-card" : ""}">
-            <div class="task-card-swipe-pin"><object class="task-card-pin-icon" data="../img/icon/tasks/pin-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/pin-icon.png" /></object></div>
+            <div class="task-card-swipe-pin"><object class="task-card-pin-icon" data="../img/icon/tasks/pin-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/pin-icon.png" /></object></div>
             ${card_content}
             <div class="task-card-swipe">
-              <div class="task-card-swipe-done"><object class="task-card-swipe-icon" data="../img/icon/tasks/done-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/done-icon.png" /></object></div>
-              <div class="task-card-swipe-archive"><object class="task-card-swipe-icon" data="../img/icon/tasks/archive-icon.svg" type="image/svg+xml"><img src="../img/icon/tasks/archive-icon.png" /></object></div>
+              <div class="task-card-swipe-done"><object class="task-card-swipe-icon" data="../img/icon/tasks/done-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/done-icon.png" /></object></div>
+              <div class="task-card-swipe-archive"><object class="task-card-swipe-icon" data="../img/icon/tasks/archive-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/archive-icon.png" /></object></div>
             </div>`
           )
             .attr({ "data-task-json-content": JSON.stringify(task), style: task.iframe_url ? "background: " + task.iframe_bg : "" })
@@ -272,7 +272,7 @@ function makeTasksFromDoc(doc) {
       });
     }
     //check that the current element does not match the new one, if it does, do not replace
-    if ($(newHTML).html() != $("[data-role='tasks-list']").html()) {
+    if ($(newHTML).text() != $("[data-role='tasks-list']").text()) {
       console.log("TASKSLIST: replacing");
       $("[data-role='tasks-list']").replaceWith(newHTML);
       if (has_iframe) {
@@ -301,7 +301,6 @@ function makeTasksFromDoc(doc) {
                 .animate({ scrollTop: 0 }, 750, function () {
                   $(this).closest(".task-card").removeClass("pinning").children(".task-card-swipe-pin").click();
                 });
-              console.log($(this).closest(".task-card")[0].className);
             }
           },
         });

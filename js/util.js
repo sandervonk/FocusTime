@@ -26,7 +26,7 @@ class Toast {
     overlay.classList.add("toast-overlay");
     toast.classList.add(this.type);
     if (this.icon != "") {
-      toast.innerHTML += `<img src="${this.icon}" class="toast-icon" alt="Toast Popup Icon">`;
+      toast.innerHTML += `<img alt="icon" src="${this.icon}" class="toast-icon" alt="Toast Popup Icon">`;
     }
     toast.innerHTML += this.message;
     if (this.action != "") {
@@ -82,7 +82,7 @@ class Popup {
       $("<button></button>", { class: "popup-button " + (actionInfo[2] ? actionInfo[2] : ""), onclick: actionInfo[0], text: actionInfo[1] }).appendTo(buttons);
     }
     if (this.icon) {
-      $("<img>", { src: this.icon, class: "popup-icon", alt: "Popup Icon" }).appendTo(toast);
+      $("<img alt='icon'>", { src: this.icon, class: "popup-icon", alt: "Popup Icon" }).appendTo(toast);
     }
     if (this.title) {
       $("<div></div>", { text: this.title, class: "popup-title" }).appendTo(toast);
