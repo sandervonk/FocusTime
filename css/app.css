@@ -762,3 +762,12 @@ iframe.task-card-content,
   overflow: hidden;
   animation: iframe-height-in 0.5s ease-in-out;
 }
+
+.task-card.pinned .task-card-pin-icon.alt-icon,
+.task-card:not(.pinned) .task-card-pin-icon:not(.alt-icon) {
+  display: flex;
+}
+.task-card:not(.pinned) .task-card-pin-icon.alt-icon,
+.task-card.pinned .task-card-pin-icon:not(.alt-icon) {
+  display: none;
+}

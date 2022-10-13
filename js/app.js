@@ -52,7 +52,8 @@ $(document.body).on("click", ".task-card-date-widget", function () {
   $(".task-card").not($(this).closest(".task-card")).removeClass("editing");
   $(this)
     .closest(".task-card")
-    .toggleClass("pinning")
+    .addClass("pinning")
+    .toggleClass("pinned")
     .animate({ scrollTop: 0 }, 750, function () {
       $(this).closest(".task-card").removeClass("pinning").children(".task-card-swipe-pin").click();
     });
@@ -225,6 +226,27 @@ function sortByDate(a, b) {
   let is_lower = a_is_raised || (!b.is_raised && new Date(a.date).getTime() < new Date(b.date).getTime());
   return !is_lower ? 1 : -1;
 }
+function pinTask(task) {
+  // update task in userdoc
+  try {
+    (taskData = JSON.parse(task.attr("data-task-json-content"))), (task_is_pinned = task.hasClass("pinned"));
+  } catch (err) {
+    return new ErrorToast(`Could not ${task.hasClass("pinned") ? "un" : ""}pin task`, cleanError(err), 2000);
+  }
+  // send updates as batch
+  let docref = db.collection("users").doc(auth.currentUser.uid),
+    batch = db.batch();
+  batch.update(docref, { tasks: firebase.firestore.FieldValue.arrayRemove(taskData) });
+  batch.update(docref, { tasks: firebase.firestore.FieldValue.arrayUnion({ ...taskData, is_pinned: !task_is_pinned }) });
+  batch.commit().then(() => {
+    task.toggleClass("pinned");
+    if (!task_is_pinned) {
+      new Toast("Task pinned to the top of the list", "default", 3000, "../img/icon/toast/info-pinned-icon.svg");
+    } else {
+      new Toast("Task unpinned from the top of the list", "default", 3000, "../img/icon/toast/info-unpinned-icon.svg");
+    }
+  });
+}
 function makeTasksFromDoc(doc) {
   if (doc.exists) {
     let tasks = doc.data().tasks,
@@ -252,14 +274,14 @@ function makeTasksFromDoc(doc) {
             };" name="vite-task" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" height="100%" width="100%"></iframe><div data-role="edit-card" class="task-card-action"><object class="task-card-action-icon edit-icon" data="../img/icon/tasks/edit-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/edit-icon.png" /></object><object class="task-card-action-icon editing-icon" data="../img/icon/tasks/editing-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/editing-icon.png" /></object></div></div>`;
           }
           //if date different from last date, show message in console, will add header later
-          this_date = getDateText(task.date);
+          this_date = getDateText(task.date, task.is_pinned);
           if (lastDate != this_date) {
             $("<div></div>", { class: "task-section-header", text: this_date, "data-date": this_date }).appendTo(newHTML);
             lastDate = this_date;
           }
           $(
-            `<div class="task-card${task.iframe_url ? " task-iframe-card" : ""}">
-            <div class="task-card-swipe-pin"><object class="task-card-pin-icon" data="../img/icon/tasks/pin-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/pin-icon.png" /></object></div>
+            `<div class="task-card${task.iframe_url ? " task-iframe-card" : ""}${task.is_pinned ? " pinned" : ""}">
+            <div class="task-card-swipe-pin"><object class="task-card-pin-icon" data="../img/icon/tasks/pin-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/pin-icon.png" /></object><object class="task-card-pin-icon alt-icon" data="../img/icon/tasks/pin-icon-alt.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/pin-icon-alt.png" /></object></div>
             ${card_content}
             <div class="task-card-swipe">
               <div class="task-card-swipe-done"><object class="task-card-swipe-icon" data="../img/icon/tasks/done-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/done-icon.png" /></object></div>
@@ -299,7 +321,9 @@ function makeTasksFromDoc(doc) {
                 .removeClass("pinning")
                 .addClass("pinning")
                 .animate({ scrollTop: 0 }, 750, function () {
-                  $(this).closest(".task-card").removeClass("pinning").children(".task-card-swipe-pin").click();
+                  pinTask($(this));
+                  $(this).removeClass("pinning");
+                  $(this).closest(".task-card").removeClass("pinning");
                 });
             }
           },
@@ -312,10 +336,10 @@ function makeTasksFromDoc(doc) {
     }
   }
 }
-function getDateText(date) {
+function getDateText(date, pinned = false) {
   if (!date || date == "priority") {
     return "Priority";
-  } else if (date == "top") {
+  } else if (date == "top" || pinned) {
     return "Pinned";
   } else if (new Date().toISOString().split("T")[0] == date) {
     return "Today";
