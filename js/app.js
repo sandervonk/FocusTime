@@ -361,7 +361,7 @@ function getDateText(date, pinned = false) {
     return "Today";
   } else {
     //format date and add th, nd, st, etc endings
-    let formatted_date = new Date(date).toLocaleDateString("en-us", { weekday: "long", month: "long", day: "numeric" });
+    let formatted_date = new Date(date).toLocaleDateString("en-us", { weekday: "long", month: "long", day: "numeric", timeZone: "UTC" });
     let day = formatted_date.split(" ")[2],
       day_endings = ["th", "st", "nd", "rd"];
     let day_ending = day_endings[0];

@@ -124,3 +124,5 @@ $("#signup").click(() => {
       });
   }
 });
+// workaround for swipe blocking events to inputs, disable on this page
+$("#raised-content.raise-class").off();
