@@ -1,24 +1,30 @@
 const firebaseConfig = {
-  apiKey: "AIzaSyBtV4ajO6P0PH3aje1J0UedJj8zSYgqy9w",
-  authDomain: "focustime-a18ff.firebaseapp.com",
-  projectId: "focustime-a18ff",
-  storageBucket: "focustime-a18ff.appspot.com",
-  messagingSenderId: "1081184659635",
-  appId: "1:1081184659635:web:c62431e60888334575e8c6",
-  measurementId: "G-N8T6NFR8GN",
-};
-var getClassJSON = function () {
-  let classDictionary = {
+    apiKey: "AIzaSyBtV4ajO6P0PH3aje1J0UedJj8zSYgqy9w",
+    authDomain: "focustime-a18ff.firebaseapp.com",
+    projectId: "focustime-a18ff",
+    storageBucket: "focustime-a18ff.appspot.com",
+    messagingSenderId: "1081184659635",
+    appId: "1:1081184659635:web:c62431e60888334575e8c6",
+    measurementId: "G-N8T6NFR8GN",
+  },
+  baseclasses = {
     apush: "AP US History",
     calc: "AP Calc BC",
     french: "AP French Language",
     mads: "Madrigals",
     physics: "AP Physics 1",
     hamlit: "Honors American Literature",
+    other: "Other",
   };
-  // load other keys from document
-  for (let key in userDocCache.classes) {
-    classDictionary[key] = userDocCache.classes[key];
+var getClassJSON = function () {
+  let classDictionary = baseclasses;
+  try {
+    // load other keys from document
+    for (let key in userDocCache.classes) {
+      classDictionary[key] = userDocCache.classes[key];
+    }
+  } catch {
+    classDictionary = baseclasses;
   }
   return classDictionary;
 };

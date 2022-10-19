@@ -15,12 +15,18 @@ $('[data-role="create-task"]').click(function () {
     title: $('[data-role="task-info-title"]').val(),
     tag: $('[data-role="task-info-tag"]')[0].value,
     time: parseInt($('[data-role="time-radio-group"] input:checked').val()),
-    date: new Date($('[data-role="task-info-date"]').val()).toISOString().split("T")[0],
   };
+
   if (Object.values(task).includes("")) {
     new WarningToast("Please fill out all fields", 3000);
     return;
   } else {
+    task.date = $('[data-role="task-info-date"]').val();
+    try {
+      task.date = task.date ? new Date(task.date).toISOString().split("T")[0] : "";
+    } catch (err) {
+      task.date = "";
+    }
     // save task to firestore under userdoc
     db.collection("users")
       .doc(user.uid)
@@ -29,6 +35,7 @@ $('[data-role="create-task"]').click(function () {
         $('[data-role="task-info-title"], [data-role="task-info-tag"], [data-role="task-info-date"]').val("");
         $("#time-30").prop("checked", true);
         new Toast("Task created!", "default", 1000, "//sander.vonk.one/FocusTime/img/icon/toast/success-icon.svg");
+        $(".nav-item#home").click();
       })
       .catch((error) => {
         new ErrorToast("Could not save task to userdoc", cleanError(error), 2000);
@@ -141,6 +148,9 @@ $("#card-completed").click(function () {
     ["removePopup();", "Delete", "secondary-action blue-button DATA-clear-completed-tasks"],
     ["removePopup();", "Archive", "primary-action blue-button DATA-clear-completed-tasks DATA-save-archive"],
   ]);
+});
+$("#card-time").click(function () {
+  $(document.body).toggleClass("full-width-list");
 });
 $(document.body).on("click", "[data-role='clear-completed'], .DATA-clear-completed-tasks", function () {
   //archive all tasks from userdoc
@@ -306,6 +316,11 @@ function makeTasksFromDoc(doc) {
             .attr({ "data-task-json-content": JSON.stringify(task), style: task.iframe_url ? "background: " + task.iframe_bg : "" })
             .appendTo(newHTML);
         }
+      });
+      //wrap groups of tasks by day using wrapAll() on header and following .task-cards
+      newHTML.children(".task-section-header").each(function () {
+        let $section_header = $(this);
+        $section_header.nextUntil(".task-section-header").addBack().wrapAll(`<div class='task-section' data-date='${$section_header.text()}'></div>`);
       });
     }
     //check that the current element does not match the new one, if it does, do not replace
