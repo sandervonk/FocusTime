@@ -106,6 +106,7 @@ $(document.body).on("click", ".task-card-swipe-archive", function () {
 $(document.body).on("click", ".task-card-swipe-done", function () {
   // $(this).closest(".task-card").addClass("swipe-out");
   $(this).closest(".task-card").addClass("completed");
+  $(this).closest(".task-card").removeClass("editing");
   $(this)
     .closest(".task-card")
     .animate(
