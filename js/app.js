@@ -280,10 +280,7 @@ function makeTasksFromDoc(doc) {
     if (tasks) {
       tasks.sort(sortByDate);
       tasks.forEach((task) => {
-        // is not completed, or is still in the future
-        console.log("Tasks:", task, task.date);
-        console.log("Show?", !task.is_completed || (task.date && new Date(task.date).getTime() > new Date().getTime()));
-        if (!task.is_completed || (task.date && new Date(task.date).getTime() > new Date().getTime())) {
+        if (!task.is_completed || (task.date && new Date(task.date).getTime() > new Date().getTime() - 86400000)) {
           let card_content;
           if (!task.iframe_url) {
             card_content = `
