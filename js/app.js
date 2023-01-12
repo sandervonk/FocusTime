@@ -104,12 +104,13 @@ $(document.body).on("click", ".task-card-swipe-archive", function () {
 });
 
 $(document.body).on("click", ".task-card-swipe-done", function () {
-  $(this).closest(".task-card").addClass("swipe-out");
+  // $(this).closest(".task-card").addClass("swipe-out");
+  $(this).closest(".task-card").addClass("completed");
   $(this)
     .closest(".task-card")
     .animate(
       {
-        left: "-100%",
+        top: "0%",
       },
       500,
       function () {
@@ -117,7 +118,7 @@ $(document.body).on("click", ".task-card-swipe-done", function () {
           let task = JSON.parse($(this).attr("data-task-json-content")),
             doneTask = JSON.parse($(this).attr("data-task-json-content"));
           doneTask.is_completed = true;
-          $(this).remove();
+          // $(this).remove();
           if (task != doneTask) {
             let docref = db.collection("users").doc(user.uid),
               batch = db.batch();
@@ -279,7 +280,10 @@ function makeTasksFromDoc(doc) {
     if (tasks) {
       tasks.sort(sortByDate);
       tasks.forEach((task) => {
-        if (!task.is_completed) {
+        // is not completed, or is still in the future
+        console.log("Tasks:", task, task.date);
+        console.log("Show?", !task.is_completed || (task.date && new Date(task.date).getTime() > new Date().getTime()));
+        if (!task.is_completed || (task.date && new Date(task.date).getTime() > new Date().getTime())) {
           let card_content;
           if (!task.iframe_url) {
             card_content = `
@@ -305,7 +309,7 @@ function makeTasksFromDoc(doc) {
             .attr({ class: "session-task-card", "data-task-json-content": JSON.stringify(task) })
             .appendTo(sessionHTML);
           $(
-            `<div class="task-card${task.iframe_url ? " task-iframe-card" : ""}${task.is_pinned ? " pinned" : ""}">
+            `<div class="task-card${task.iframe_url ? " task-iframe-card" : ""}${task.is_pinned ? " pinned" : ""}${task.is_completed ? " completed" : ""}">
             <div class="task-card-swipe-pin"><object class="task-card-pin-icon" data="../img/icon/tasks/pin-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/pin-icon.png" /></object><object class="task-card-pin-icon alt-icon" data="../img/icon/tasks/pin-icon-alt.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/pin-icon-alt.png" /></object></div>
             ${card_content}
             <div class="task-card-swipe">
