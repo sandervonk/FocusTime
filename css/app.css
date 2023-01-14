@@ -495,7 +495,7 @@ iframe.task-card-content,
   height: 100%;
   pointer-events: none;
 }
-.task-card:not(.completed):not(.editing) .task-card-title {
+.task-card .task-card-title {
   font-family: "Montserrat", sans-serif;
   font-size: 20px;
   font-weight: 700;
@@ -506,6 +506,8 @@ iframe.task-card-content,
   white-space: nowrap;
   text-overflow: ellipsis;
   width: 100%;
+}
+.task-card.completed:not(.completed):not(.editing) .task-card-title {
   /* for title hover */
   pointer-events: all;
   cursor: help;

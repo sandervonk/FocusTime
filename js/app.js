@@ -1,4 +1,5 @@
-const section_break = `<div class="time-section-break">Nothing Planned Yet</div>`;
+const section_break = `<div class="time-section-break">Nothing Planned</div>`,
+  day_ms = 24 * 60 * 60 * 1000;
 $(".nav-item").click(function () {
   $(".nav-item").removeClass("active");
   $(this).addClass("active");
@@ -45,11 +46,7 @@ $('[data-role="create-task"]').click(function () {
 });
 $("#add .card *").on("change input click", function () {
   //check if all fields are filled out
-  if ($('[data-role="task-info-title"]').val() && $('[data-role="task-info-tag"]').val() && $("[name='time-allocated']:checked").length) {
-    $('[data-role="create-task"]').removeClass("disabled");
-  } else {
-    $('[data-role="create-task"]').addClass("disabled");
-  }
+  void $('[data-role="task-info-title"]').val() && $('[data-role="task-info-tag"]').val() && $("[name='time-allocated']:checked").length ? $('[data-role="create-task"]').removeClass("disabled") : $('[data-role="create-task"]').addClass("disabled");
 });
 $(document.body).click(function (e) {
   if (!$(e.target).closest(".task-card.editing").length && !$(e.target).hasClass("task-card-action")) {
@@ -143,6 +140,15 @@ $(document.body).on("click", ".task-card-swipe-done", function () {
 });
 $("#card-completed").click(function () {
   // show popup to delete completed tasks with options to cancel, delete permanantly or archive
+  new Popup(["Completed tasks", "Are you sure you want to delete all completed tasks before today?"], "default", 10000, "/FocusTime/img/icon/popup-done.svg", [
+    ["removePopup();", "Cancel", "secondary-action fullborder"],
+    ["", "", "popup-divider"],
+    ["removePopup();", "Delete", "secondary-action blue-button DATA-clear-completed-tasks"],
+    ["removePopup();", "Archive", "primary-action blue-button DATA-clear-completed-old-tasks DATA-save-old-archive"],
+  ]);
+});
+$("#card-completed").on("contextmenu", function () {
+  // show popup to delete completed tasks with options to cancel, delete permanantly or archive
   new Popup(["Completed tasks", "Are you sure you want to delete all completed tasks?"], "default", 10000, "/FocusTime/img/icon/popup-done.svg", [
     ["removePopup();", "Cancel", "secondary-action fullborder"],
     ["", "", "popup-divider"],
@@ -153,14 +159,20 @@ $("#card-completed").click(function () {
 $("#card-time").click(function () {
   $(document.body).toggleClass("full-width-list");
 });
-$(document.body).on("click", "[data-role='clear-completed'], .DATA-clear-completed-tasks", function () {
+$(document.body).on("click", "[data-role='clear-completed'], .DATA-clear-completed-tasks, .DATA-clear-completed-old-tasks", function () {
   //archive all tasks from userdoc
-  let save_archive = $(this).attr("data-save-archive") || $(this).hasClass("DATA-save-archive");
+  let save_archive = $(this).attr("data-save-archive") || $(this).hasClass("DATA-save-archive"),
+    do_old_only = $(this).attr("DATA-clear-completed-old-tasks") || $(this).hasClass("DATA-save-old-archive");
   db.collection("users")
     .doc(user.uid)
     .get()
     .then((doc) => {
       let tasks = doc.data().tasks;
+      if (do_old_only) {
+        tasks = $.grep(tasks, function (t) {
+          return new Date(t.date).getTime() + day_ms < new Date().getTime();
+        });
+      }
       if (tasks.length > 0) {
         let archivedTasks = $.grep(tasks, function (t) {
           return t.is_completed;
@@ -284,19 +296,19 @@ function makeTasksFromDoc(doc) {
           task.title = "Untitled Task";
         }
         // replace special characters with their html entity
-        task.title = task.title.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
+        task.title_clean = task.title.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
         // remove other special characters except for html entities
-        task.title = task.title.replace(/[^a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/? ]/g, "");
+        task.title_clean = task.title_clean.replace(/[^a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/? ]/g, "");
       });
       tasks.sort(sortByDate);
       tasks.forEach((task) => {
-        if (!task.is_completed || (task.date && new Date(task.date).getTime() > new Date().getTime() - 86400000)) {
+        if (!task.is_completed || (task.date && new Date(task.date).getTime() > new Date().getTime() - day_ms)) {
           let card_content;
           if (!task.iframe_url) {
             card_content = `
             <div class="task-card-content"><div class="task-card-widgets"><div class="task-card-time-widget"><object class="task-card-widget-icon" data="../img/icon/tasks/clock-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/clock-icon.png" /></object><span class="task-card-time">${
               task.time
-            } minutes</span></div><div class="task-card-date-widget"><object class="task-card-widget-icon" data="../img/icon/tasks/date-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/date-icon.png" /></object><span class="task-card-time">${task.date && task.date != "priority" ? task.date : "No Goal Date"}</span></div></div><hr /><div class="task-card-info"><div class="task-card-title" title="${task.title}">${task.title}</div><div class="task-card-tag">${
+            } minutes</span></div><div class="task-card-date-widget"><object class="task-card-widget-icon" data="../img/icon/tasks/date-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/date-icon.png" /></object><span class="task-card-time">${task.date && task.date != "priority" ? task.date : "No Goal Date"}</span></div></div><hr /><div class="task-card-info"><div class="task-card-title" title="${task.title}">${task.title_clean}</div><div class="task-card-tag">${
               Object.keys(getClassJSON()).includes(task.tag) ? getClassJSON()[task.tag] : task.tag
             }</div></div><div data-role="edit-card" class="task-card-action"><object class="task-card-action-icon edit-icon" data="../img/icon/tasks/edit-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/edit-icon.png" /></object><object class="task-card-action-icon editing-icon" data="../img/icon/tasks/editing-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/editing-icon.png" /></object></div></div>`;
           } else {
@@ -306,12 +318,13 @@ function makeTasksFromDoc(doc) {
               task.iframe_bg
             };" name="vite-task" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" height="100%" width="100%"></iframe><div data-role="edit-card" class="task-card-action"><object class="task-card-action-icon edit-icon" data="../img/icon/tasks/edit-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/edit-icon.png" /></object><object class="task-card-action-icon editing-icon" data="../img/icon/tasks/editing-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/editing-icon.png" /></object></div></div>`;
           }
-          //if date different from last date, show message in console, will add header later
           this_date = getDateText(task.date, task.is_pinned);
           if (lastDate != this_date) {
             $("<div></div>", { class: "task-section-header", text: this_date, "data-date": this_date, timestamp: task.is_pinned ? "Pinned" : task.date ? task.date : "" }).appendTo(newHTML);
             lastDate = this_date;
           }
+          // remove title_clean attribute from task json
+          delete task.title_clean;
           $(`<div><div class='session-task-card-title'>${task.title ? task.title : "No Title / iframe"}</div></div>`)
             .attr({ class: "session-task-card", "data-task-json-content": JSON.stringify(task) })
             .appendTo(sessionHTML);
@@ -338,8 +351,8 @@ function makeTasksFromDoc(doc) {
         // add a break before the first section if it is not pinned and not before today
       });
       let $first_section = newHTML.children(".task-section").first();
-      if (!new Date($first_section.attr("data-timestamp")).getTime() || new Date($first_section.attr("data-timestamp")).getTime() > new Date().getTime() + 86400000) {
-        $first_section.after(section_break);
+      if (!$first_section.attr("data-timestamp").includes("-") || new Date($first_section.attr("data-timestamp")).getTime() > new Date().getTime() + day_ms) {
+        $first_section.before(section_break);
       }
       // between sections with a gap of 1 day, add a divider
       newHTML.children(".task-section").each(function () {
@@ -348,7 +361,7 @@ function makeTasksFromDoc(doc) {
         if ($next_section.length) {
           let next_date = new Date($next_section.attr("data-timestamp")).getTime(),
             this_date = new Date($section.attr("data-timestamp")).getTime();
-          if (next_date - this_date > 86400000 || !new Date(this_date)) {
+          if (next_date - this_date > day_ms || !new Date(this_date)) {
             $section.after(section_break);
           }
         }
@@ -359,11 +372,7 @@ function makeTasksFromDoc(doc) {
       console.log("TASKSLIST: replacing");
       $("[data-role='tasks-list']").replaceWith(newHTML);
       $("[data-role='todo-container']").replaceWith(sessionHTML);
-      if (has_iframe) {
-        $('[data-role="vite-add-card"]').hide();
-      } else {
-        $('[data-role="vite-add-card"]').show();
-      }
+      void has_iframe ? $("[data-role='vite-add-card']").hide() : $("[data-role='vite-add-card']").show();
       $(".task-iframe-card iframe").on("load", function () {
         $(this).closest(".task-card").show().removeClass("task-card-loading");
       });
@@ -375,19 +384,17 @@ function makeTasksFromDoc(doc) {
             $(this).addClass("editing");
           },
           swipeRight: function () {
-            if ($(this).hasClass("editing")) {
-              $(this).removeClass("editing");
-            } else {
-              $(this)
-                .closest(".task-card")
-                .removeClass("pinning")
-                .addClass("pinning")
-                .animate({ scrollTop: 0 }, 750, function () {
-                  pinTask($(this));
-                  $(this).removeClass("pinning");
-                  $(this).closest(".task-card").removeClass("pinning");
-                });
-            }
+            void $(this).hasClass("editing")
+              ? $(this).removeClass("editing")
+              : $(this)
+                  .closest(".task-card")
+                  .removeClass("pinning")
+                  .addClass("pinning")
+                  .animate({ scrollTop: 0 }, 750, function () {
+                    pinTask($(this));
+                    $(this).removeClass("pinning");
+                    $(this).closest(".task-card").removeClass("pinning");
+                  });
           },
         });
       } catch (err) {

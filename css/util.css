@@ -177,7 +177,6 @@ button {
   width: calc(100% - 40px);
   z-index: 262143;
   border-radius: 30px;
-  /* margin: 20px; */
   padding: 15px;
   box-sizing: border-box;
   background-color: var(--popup-bg);
@@ -191,6 +190,11 @@ button {
   transform-origin: center center;
   transform: translateX(-50%) translateY(-50%);
   animation: popupin 0.25s;
+  max-height: calc(100% - 40px);
+  overflow-y: auto;
+}
+.popup::-webkit-scrollbar {
+  display: none;
 }
 @keyframes fadeout {
   from {
