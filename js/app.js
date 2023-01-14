@@ -1,3 +1,4 @@
+const section_break = `<div class="time-section-break">Nothing Planned Yet</div>`;
 $(".nav-item").click(function () {
   $(".nav-item").removeClass("active");
   $(this).addClass("active");
@@ -104,9 +105,7 @@ $(document.body).on("click", ".task-card-swipe-archive", function () {
 });
 
 $(document.body).on("click", ".task-card-swipe-done", function () {
-  // $(this).closest(".task-card").addClass("swipe-out");
-  $(this).closest(".task-card").addClass("completed");
-  $(this).closest(".task-card").removeClass("editing");
+  $(this).closest(".task-card").addClass("completed").removeClass("editing");
   $(this)
     .closest(".task-card")
     .animate(
@@ -238,9 +237,8 @@ function docFromCashe() {
 }
 
 function sortByDate(a, b) {
-  let a_is_raised = !a.date || a.is_pinned || a.date == "priority" || a.date == "top";
-  let b_is_raised = !b.date || b.is_pinned || b.date == "priority" || b.date == "top";
-  let is_lower = a_is_raised || (!b.is_raised && new Date(a.date).getTime() < new Date(b.date).getTime());
+  let a_is_raised = !a.date || a.is_pinned || a.date == "priority" || a.date == "top",
+    is_lower = a_is_raised || (!b.is_raised && new Date(a.date).getTime() < new Date(b.date).getTime());
   return !is_lower ? 1 : -1;
 }
 function pinTask(task) {
@@ -279,6 +277,17 @@ function makeTasksFromDoc(doc) {
       lastDate = 0,
       this_date;
     if (tasks) {
+      // strip special characters from task content
+      tasks.forEach((task) => {
+        // if it has no title, give it a default title
+        if (!task.title) {
+          task.title = "Untitled Task";
+        }
+        // replace special characters with their html entity
+        task.title = task.title.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
+        // remove other special characters except for html entities
+        task.title = task.title.replace(/[^a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/? ]/g, "");
+      });
       tasks.sort(sortByDate);
       tasks.forEach((task) => {
         if (!task.is_completed || (task.date && new Date(task.date).getTime() > new Date().getTime() - 86400000)) {
@@ -287,7 +296,7 @@ function makeTasksFromDoc(doc) {
             card_content = `
             <div class="task-card-content"><div class="task-card-widgets"><div class="task-card-time-widget"><object class="task-card-widget-icon" data="../img/icon/tasks/clock-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/clock-icon.png" /></object><span class="task-card-time">${
               task.time
-            } minutes</span></div><div class="task-card-date-widget"><object class="task-card-widget-icon" data="../img/icon/tasks/date-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/date-icon.png" /></object><span class="task-card-time">${task.date && task.date != "priority" ? task.date : "No Goal Date"}</span></div></div><hr /><div class="task-card-info"><div class="task-card-title">${task.title}</div><div class="task-card-tag">${
+            } minutes</span></div><div class="task-card-date-widget"><object class="task-card-widget-icon" data="../img/icon/tasks/date-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/date-icon.png" /></object><span class="task-card-time">${task.date && task.date != "priority" ? task.date : "No Goal Date"}</span></div></div><hr /><div class="task-card-info"><div class="task-card-title" title="${task.title}">${task.title}</div><div class="task-card-tag">${
               Object.keys(getClassJSON()).includes(task.tag) ? getClassJSON()[task.tag] : task.tag
             }</div></div><div data-role="edit-card" class="task-card-action"><object class="task-card-action-icon edit-icon" data="../img/icon/tasks/edit-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/edit-icon.png" /></object><object class="task-card-action-icon editing-icon" data="../img/icon/tasks/editing-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/editing-icon.png" /></object></div></div>`;
           } else {
@@ -300,7 +309,7 @@ function makeTasksFromDoc(doc) {
           //if date different from last date, show message in console, will add header later
           this_date = getDateText(task.date, task.is_pinned);
           if (lastDate != this_date) {
-            $("<div></div>", { class: "task-section-header", text: this_date, "data-date": this_date }).appendTo(newHTML);
+            $("<div></div>", { class: "task-section-header", text: this_date, "data-date": this_date, timestamp: task.is_pinned ? "Pinned" : task.date ? task.date : "" }).appendTo(newHTML);
             lastDate = this_date;
           }
           $(`<div><div class='session-task-card-title'>${task.title ? task.title : "No Title / iframe"}</div></div>`)
@@ -322,7 +331,27 @@ function makeTasksFromDoc(doc) {
       //wrap groups of tasks by day using wrapAll() on header and following .task-cards
       newHTML.children(".task-section-header").each(function () {
         let $section_header = $(this);
-        $section_header.nextUntil(".task-section-header").addBack().wrapAll(`<div class='task-section' data-date='${$section_header.text()}'></div>`);
+        $section_header
+          .nextUntil(".task-section-header")
+          .addBack()
+          .wrapAll(`<div class='task-section' data-date='${$section_header.text()}' data-timestamp='${$section_header.attr("timestamp")}'></div>`);
+        // add a break before the first section if it is not pinned and not before today
+      });
+      let $first_section = newHTML.children(".task-section").first();
+      if (!new Date($first_section.attr("data-timestamp")).getTime() || new Date($first_section.attr("data-timestamp")).getTime() > new Date().getTime() + 86400000) {
+        $first_section.after(section_break);
+      }
+      // between sections with a gap of 1 day, add a divider
+      newHTML.children(".task-section").each(function () {
+        let $section = $(this),
+          $next_section = $section.next(".task-section");
+        if ($next_section.length) {
+          let next_date = new Date($next_section.attr("data-timestamp")).getTime(),
+            this_date = new Date($section.attr("data-timestamp")).getTime();
+          if (next_date - this_date > 86400000 || !new Date(this_date)) {
+            $section.after(section_break);
+          }
+        }
       });
     }
     //check that the current element does not match the new one, if it does, do not replace

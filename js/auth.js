@@ -77,12 +77,13 @@ function setupFieldsFromDoc(doc) {
     userDocCache = doc.data();
     try {
       let total = 0,
-        completed = 0,
-        tasks = doc.data().tasks ? doc.data().tasks : [];
-      for (task of doc.data().tasks) {
-        total++;
-        if (task.is_completed) {
-          completed++;
+        completed = 0;
+      for (task of doc.data().tasks ? doc.data().tasks : []) {
+        if ((task.date && !parseInt(task.date)) || (task.date && new Date(task.date).getTime() <= new Date().getTime() + 86400000)) {
+          total++;
+          if (task.is_completed) {
+            completed++;
+          }
         }
       }
       let percentage_completed = parseInt((completed * 100) / total);

@@ -89,6 +89,10 @@ nav {
     transform: translateX(-50%);
     border-radius: 20px 20px 0 0;
   }
+  #daily-task-section {
+    padding-bottom: 40px;
+    margin-bottom: -20px;
+  }
 }
 @media (min-width: 500px) {
   .carousel-page {
@@ -491,7 +495,7 @@ iframe.task-card-content,
   height: 100%;
   pointer-events: none;
 }
-.task-card-title {
+.task-card:not(.completed):not(.editing) .task-card-title {
   font-family: "Montserrat", sans-serif;
   font-size: 20px;
   font-weight: 700;
@@ -502,6 +506,9 @@ iframe.task-card-content,
   white-space: nowrap;
   text-overflow: ellipsis;
   width: 100%;
+  /* for title hover */
+  pointer-events: all;
+  cursor: help;
 }
 .task-card-tag {
   font-family: "Montserrat", sans-serif;
@@ -692,7 +699,8 @@ iframe.task-card-content,
 }
 [data-role="clear-completed"],
 .DATA-clear-completed-tasks,
-#card-completed {
+#card-completed,
+#card-time {
   cursor: pointer !important;
   user-select: none;
   pointer-events: all;
@@ -743,7 +751,7 @@ iframe.task-card-content,
   }
 }
 .task-section-header {
-  pointer-events: hover;
+  pointer-events: all;
   user-select: none;
 }
 .task-section-header[data-date="Pinned"]:hover {
@@ -839,8 +847,9 @@ iframe.task-card-content,
     opacity: 1;
   }
 }
-body.full-width-list [data-role="tasks-list"] {
-  opacity: 0;
+body.full-width-list #raised-content,
+body.full-width-list nav {
+  z-index: 1000000;
 }
 body.full-width-list #content[data-page="home"] [data-role="tasks-list"] {
   flex-flow: row nowrap;
@@ -880,11 +889,11 @@ body.full-width-list .task-section {
   position: absolute;
   width: 100%;
   height: 100%;
-  content: "\2713";
+  content: "\2705";
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 25px;
   font-weight: 600;
   box-sizing: border-box;
   padding: 10px;
@@ -900,4 +909,19 @@ body.full-width-list .task-section {
 }
 .task-card.editing.completed > .task-card-content {
   margin-left: -75px;
+}
+body.full-width-list .time-section-break {
+  display: none;
+}
+body:not(.full-width-list) .time-section-break {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  margin: 40px 0;
+  height: 80px;
+  background-image: url(../img/art/nothing.svg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
