@@ -303,6 +303,9 @@ input[type="text"] {
 #raised-content.raise-class:not(.raised) {
   transform: translate(-50%, calc(100% - 25px)) !important;
 }
+#raised-content.raise-class:not(.raised):hover {
+  transform: translate(-50%, calc(100% - 35px)) !important;
+}
 .raised {
   transform: translate(-50%, 0) !important;
 }

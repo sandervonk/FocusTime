@@ -927,3 +927,37 @@ body:not(.full-width-list) .time-section-break {
   background-repeat: no-repeat;
   background-size: contain;
 }
+
+/* full width stuff */
+@media (min-width: 1040px) {
+  body.full-width-list > nav {
+    left: 0;
+    transform: none;
+    border-top-left-radius: 0;
+  }
+
+  body.full-width-list #raised-content {
+    transform: none !important;
+    margin: 0 !important;
+    margin-left: calc(50% - 500px) !important;
+    bottom: 0 !important;
+  }
+  body.full-width-list #raised-content .raised-section {
+    border-top-right-radius: 0 !important;
+  }
+  body.full-width-list #raised-content:not(.raised) {
+    transform: translateY(calc(100% - 25px)) !important;
+  }
+  body.full-width-list #content:not([data-page="home"]) #home #raised-content {
+    transform: translateY(calc(100% - 25px)) !important;
+  }
+  body.full-width-list #raised-content:not(.raised):hover {
+    transform: translateY(calc(100% - 35px)) !important;
+  }
+  body.full-width-list #content:not([data-page="home"]) #home #raised-content:not(.raised):hover {
+    transform: translateY(calc(100% - 35px)) !important;
+  }
+  body.full-width-list #content:not([data-page="home"]) #home #raised-content.raised:hover {
+    transform: none !important;
+  }
+}
