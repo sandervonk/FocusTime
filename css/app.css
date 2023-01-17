@@ -961,3 +961,6 @@ body:not(.full-width-list) .time-section-break {
     transform: none !important;
   }
 }
+[data-role="tasks-list"] > .time-section-break:first-child {
+    display: none;
+}
