@@ -6,9 +6,7 @@ html {
   background-color: var(--accent-4);
   --bg: var(--accent-4);
 }
-#content {
-  /* padding: 30px; */
-}
+
 nav {
   background-color: var(--footer);
   height: 80px;
@@ -413,7 +411,7 @@ select:invalid {
   flex-shrink: 0;
   flex-grow: 0;
   margin-left: 0;
-  transition: margin-left 0.15s ease-out;
+  transition: margin-left 0.15s ease-out, background-color 0.15s ease-out;
   z-index: 1;
 }
 iframe.task-card-content,
@@ -837,7 +835,7 @@ iframe.task-card-content,
 [data-role="tasks-list"] {
   transition-delay: 0.25s;
   transition-duration: 0.5s;
-  transition-property: transform top left position width height max-width max-height;
+  transition-property: transform, top, left, position, width, height, max-width, max-height;
 }
 @keyframes raise-index {
   75% {
@@ -962,5 +960,16 @@ body:not(.full-width-list) .time-section-break {
   }
 }
 [data-role="tasks-list"] > .time-section-break:first-child {
-    display: none;
+  display: none;
 }
+/* body.full-width-list [data-role="tasks-list"] {
+}
+body.full-width-list #home::before {
+  content: "";
+  position: fixed;
+  right: 0;
+  left: 0;
+  height: calc(100% - 90px);
+  width: 40px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, var(--bg) 75%);
+} */

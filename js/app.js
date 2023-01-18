@@ -46,7 +46,7 @@ $('[data-role="create-task"]').click(function () {
 });
 $("#add .card *").on("change input click", function () {
   //check if all fields are filled out
-  void $('[data-role="task-info-title"]').val() && $('[data-role="task-info-tag"]').val() && $("[name='time-allocated']:checked").length ? $('[data-role="create-task"]').removeClass("disabled") : $('[data-role="create-task"]').addClass("disabled");
+  void ($('[data-role="task-info-title"]').val() && $('[data-role="task-info-tag"]').val() && $("[name='time-allocated']:checked").length ? $('[data-role="create-task"]').removeClass("disabled") : $('[data-role="create-task"]').addClass("disabled"));
 });
 $(document.body).click(function (e) {
   if (!$(e.target).closest(".task-card.editing").length && !$(e.target).hasClass("task-card-action")) {
@@ -372,7 +372,7 @@ function makeTasksFromDoc(doc) {
       console.log("TASKSLIST: replacing");
       $("[data-role='tasks-list']").replaceWith(newHTML);
       $("[data-role='todo-container']").replaceWith(sessionHTML);
-      void has_iframe ? $("[data-role='vite-add-card']").hide() : $("[data-role='vite-add-card']").show();
+      void (has_iframe ? $("[data-role='vite-add-card']").hide() : $("[data-role='vite-add-card']").show());
       $(".task-iframe-card iframe").on("load", function () {
         $(this).closest(".task-card").show().removeClass("task-card-loading");
       });
@@ -384,7 +384,7 @@ function makeTasksFromDoc(doc) {
             $(this).addClass("editing");
           },
           swipeRight: function () {
-            void $(this).hasClass("editing")
+            void ($(this).hasClass("editing")
               ? $(this).removeClass("editing")
               : $(this)
                   .closest(".task-card")
@@ -394,7 +394,7 @@ function makeTasksFromDoc(doc) {
                     pinTask($(this));
                     $(this).removeClass("pinning");
                     $(this).closest(".task-card").removeClass("pinning");
-                  });
+                  }));
           },
         });
       } catch (err) {
