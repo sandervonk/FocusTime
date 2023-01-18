@@ -925,7 +925,9 @@ body:not(.full-width-list) .time-section-break {
   background-repeat: no-repeat;
   background-size: contain;
 }
-
+body.full-width-list .task-card {
+  max-width: calc(100vw - 20px);
+}
 /* full width stuff */
 @media (min-width: 1040px) {
   body.full-width-list > nav {
