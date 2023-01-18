@@ -823,7 +823,7 @@ iframe.task-card-content,
   border-radius: 30px;
   width: 30px;
   height: 30px;
-  z-index: 2;
+  z-index: inherit;
   flex-grow: 0;
   flex-shrink: 0;
 }
