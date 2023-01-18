@@ -306,17 +306,19 @@ function makeTasksFromDoc(doc) {
           let card_content;
           if (!task.iframe_url) {
             card_content = `
-            <div class="task-card-content"><div class="task-card-widgets"><div class="task-card-time-widget"><object class="task-card-widget-icon" data="../img/icon/tasks/clock-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/clock-icon.png" /></object><span class="task-card-time">${
+            <div class="task-card-content"><div class="task-card-widgets"><div class="task-card-time-widget"><object class="task-card-widget-icon" aria-label="Task Icon" data="../img/icon/tasks/clock-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/clock-icon.png" /></object><span class="task-card-time">${
               task.time
-            } minutes</span></div><div class="task-card-date-widget"><object class="task-card-widget-icon" data="../img/icon/tasks/date-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/date-icon.png" /></object><span class="task-card-time">${task.date && task.date != "priority" ? task.date : "No Goal Date"}</span></div></div><hr /><div class="task-card-info"><div class="task-card-title" title="${task.title}">${task.title_clean}</div><div class="task-card-tag">${
+            } minutes</span></div><div class="task-card-date-widget"><object class="task-card-widget-icon" aria-label="Task Icon" data="../img/icon/tasks/date-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/date-icon.png" /></object><span class="task-card-time">${task.date && task.date != "priority" ? task.date : "No Goal Date"}</span></div></div><hr /><div class="task-card-info"><div class="task-card-title" title="${task.title}">${
+              task.title_clean
+            }</div><div class="task-card-tag">${
               Object.keys(getClassJSON()).includes(task.tag) ? getClassJSON()[task.tag] : task.tag
-            }</div></div><div data-role="edit-card" class="task-card-action"><object class="task-card-action-icon edit-icon" data="../img/icon/tasks/edit-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/edit-icon.png" /></object><object class="task-card-action-icon editing-icon" data="../img/icon/tasks/editing-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/editing-icon.png" /></object></div></div>`;
+            }</div></div><div data-role="edit-card" class="task-card-action"><object class="task-card-action-icon edit-icon" aria-label="Task Icon" data="../img/icon/tasks/edit-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/edit-icon.png" /></object><object class="task-card-action-icon editing-icon" aria-label="Task Icon" data="../img/icon/tasks/editing-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/editing-icon.png" /></object></div></div>`;
           } else {
             has_iframe = true;
             card_content = `
             <div class="iframe-content task-card-loading task-card-content" style="background: ${task.iframe_bg ? task.iframe_bg : "ffffff"}'"><iframe title="Task Embed Content" src="${task.iframe_url}" style="border: none; border-radius: 15px; overflow:hidden; background: ${
               task.iframe_bg
-            };" name="vite-task" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" height="100%" width="100%"></iframe><div data-role="edit-card" class="task-card-action"><object class="task-card-action-icon edit-icon" data="../img/icon/tasks/edit-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/edit-icon.png" /></object><object class="task-card-action-icon editing-icon" data="../img/icon/tasks/editing-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/editing-icon.png" /></object></div></div>`;
+            };" name="vite-task" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" height="100%" width="100%"></iframe><div data-role="edit-card" class="task-card-action"><object class="task-card-action-icon edit-icon" aria-label="Task Icon" data="../img/icon/tasks/edit-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/edit-icon.png" /></object><object class="task-card-action-icon editing-icon" aria-label="Task Icon" data="../img/icon/tasks/editing-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/editing-icon.png" /></object></div></div>`;
           }
           this_date = getDateText(task.date, task.is_pinned);
           if (lastDate != this_date) {
@@ -330,11 +332,11 @@ function makeTasksFromDoc(doc) {
             .appendTo(sessionHTML);
           $(
             `<div class="task-card${task.iframe_url ? " task-iframe-card" : ""}${task.is_pinned ? " pinned" : ""}${task.is_completed ? " completed" : ""}">
-            <div class="task-card-swipe-pin"><object class="task-card-pin-icon" data="../img/icon/tasks/pin-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/pin-icon.png" /></object><object class="task-card-pin-icon alt-icon" data="../img/icon/tasks/pin-icon-alt.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/pin-icon-alt.png" /></object></div>
+            <div class="task-card-swipe-pin"><object class="task-card-pin-icon" aria-label="Task Icon" data="../img/icon/tasks/pin-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/pin-icon.png" /></object><object class="task-card-pin-icon alt-icon" aria-label="Task Icon" data="../img/icon/tasks/pin-icon-alt.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/pin-icon-alt.png" /></object></div>
             ${card_content}
             <div class="task-card-swipe">
-              <div class="task-card-swipe-done"><object class="task-card-swipe-icon" data="../img/icon/tasks/done-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/done-icon.png" /></object></div>
-              <div class="task-card-swipe-archive"><object class="task-card-swipe-icon" data="../img/icon/tasks/archive-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/archive-icon.png" /></object></div>
+              <div class="task-card-swipe-done"><object class="task-card-swipe-icon" aria-label="Task Icon" data="../img/icon/tasks/done-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/done-icon.png" /></object></div>
+              <div class="task-card-swipe-archive"><object class="task-card-swipe-icon" aria-label="Task Icon" data="../img/icon/tasks/archive-icon.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/archive-icon.png" /></object></div>
             </div>`
           )
             .attr({ "data-task-json-content": JSON.stringify(task), style: task.iframe_url ? "background: " + task.iframe_bg : "" })

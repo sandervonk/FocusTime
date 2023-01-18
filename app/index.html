@@ -10,13 +10,8 @@
     <link rel="stylesheet" href="../css/util.min.css?version=[-version-number-]" />
     <link rel="stylesheet" href="../css/app.min.css?version=[-version-number-]" />
     <meta name="theme-color" content="#ffffff" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-    <script src="//www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="//www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-    <script src="//www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-    <script src="../js/src/jquery.touchSwipe.min.js"></script>
     <link rel="manifest" href="../manifest.json" />
+    <meta name="description" content="Improve your productivity by scheduling out your time into more meaningful 'focus sessions' with FocusTime." />
     <!-- opengraph info -->
     <meta property="og:title" content="FocusTime" />
     <meta property="og:description" content="Improve your productivity by scheduling out your time into more meaningful 'focus sessions' with FocusTime." />
@@ -35,7 +30,7 @@
           <div id="home-head-row" class="flex-row flex-nowrap">
             <div id="home-text" class="header-text">Hi&nbsp;<span data-auth-role="name">and Welcome</span>!</div>
             <div id="home-logout" data-auth-role="logoutprompt">
-              <object alt="Profile Picture" data="../img/icon/interface/pfp.svg" type="image/svg+xml">
+              <object title="Profile Picture" data="../img/icon/interface/pfp.svg" type="image/svg+xml">
                 <img alt="icon" src="../img/icon/interface/pfp.png" />
               </object>
             </div>
@@ -110,7 +105,7 @@
             <div class="card">
               <div class="card-title header-small">Goal Date (Optional)</div>
               <div class="card-subtitle">Pick a date to complete this task by</div>
-              <input data-role="task-info-date" type="date" min="" max="" />
+              <input data-role="task-info-date" type="date" min="" max="" aria-label="Completion Date" />
             </div>
             <div class="card">
               <div class="card-title header-small">Class or Tag</div>
@@ -171,26 +166,26 @@
     </div>
     <nav>
       <div class="nav-item active" id="home">
-        <object class="icon-primary" alt="Tab Icon" data="../img/icon/pages/home.svg" type="image/svg+xml">
+        <object class="icon-primary" title="Tab Icon" data="../img/icon/pages/home.svg" type="image/svg+xml">
           <img alt="icon" src="../img/icon/pages/home.png" />
         </object>
-        <object class="icon-alt" alt="Inactive Tab Icon" data="../img/icon/pages/home-alt.svg" type="image/svg+xml">
+        <object class="icon-alt" title="Inactive Tab Icon" data="../img/icon/pages/home-alt.svg" type="image/svg+xml">
           <img alt="icon" src="../img/icon/pages/home-alt.png" />
         </object>
       </div>
       <div class="nav-item" id="add">
-        <object class="icon-primary" alt="Tab Icon" data="../img/icon/pages/add.svg" type="image/svg+xml">
+        <object class="icon-primary" title="Tab Icon" data="../img/icon/pages/add.svg" type="image/svg+xml">
           <img alt="icon" src="../img/icon/pages/add.png" />
         </object>
-        <object class="icon-alt" alt="Inactive Tab Icon" data="../img/icon/pages/add-alt.svg" type="image/svg+xml">
+        <object class="icon-alt" title="Inactive Tab Icon" data="../img/icon/pages/add-alt.svg" type="image/svg+xml">
           <img alt="icon" src="../img/icon/pages/add-alt.png" />
         </object>
       </div>
       <div class="nav-item" id="session">
-        <object class="icon-primary" alt="Tab Icon" data="../img/icon/pages/session.svg" type="image/svg+xml">
+        <object class="icon-primary" title="Tab Icon" data="../img/icon/pages/session.svg" type="image/svg+xml">
           <img alt="icon" src="../img/icon/pages/session.png" />
         </object>
-        <object class="icon-alt" alt="Inactive Tab Icon" data="../img/icon/pages/session-alt.svg" type="image/svg+xml">
+        <object class="icon-alt" title="Inactive Tab Icon" data="../img/icon/pages/session-alt.svg" type="image/svg+xml">
           <img alt="icon" src="../img/icon/pages/session-alt.png" />
         </object>
       </div>
@@ -202,6 +197,11 @@
       <div class="fade-bar fade-left"></div>
       <div class="fade-bar-solid"></div>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="../js/src/jquery.touchSwipe.min.js"></script>
   </body>
   <script src="../js/util.min.js?version=[-version-number-]"></script>
   <script src="../js/auth.min.js?version=[-version-number-]"></script>
