@@ -65,6 +65,16 @@ function casheUserDoc(doc) {
   localStorage["user-data"] = JSON.stringify(doc.data());
   userDocCache = doc.data();
 }
+function doClassSelect() {
+  let class_list = getClassJSON(),
+    dropdown = $('[data-role="task-info-tag"]').html("<option disabled selected hidden value=''>Choose a Class</option>");
+  delete class_list.other;
+  class_list.other = "Other";
+  console.log(class_list);
+  for (let class_item of Object.keys(class_list)) {
+    dropdown.append(`<option value="${class_item}">${class_list[class_item]}</option>`);
+  }
+}
 function setupFieldsFromDoc(doc) {
   if (doc.exists) {
     $("[data-auth-role='name']").text(doc.data().name.split(" ")[0]);
@@ -92,4 +102,5 @@ function setupFieldsFromDoc(doc) {
   } else {
     new ErrorToast("Error", "Userdoc does not exist", 3000);
   }
+  doClassSelect();
 }

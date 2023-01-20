@@ -11,17 +11,7 @@ $(".nav-item").click(function () {
   $(".task-card").removeClass("editing pinning");
 });
 // setup class dropdown
-function doClassSelect() {
-  let class_list = getClassJSON(),
-    dropdown = $('[data-role="task-info-tag"]').html("<option disabled selected hidden value=''>Choose a Class</option>");
-  delete class_list.other;
-  class_list.other = "Other";
-  console.log(class_list);
-  for (let class_item of Object.keys(class_list)) {
-    dropdown.append(`<option value="${class_item}">${class_list[class_item]}</option>`);
-  }
-}
-doClassSelect();
+
 $('[data-role="create-task"]').click(function () {
   //save task to userdoc db as json using firebase
   //get task data
