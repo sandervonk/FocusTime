@@ -32,24 +32,19 @@ $(".input-pair input").on("change input click", function () {
 $("#signup").click(() => {
   buttonClicked = true;
   //login with firebase using email and password
-  const email = $("[data-auth-role='email-input']").val();
-  const password = $("[data-auth-role='password-input']").val();
-  const name = $("[data-auth-role='name']").val();
+  const email = $("[data-auth-role='email-input']").val(),
+    password = $("[data-auth-role='password-input']").val(),
+    name = $("[data-auth-role='name']").val();
   if (!email.length) {
     new WarningToast("Please enter a email.", 3000);
-    return;
   } else if (!password.length) {
     new WarningToast("Please enter a password.", 3000);
-    return;
   } else if (!name.length) {
     new WarningToast("Please enter a name.", 3000);
-    return;
   } else if (!$("[data-auth-role='age-check']").prop("checked")) {
     new WarningToast("You must be at least 13 years of age to continue", 3000);
-    return;
   } else if (!$("[data-auth-role='agree-to-terms']").prop("checked")) {
     new WarningToast("You must agree to the terms of service to continue", 3000);
-    return;
   }
   // Sign in with email and pass.
   else {
@@ -68,6 +63,14 @@ $("#signup").click(() => {
               email: email,
               uid: user.uid,
               created: firebase.firestore.Timestamp.now(),
+              classes: {
+                hist: "Social Studies",
+                math: "Math",
+                ele1: "Elective 1",
+                ele2: "Elective 2",
+                sci: "Science",
+                engl: "English",
+              },
             },
             { merge: true }
           )

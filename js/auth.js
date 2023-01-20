@@ -8,12 +8,6 @@ const firebaseConfig = {
     measurementId: "G-N8T6NFR8GN",
   },
   baseclasses = {
-    apush: "AP US History",
-    calc: "AP Calc BC",
-    french: "AP French Language",
-    mads: "Madrigals",
-    physics: "AP Physics 1",
-    hamlit: "Honors American Literature",
     other: "Other",
   };
 var getClassJSON = function () {
