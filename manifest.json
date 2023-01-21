@@ -5,7 +5,7 @@
     {
       "src": "./img/icon/favicon.svg",
       "type": "image/svg+xml",
-      "sizes": "128x128"
+      "sizes": "512x512"
     },
     {
       "src": "./img/icon/favicon-192x192.png",
@@ -13,9 +13,32 @@
       "sizes": "192x192"
     },
     {
+      "src": "./img/icon/favicon-256x256.png",
+      "type": "image/png",
+      "sizes": "256x256"
+    },
+    {
       "src": "./img/icon/favicon-512x512.png",
       "type": "image/png",
       "sizes": "512x512"
+    },
+    {
+      "src": "./img/icon/favicon-maskable-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "maskable"
+    },
+    {
+      "src": "./img/icon/favicon-maskable-256x256.png",
+      "type": "image/png",
+      "sizes": "256x256",
+      "purpose": "maskable"
+    },
+    {
+      "src": "./img/icon/favicon-maskable-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
     }
   ],
   "id": "/FocusTime/",
@@ -43,35 +66,35 @@
   "description": "Improve your productivity by scheduling out your time into more meaningful 'focus sessions' with FocusTime.",
   "screenshots": [
     {
-      "src": "/FocusTime/img/screenshot/onboard.jpeg",
+      "src": "./img/screenshot/onboard.jpeg",
       "type": "image/jpeg",
       "sizes": "390x844",
       "platform": "narrow",
       "label": "Onboarding - Mobile"
     },
     {
-      "src": "/FocusTime/img/screenshot/app-home.jpeg",
+      "src": "./img/screenshot/app-home.jpeg",
       "type": "image/jpeg",
       "sizes": "390x844",
       "platform": "narrow",
       "label": "FocusTime Dashboard - Mobile"
     },
     {
-      "src": "/FocusTime/img/screenshot/app-session.jpeg",
+      "src": "./img/screenshot/app-session.jpeg",
       "type": "image/jpeg",
       "sizes": "390x844",
       "platform": "narrow",
       "label": "Start a Focus Session - Mobile"
     },
     {
-      "src": "/FocusTime/img/screenshot/signup.jpeg",
+      "src": "./img/screenshot/signup.jpeg",
       "type": "image/jpeg",
       "sizes": "390x844",
       "platform": "narrow",
       "label": "Sign Up for FocusTime - Mobile"
     },
     {
-      "src": "/FocusTime/img/screenshot/app-create.jpeg",
+      "src": "./img/screenshot/app-create.jpeg",
       "type": "image/jpeg",
       "sizes": "390x844",
       "platform": "narrow",
