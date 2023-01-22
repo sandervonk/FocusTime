@@ -3,19 +3,19 @@
   "name": "FocusTime - Productivity Scheduler",
   "icons": [
     {
-      "src": "./img/icon/favicon-any maskable-192x192.png",
+      "src": "./img/icon/favicon-maskable-192x192.png",
       "type": "image/png",
       "sizes": "192x192",
       "purpose": "any maskable"
     },
     {
-      "src": "./img/icon/favicon-any maskable-256x256.png",
+      "src": "./img/icon/favicon-maskable-256x256.png",
       "type": "image/png",
       "sizes": "256x256",
       "purpose": "any maskable"
     },
     {
-      "src": "./img/icon/favicon-any maskable-512x512.png",
+      "src": "./img/icon/favicon-maskable-512x512.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "any maskable"
