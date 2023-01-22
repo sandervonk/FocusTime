@@ -1,5 +1,8 @@
 const section_break = `<div class="time-section-break">Nothing Planned</div>`,
   day_ms = 24 * 60 * 60 * 1000;
+if (params.has("fullpage") && params.get("fullpage") == "true") {
+  $(document.body).addClass("full-width-list");
+}
 $(".nav-item").click(function () {
   $(".nav-item").removeClass("active");
   $(this).addClass("active");
@@ -158,6 +161,7 @@ $("#card-completed").on("contextmenu", function () {
     ["removePopup();", "Archive", "primary-action blue-button DATA-clear-completed-tasks DATA-save-archive"],
   ]);
 });
+
 $("#card-time").click(function () {
   $(document.body).toggleClass("full-width-list");
 });
