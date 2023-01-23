@@ -82,7 +82,7 @@ function setupFieldsFromDoc(doc) {
       let total = 0,
         completed = 0;
       for (task of doc.data().tasks ? doc.data().tasks : []) {
-        if ((task.date && !parseInt(task.date)) || (task.date && new Date(task.date).getTime() <= new Date().getTime() + 86400000)) {
+        if ((task.date && !parseInt(task.date)) || (task.date && new Date(task.date).getTime() <= new Date(new Date().toLocaleDateString("en-ca")).getTime() + day_ms)) {
           total++;
           if (task.is_completed) {
             completed++;
