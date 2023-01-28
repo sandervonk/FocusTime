@@ -1,3 +1,4 @@
+"use strict";
 const firebaseConfig = {
     apiKey: "AIzaSyBtV4ajO6P0PH3aje1J0UedJj8zSYgqy9w",
     authDomain: "focustime-a18ff.firebaseapp.com",
@@ -10,11 +11,20 @@ const firebaseConfig = {
   baseclasses = {
     other: "Other",
   };
+let local = window.localStorage["user-data"];
+try {
+  local = JSON.parse(local);
+} catch (err) {
+  console.log("error parsing local storage", err);
+  local = {};
+}
+const do_old_complete = local && local.settings && local.settings.do_hide_complete;
+
 var getClassJSON = function () {
   let classDictionary = baseclasses;
   try {
     // load other keys from document
-    for (let key in userDocCache.classes) {
+    for (let key of userDocCache.classes) {
       classDictionary[key] = userDocCache.classes[key];
     }
   } catch {
@@ -81,7 +91,7 @@ function setupFieldsFromDoc(doc) {
     try {
       let total = 0,
         completed = 0;
-      for (task of doc.data().tasks ? doc.data().tasks : []) {
+      for (let task of doc.data().tasks ? doc.data().tasks : []) {
         if ((task.date && !parseInt(task.date)) || (task.date && new Date(task.date).getTime() <= new Date(new Date().toLocaleDateString("en-ca")).getTime() + day_ms)) {
           total++;
           if (task.is_completed) {

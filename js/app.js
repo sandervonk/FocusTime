@@ -1,5 +1,6 @@
 const section_break = `<div class="time-section-break">Nothing Planned</div>`,
   day_ms = 24 * 60 * 60 * 1000;
+
 if (params.has("fullpage") && params.get("fullpage") == "true") {
   $(document.body).addClass("full-width-list");
 }
@@ -108,40 +109,47 @@ $(document.body).on("click", ".task-card-swipe-archive", function () {
 
 $(document.body).on("click", ".task-card-swipe-done", function () {
   $(this).closest(".task-card").addClass("completed").removeClass("editing");
+
+  let anim_updates = do_old_complete()
+    ? {
+        left: "-100%",
+      }
+    : {
+        top: "0%",
+      };
+
   $(this)
     .closest(".task-card")
-    .animate(
-      {
-        top: "0%",
-      },
-      500,
-      function () {
-        try {
-          let task = JSON.parse($(this).attr("data-task-json-content")),
-            doneTask = JSON.parse($(this).attr("data-task-json-content"));
-          doneTask.is_completed = true;
-          // $(this).remove();
-          if (task != doneTask) {
-            let docref = db.collection("users").doc(user.uid),
-              batch = db.batch();
-            batch.update(docref, { tasks: firebase.firestore.FieldValue.arrayRemove(task) });
-            batch.update(docref, { tasks: firebase.firestore.FieldValue.arrayUnion(doneTask) });
-            batch
-              .commit()
-              .then(() => {
-                new Toast("Task marked as done!", "default", 1000, "//sander.vonk.one/FocusTime/img/icon/toast/success-icon.svg");
-              })
-              .catch((err) => {
-                throw err;
-              });
-          } else {
-            console.log("Task already marked as done");
-          }
-        } catch (err) {
-          new ErrorToast("Could not mark task as done", cleanError(err), 2000, ".");
+    .animate(anim_updates, 500, function () {
+      try {
+        let task = JSON.parse($(this).attr("data-task-json-content")),
+          doneTask = JSON.parse($(this).attr("data-task-json-content"));
+        doneTask.is_completed = true;
+        if (do_old_complete) {
+          $(this).remove();
         }
+        if (task != doneTask) {
+          let docref = db.collection("users").doc(user.uid),
+            batch = db.batch();
+          batch.update(docref, { tasks: firebase.firestore.FieldValue.arrayRemove(task) });
+          if (!do_old_complete) {
+            batch.update(docref, { tasks: firebase.firestore.FieldValue.arrayUnion(doneTask) });
+          }
+          batch
+            .commit()
+            .then(() => {
+              new Toast("Task marked as done!", "default", 1000, "//sander.vonk.one/FocusTime/img/icon/toast/success-icon.svg");
+            })
+            .catch((err) => {
+              throw err;
+            });
+        } else {
+          console.log("Task already marked as done");
+        }
+      } catch (err) {
+        new ErrorToast("Could not mark task as done", cleanError(err), 2000, ".");
       }
-    );
+    });
 });
 $("#card-completed").click(function () {
   // show popup to delete completed tasks with options to cancel, delete permanantly or archive
@@ -308,7 +316,7 @@ function makeTasksFromDoc(doc) {
       });
       tasks.sort(sortByDate);
       tasks.forEach((task) => {
-        if (!task.is_completed || (task.date && new Date(task.date).getTime() > new Date().getTime() - day_ms)) {
+        if ((!do_old_complete || (do_old_complete && !task.is_completed)) && (!task.is_completed || (task.date && new Date(task.date).getTime() > new Date().getTime() - day_ms))) {
           let card_content;
           if (!task.iframe_url) {
             card_content = `
