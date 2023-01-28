@@ -110,7 +110,7 @@ $(document.body).on("click", ".task-card-swipe-archive", function () {
 $(document.body).on("click", ".task-card-swipe-done", function () {
   $(this).closest(".task-card").addClass("completed").removeClass("editing");
 
-  let anim_updates = do_old_complete()
+  let anim_updates = do_old_complete
     ? {
         left: "-100%",
       }
