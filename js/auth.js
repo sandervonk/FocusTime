@@ -24,7 +24,7 @@ var getClassJSON = function () {
   let classDictionary = baseclasses;
   try {
     // load other keys from document
-    for (let key of userDocCache.classes) {
+    for (let key in userDocCache.classes) {
       classDictionary[key] = userDocCache.classes[key];
     }
   } catch {
