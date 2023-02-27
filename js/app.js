@@ -40,9 +40,16 @@ $('[data-role="create-task"]').click(function () {
       .doc(user.uid)
       .update({ tasks: firebase.firestore.FieldValue.arrayUnion(task) })
       .then(() => {
-        $('[data-role="task-info-title"], [data-role="task-info-tag"], [data-role="task-info-date"]').val("");
+        $(
+          '[data-role="task-info-title"], [data-role="task-info-tag"], [data-role="task-info-date"]'
+        ).val("");
         $("#time-30").prop("checked", true);
-        new Toast("Task created!", "default", 1000, "//sander.vonk.one/FocusTime/img/icon/toast/success-icon.svg");
+        new Toast(
+          "Task created!",
+          "default",
+          1000,
+          "//sandervonk.github.io/FocusTime/img/icon/toast/success-icon.svg"
+        );
         $(".nav-item#home").click();
       })
       .catch((error) => {
@@ -52,10 +59,17 @@ $('[data-role="create-task"]').click(function () {
 });
 $("#add .card *").on("change input click", function () {
   //check if all fields are filled out
-  void ($('[data-role="task-info-title"]').val() && $('[data-role="task-info-tag"]').val() && $("[name='time-allocated']:checked").length ? $('[data-role="create-task"]').removeClass("disabled") : $('[data-role="create-task"]').addClass("disabled"));
+  void ($('[data-role="task-info-title"]').val() &&
+  $('[data-role="task-info-tag"]').val() &&
+  $("[name='time-allocated']:checked").length
+    ? $('[data-role="create-task"]').removeClass("disabled")
+    : $('[data-role="create-task"]').addClass("disabled"));
 });
 $(document.body).click(function (e) {
-  if (!$(e.target).closest(".task-card.editing").length && !$(e.target).hasClass("task-card-action")) {
+  if (
+    !$(e.target).closest(".task-card.editing").length &&
+    !$(e.target).hasClass("task-card-action")
+  ) {
     $(".task-card.editing").removeClass("editing");
   }
 });
@@ -95,7 +109,12 @@ $(document.body).on("click", ".task-card-swipe-archive", function () {
               archive: firebase.firestore.FieldValue.arrayUnion(task),
             })
             .then(() => {
-              new Toast("Task archived!", "default", 1000, "//sander.vonk.one/FocusTime/img/icon/toast/archive-icon.svg");
+              new Toast(
+                "Task archived!",
+                "default",
+                1000,
+                "//sandervonk.github.io/FocusTime/img/icon/toast/archive-icon.svg"
+              );
             })
             .catch((err) => {
               throw err;
@@ -138,7 +157,12 @@ $(document.body).on("click", ".task-card-swipe-done", function () {
           batch
             .commit()
             .then(() => {
-              new Toast("Task marked as done!", "default", 1000, "//sander.vonk.one/FocusTime/img/icon/toast/success-icon.svg");
+              new Toast(
+                "Task marked as done!",
+                "default",
+                1000,
+                "//sandervonk.github.io/FocusTime/img/icon/toast/success-icon.svg"
+              );
             })
             .catch((err) => {
               throw err;
@@ -153,72 +177,120 @@ $(document.body).on("click", ".task-card-swipe-done", function () {
 });
 $("#card-completed").click(function () {
   // show popup to delete completed tasks with options to cancel, delete permanantly or archive
-  new Popup(["Completed tasks", "Are you sure you want to delete all completed tasks before today?"], "default", 10000, "/FocusTime/img/icon/popup-done.svg", [
-    ["removePopup();", "Cancel", "secondary-action fullborder"],
-    ["", "", "popup-divider"],
-    ["removePopup();", "Delete", "secondary-action blue-button DATA-clear-completed-tasks"],
-    ["removePopup();", "Archive", "primary-action blue-button DATA-clear-completed-old-tasks DATA-save-old-archive"],
-  ]);
+  new Popup(
+    ["Completed tasks", "Are you sure you want to delete all completed tasks before today?"],
+    "default",
+    10000,
+    "/FocusTime/img/icon/popup-done.svg",
+    [
+      ["removePopup();", "Cancel", "secondary-action fullborder"],
+      ["", "", "popup-divider"],
+      ["removePopup();", "Delete", "secondary-action blue-button DATA-clear-completed-tasks"],
+      [
+        "removePopup();",
+        "Archive",
+        "primary-action blue-button DATA-clear-completed-old-tasks DATA-save-old-archive",
+      ],
+    ]
+  );
 });
 $("#card-completed").on("contextmenu", function () {
   // show popup to delete completed tasks with options to cancel, delete permanantly or archive
-  new Popup(["Completed tasks", "Are you sure you want to delete all completed tasks?"], "default", 10000, "/FocusTime/img/icon/popup-done.svg", [
-    ["removePopup();", "Cancel", "secondary-action fullborder"],
-    ["", "", "popup-divider"],
-    ["removePopup();", "Delete", "secondary-action blue-button DATA-clear-completed-tasks"],
-    ["removePopup();", "Archive", "primary-action blue-button DATA-clear-completed-tasks DATA-save-archive"],
-  ]);
+  new Popup(
+    ["Completed tasks", "Are you sure you want to delete all completed tasks?"],
+    "default",
+    10000,
+    "/FocusTime/img/icon/popup-done.svg",
+    [
+      ["removePopup();", "Cancel", "secondary-action fullborder"],
+      ["", "", "popup-divider"],
+      ["removePopup();", "Delete", "secondary-action blue-button DATA-clear-completed-tasks"],
+      [
+        "removePopup();",
+        "Archive",
+        "primary-action blue-button DATA-clear-completed-tasks DATA-save-archive",
+      ],
+    ]
+  );
 });
 
 $("#card-time").click(function () {
   $(document.body).toggleClass("full-width-list");
 });
-$(document.body).on("click", "[data-role='clear-completed'], .DATA-clear-completed-tasks, .DATA-clear-completed-old-tasks", function () {
-  //archive all tasks from userdoc
-  let save_archive = $(this).attr("data-save-archive") || $(this).hasClass("DATA-save-archive"),
-    do_old_only = $(this).attr("DATA-clear-completed-old-tasks") || $(this).hasClass("DATA-save-old-archive");
-  db.collection("users")
-    .doc(user.uid)
-    .get()
-    .then((doc) => {
-      let tasks = doc.data().tasks;
-      if (do_old_only) {
-        tasks = $.grep(tasks, function (t) {
-          return new Date(t.date).getTime() + day_ms < new Date().getTime();
-        });
-      }
-      if (tasks.length > 0) {
-        let archivedTasks = $.grep(tasks, function (t) {
-          return t.is_completed;
-        });
-        let update_json = {
-          tasks: firebase.firestore.FieldValue.arrayRemove(...archivedTasks),
-        };
-        if (save_archive) {
-          update_json.archive = firebase.firestore.FieldValue.arrayUnion(...archivedTasks);
-        }
-        db.collection("users")
-          .doc(user.uid)
-          .update(update_json)
-          .then(() => {
-            if (save_archive) {
-              new Toast("Completed tasks archived!", "default", 1000, "//sander.vonk.one/FocusTime/img/icon/toast/archive-icon.svg");
-            } else {
-              new Toast("Completed tasks deleted!", "default", 1000, "//sander.vonk.one/FocusTime/img/icon/toast/success-icon.svg");
-            }
-          })
-          .catch((err) => {
-            new ErrorToast("Could not clear completed tasks", cleanError(err), 2000, ".");
+$(document.body).on(
+  "click",
+  "[data-role='clear-completed'], .DATA-clear-completed-tasks, .DATA-clear-completed-old-tasks",
+  function () {
+    //archive all tasks from userdoc
+    let save_archive = $(this).attr("data-save-archive") || $(this).hasClass("DATA-save-archive"),
+      do_old_only =
+        $(this).attr("DATA-clear-completed-old-tasks") || $(this).hasClass("DATA-save-old-archive");
+    db.collection("users")
+      .doc(user.uid)
+      .get()
+      .then((doc) => {
+        let tasks = doc.data().tasks;
+        if (do_old_only) {
+          tasks = $.grep(tasks, function (t) {
+            return new Date(t.date).getTime() + day_ms < new Date().getTime();
           });
-      }
-    });
-});
+        }
+        if (tasks.length > 0) {
+          let archivedTasks = $.grep(tasks, function (t) {
+            return t.is_completed;
+          });
+          let update_json = {
+            tasks: firebase.firestore.FieldValue.arrayRemove(...archivedTasks),
+          };
+          if (save_archive) {
+            update_json.archive = firebase.firestore.FieldValue.arrayUnion(...archivedTasks);
+          }
+          db.collection("users")
+            .doc(user.uid)
+            .update(update_json)
+            .then(() => {
+              if (save_archive) {
+                new Toast(
+                  "Completed tasks archived!",
+                  "default",
+                  1000,
+                  "//sandervonk.github.io/FocusTime/img/icon/toast/archive-icon.svg"
+                );
+              } else {
+                new Toast(
+                  "Completed tasks deleted!",
+                  "default",
+                  1000,
+                  "//sandervonk.github.io/FocusTime/img/icon/toast/success-icon.svg"
+                );
+              }
+            })
+            .catch((err) => {
+              new ErrorToast("Could not clear completed tasks", cleanError(err), 2000, ".");
+            });
+        }
+      });
+  }
+);
 $('[data-role="add-vite-card"]').click(function () {
   db.collection("users")
     .doc(user.uid)
-    .update({ tasks: firebase.firestore.FieldValue.arrayUnion({ iframe_url: "/VITE/embed/task.html", iframe_bg: "#1d55a8", date: "top", is_pinned: true, title: "VITE! French Practice" }) })
+    .update({
+      tasks: firebase.firestore.FieldValue.arrayUnion({
+        iframe_url: "/VITE/embed/task.html",
+        iframe_bg: "#1d55a8",
+        date: "top",
+        is_pinned: true,
+        title: "VITE! French Practice",
+      }),
+    })
     .then(() => {
-      new Toast("Added VITE! card!", "default", 4000, "//sander.vonk.one/VITE/img/icon/concern-icon.svg");
+      new Toast(
+        "Added VITE! card!",
+        "default",
+        4000,
+        "//sandervonk.github.io/VITE/img/icon/concern-icon.svg"
+      );
     })
     .catch((error) => {
       new ErrorToast("Could not save VITE! card data userdoc", cleanError(error), 2000);
@@ -264,34 +336,54 @@ function docFromCashe() {
 
 function sortByDate(a, b) {
   let a_is_raised = !a.date || a.is_pinned || a.date == "priority" || a.date == "top",
-    is_lower = a_is_raised || (!b.is_raised && new Date(a.date).getTime() < new Date(b.date).getTime());
+    is_lower =
+      a_is_raised || (!b.is_raised && new Date(a.date).getTime() < new Date(b.date).getTime());
   return !is_lower ? 1 : -1;
 }
 function pinTask(task) {
   // update task in userdoc
   try {
-    (taskData = JSON.parse(task.attr("data-task-json-content"))), (task_is_pinned = task.hasClass("pinned"));
+    (taskData = JSON.parse(task.attr("data-task-json-content"))),
+      (task_is_pinned = task.hasClass("pinned"));
 
     // send updates as batch
     let docref = db.collection("users").doc(auth.currentUser.uid),
       batch = db.batch();
     batch.update(docref, { tasks: firebase.firestore.FieldValue.arrayRemove(taskData) });
-    batch.update(docref, { tasks: firebase.firestore.FieldValue.arrayUnion({ ...taskData, is_pinned: !task_is_pinned }) });
+    batch.update(docref, {
+      tasks: firebase.firestore.FieldValue.arrayUnion({ ...taskData, is_pinned: !task_is_pinned }),
+    });
     batch
       .commit()
       .then(() => {
         task.toggleClass("pinned");
         if (!task_is_pinned) {
-          new Toast("Task pinned to the top of the list", "default", 3000, "../img/icon/toast/info-pinned-icon.svg");
+          new Toast(
+            "Task pinned to the top of the list",
+            "default",
+            3000,
+            "../img/icon/toast/info-pinned-icon.svg"
+          );
         } else {
-          new Toast("Task unpinned from the top of the list", "default", 3000, "../img/icon/toast/info-unpinned-icon.svg");
+          new Toast(
+            "Task unpinned from the top of the list",
+            "default",
+            3000,
+            "../img/icon/toast/info-unpinned-icon.svg"
+          );
         }
       })
       .catch((err) => {
         throw err;
       });
   } catch (err) {
-    return new ErrorToast(`Could not ${task.hasClass("pinned") ? "un" : ""}pin task`, err.toString().includes("uid") ? "authentication has not been established yet" : cleanError(err), 2000);
+    return new ErrorToast(
+      `Could not ${task.hasClass("pinned") ? "un" : ""}pin task`,
+      err.toString().includes("uid")
+        ? "authentication has not been established yet"
+        : cleanError(err),
+      2000
+    );
   }
 }
 function makeTasksFromDoc(doc) {
@@ -310,42 +402,71 @@ function makeTasksFromDoc(doc) {
           task.title = "Untitled Task";
         }
         // replace special characters with their html entity
-        task.title_clean = task.title.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
+        task.title_clean = task.title
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&apos;");
         // remove other special characters except for html entities
-        task.title_clean = task.title_clean.replace(/[^a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/? ]/g, "");
+        task.title_clean = task.title_clean.replace(
+          /[^a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/? ]/g,
+          ""
+        );
       });
       tasks.sort(sortByDate);
       tasks.forEach((task) => {
-        if ((!do_old_complete || (do_old_complete && !task.is_completed)) && (!task.is_completed || (task.date && new Date(task.date).getTime() > new Date().getTime() - day_ms))) {
+        if (
+          (!do_old_complete || (do_old_complete && !task.is_completed)) &&
+          (!task.is_completed ||
+            (task.date && new Date(task.date).getTime() > new Date().getTime() - day_ms))
+        ) {
           let card_content;
           if (!task.iframe_url) {
             card_content = `
             <div class="task-card-content"><div class="task-card-widgets"><div class="task-card-time-widget"><object class="task-card-widget-icon" aria-label="Task Icon" data="../img/icon/tasks/clock-icon.png?was-svg" type="image/png"><img alt="icon" src="../img/icon/tasks/clock-icon.png" /></object><span class="task-card-time">${
               task.time
-            } minutes</span></div><div class="task-card-date-widget"><object class="task-card-widget-icon" aria-label="Task Icon" data="../img/icon/tasks/date-icon.png?was-svg" type="image/png"><img alt="icon" src="../img/icon/tasks/date-icon.png" /></object><span class="task-card-time">${task.date && task.date != "priority" ? task.date : "No Goal Date"}</span></div></div><hr /><div class="task-card-info"><div class="task-card-title" title="${task.title}">${
-              task.title_clean
-            }</div><div class="task-card-tag">${
+            } minutes</span></div><div class="task-card-date-widget"><object class="task-card-widget-icon" aria-label="Task Icon" data="../img/icon/tasks/date-icon.png?was-svg" type="image/png"><img alt="icon" src="../img/icon/tasks/date-icon.png" /></object><span class="task-card-time">${
+              task.date && task.date != "priority" ? task.date : "No Goal Date"
+            }</span></div></div><hr /><div class="task-card-info"><div class="task-card-title" title="${
+              task.title
+            }">${task.title_clean}</div><div class="task-card-tag">${
               Object.keys(getClassJSON()).includes(task.tag) ? getClassJSON()[task.tag] : task.tag
             }</div></div><div data-role="edit-card" class="task-card-action"><object class="task-card-action-icon edit-icon" aria-label="Task Icon" data="../img/icon/tasks/edit-icon.png?was-svg" type="image/png"><img alt="icon" src="../img/icon/tasks/edit-icon.png" /></object><object class="task-card-action-icon editing-icon" aria-label="Task Icon" data="../img/icon/tasks/editing-icon.png?was-svg" type="image/png"><img alt="icon" src="../img/icon/tasks/editing-icon.png" /></object></div></div>`;
           } else {
             has_iframe = true;
             card_content = `
-            <div class="iframe-content task-card-loading task-card-content" style="background: ${task.iframe_bg ? task.iframe_bg : "ffffff"}'"><iframe title="Task Embed Content" src="${task.iframe_url}" style="border: none; border-radius: 15px; overflow:hidden; background: ${
+            <div class="iframe-content task-card-loading task-card-content" style="background: ${
+              task.iframe_bg ? task.iframe_bg : "ffffff"
+            }'"><iframe title="Task Embed Content" src="${
+              task.iframe_url
+            }" style="border: none; border-radius: 15px; overflow:hidden; background: ${
               task.iframe_bg
             };" name="vite-task" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" height="100%" width="100%"></iframe><div data-role="edit-card" class="task-card-action"><object class="task-card-action-icon edit-icon" aria-label="Task Icon" data="../img/icon/tasks/edit-icon.png?was-svg" type="image/png"><img alt="icon" src="../img/icon/tasks/edit-icon.png" /></object><object class="task-card-action-icon editing-icon" aria-label="Task Icon" data="../img/icon/tasks/editing-icon.png?was-svg" type="image/png"><img alt="icon" src="../img/icon/tasks/editing-icon.png" /></object></div></div>`;
           }
           this_date = getDateText(task.date, task.is_pinned);
           if (lastDate != this_date) {
-            $("<div></div>", { class: "task-section-header", text: this_date, "data-date": this_date, timestamp: task.is_pinned ? "Pinned" : task.date ? task.date : "" }).appendTo(newHTML);
+            $("<div></div>", {
+              class: "task-section-header",
+              text: this_date,
+              "data-date": this_date,
+              timestamp: task.is_pinned ? "Pinned" : task.date ? task.date : "",
+            }).appendTo(newHTML);
             lastDate = this_date;
           }
           // remove title_clean attribute from task json
           delete task.title_clean;
-          $(`<div><div class='session-task-card-title'>${task.title ? task.title : "No Title / iframe"}</div></div>`)
+          $(
+            `<div><div class='session-task-card-title'>${
+              task.title ? task.title : "No Title / iframe"
+            }</div></div>`
+          )
             .attr({ class: "session-task-card", "data-task-json-content": JSON.stringify(task) })
             .appendTo(sessionHTML);
           $(
-            `<div class="task-card${task.iframe_url ? " task-iframe-card" : ""}${task.is_pinned ? " pinned" : ""}${task.is_completed ? " completed" : ""}">
+            `<div class="task-card${task.iframe_url ? " task-iframe-card" : ""}${
+              task.is_pinned ? " pinned" : ""
+            }${task.is_completed ? " completed" : ""}">
             <div class="task-card-swipe-pin"><object class="task-card-pin-icon" aria-label="Task Icon" data="../img/icon/tasks/pin-icon.png?was-svg" type="image/png"><img alt="icon" src="../img/icon/tasks/pin-icon.png" /></object><object class="task-card-pin-icon alt-icon" aria-label="Task Icon" data="../img/icon/tasks/pin-icon-alt.svg" type="image/svg+xml"><img alt="icon" src="../img/icon/tasks/pin-icon-alt.png" /></object></div>
             ${card_content}
             <div class="task-card-swipe">
@@ -353,7 +474,10 @@ function makeTasksFromDoc(doc) {
               <div class="task-card-swipe-archive"><object class="task-card-swipe-icon" aria-label="Task Icon" data="../img/icon/tasks/archive-icon.png?was-svg" type="image/png"><img alt="icon" src="../img/icon/tasks/archive-icon.png" /></object></div>
             </div>`
           )
-            .attr({ "data-task-json-content": JSON.stringify(task), style: task.iframe_url ? "background: " + task.iframe_bg : "" })
+            .attr({
+              "data-task-json-content": JSON.stringify(task),
+              style: task.iframe_url ? "background: " + task.iframe_bg : "",
+            })
             .appendTo(newHTML);
         }
       });
@@ -363,11 +487,18 @@ function makeTasksFromDoc(doc) {
         $section_header
           .nextUntil(".task-section-header")
           .addBack()
-          .wrapAll(`<div class='task-section' data-date='${$section_header.text()}' data-timestamp='${$section_header.attr("timestamp")}'></div>`);
+          .wrapAll(
+            `<div class='task-section' data-date='${$section_header.text()}' data-timestamp='${$section_header.attr(
+              "timestamp"
+            )}'></div>`
+          );
         // add a break before the first section if it is not pinned and not before today
       });
       let $first_section = newHTML.children(".task-section").first();
-      if (!$first_section.attr("data-timestamp").includes("-") || new Date($first_section.attr("data-timestamp")).getTime() > new Date().getTime() + day_ms) {
+      if (
+        !$first_section.attr("data-timestamp").includes("-") ||
+        new Date($first_section.attr("data-timestamp")).getTime() > new Date().getTime() + day_ms
+      ) {
         $first_section.before(section_break);
       }
       // between sections with a gap of 1 day, add a divider
@@ -388,7 +519,9 @@ function makeTasksFromDoc(doc) {
       console.log("TASKSLIST: replacing");
       $("[data-role='tasks-list']").replaceWith(newHTML);
       $("[data-role='todo-container']").replaceWith(sessionHTML);
-      void (has_iframe ? $("[data-role='vite-add-card']").hide() : $("[data-role='vite-add-card']").show());
+      void (has_iframe
+        ? $("[data-role='vite-add-card']").hide()
+        : $("[data-role='vite-add-card']").show());
       $(".task-iframe-card iframe").on("load", function () {
         $(this).closest(".task-card").show().removeClass("task-card-loading");
       });
@@ -430,7 +563,12 @@ function getDateText(date, pinned = false) {
     return "Today";
   } else {
     //format date and add th, nd, st, etc endings
-    let formatted_date = new Date(date).toLocaleDateString("en-us", { weekday: "long", month: "long", day: "numeric", timeZone: "UTC" });
+    let formatted_date = new Date(date).toLocaleDateString("en-us", {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+      timeZone: "UTC",
+    });
     let day = formatted_date.split(" ")[2],
       day_endings = ["th", "st", "nd", "rd"];
     let day_ending = day_endings[0];

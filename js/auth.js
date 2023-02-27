@@ -44,7 +44,11 @@ auth.onAuthStateChanged((userInfo) => {
     // User is signed in, see docs for a list of available properties
     // https://firebase.google.com/docs/reference/js/firebase.User
     // ...
-    if (!window.location.pathname.includes("/app/") && !window.location.pathname.includes("/signup.html") && !window.location.pathname.includes("/login.html")) {
+    if (
+      !window.location.pathname.includes("/app/") &&
+      !window.location.pathname.includes("/signup.html") &&
+      !window.location.pathname.includes("/login.html")
+    ) {
       window.location.href = "/FocusTime/app/";
     } else {
       // load tasks initially
@@ -55,9 +59,18 @@ auth.onAuthStateChanged((userInfo) => {
   } else {
     // User is signed out
     // ...
-    if (!window.location.pathname.includes("/signup.html") && !window.location.pathname.includes("/login.html")) {
+    if (
+      !window.location.pathname.includes("/signup.html") &&
+      !window.location.pathname.includes("/login.html")
+    ) {
       // tell user they are not signed in, and that this page requires that they are, toast
-      new Toast("Sorry, you need to be signed in to access this page!", "default", 1000, "//sander.vonk.one/FocusTime/img/icon/toast/info-locked-icon.svg", "./signup.html");
+      new Toast(
+        "Sorry, you need to be signed in to access this page!",
+        "default",
+        1000,
+        "//sandervonk.github.io/FocusTime/img/icon/toast/info-locked-icon.svg",
+        "./signup.html"
+      );
     }
   }
 });
@@ -77,7 +90,9 @@ function casheUserDoc(doc) {
 }
 function doClassSelect() {
   let class_list = getClassJSON(),
-    dropdown = $('[data-role="task-info-tag"]').html("<option disabled selected hidden value=''>Choose a Class</option>");
+    dropdown = $('[data-role="task-info-tag"]').html(
+      "<option disabled selected hidden value=''>Choose a Class</option>"
+    );
   delete class_list.other;
   class_list.other = "Other";
   for (let class_item of Object.keys(class_list)) {
@@ -92,7 +107,12 @@ function setupFieldsFromDoc(doc) {
       let total = 0,
         completed = 0;
       for (let task of doc.data().tasks ? doc.data().tasks : []) {
-        if ((task.date && !parseInt(task.date)) || (task.date && new Date(task.date).getTime() <= new Date(new Date().toLocaleDateString("en-ca")).getTime() + day_ms)) {
+        if (
+          (task.date && !parseInt(task.date)) ||
+          (task.date &&
+            new Date(task.date).getTime() <=
+              new Date(new Date().toLocaleDateString("en-ca")).getTime() + day_ms)
+        ) {
           total++;
           if (task.is_completed) {
             completed++;

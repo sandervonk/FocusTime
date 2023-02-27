@@ -4,7 +4,11 @@ var params = new URLSearchParams(window.location.search),
   user,
   userDocCache = {};
 if (window.history) {
-  history.replaceState({}, "", window.location.href.substr(0, window.location.href.length - window.location.search.length));
+  history.replaceState(
+    {},
+    "",
+    window.location.href.substr(0, window.location.href.length - window.location.search.length)
+  );
 }
 
 /** TOAST **/
@@ -48,12 +52,24 @@ class Toast {
 class ErrorToast extends Toast {
   constructor(message, err, duration, action = "") {
     message += ": " + err;
-    super(message, "default", duration, "//sander.vonk.one/FocusTime/img/icon/toast/error-icon.svg", action);
+    super(
+      message,
+      "default",
+      duration,
+      "//sandervonk.github.io/FocusTime/img/icon/toast/error-icon.svg",
+      action
+    );
   }
 }
 class WarningToast extends Toast {
   constructor(message, duration, action = "") {
-    super(message, "default", duration, "//sander.vonk.one/FocusTime/img/icon/toast/warning-icon.svg", action);
+    super(
+      message,
+      "default",
+      duration,
+      "//sandervonk.github.io/FocusTime/img/icon/toast/warning-icon.svg",
+      action
+    );
   }
 }
 /** POPUP **/
@@ -79,7 +95,11 @@ class Popup {
       buttons = $("<div></div>", { id: "popup-buttons" });
 
     for (let actionInfo of this.action) {
-      $("<button></button>", { class: "popup-button " + (actionInfo[2] ? actionInfo[2] : ""), onclick: actionInfo[0], text: actionInfo[1] }).appendTo(buttons);
+      $("<button></button>", {
+        class: "popup-button " + (actionInfo[2] ? actionInfo[2] : ""),
+        onclick: actionInfo[0],
+        text: actionInfo[1],
+      }).appendTo(buttons);
     }
     if (this.icon) {
       $(`<img alt='Popup Icon' src="${this.icon}" class="popup-icon">`).appendTo(toast);
@@ -118,7 +138,12 @@ $(document.body).on("click", ".popup-overlay", function () {
 
 /** Other **/
 $("[placeholdaction]").click(function () {
-  new Toast("This feature hasn't been implemented yet, sorry! 🤫", "default", 1500, "//sander.vonk.one/FocusTime/img/icon/toast/unimplemented-icon.svg");
+  new Toast(
+    "This feature hasn't been implemented yet, sorry! 🤫",
+    "default",
+    1500,
+    "//sandervonk.github.io/FocusTime/img/icon/toast/unimplemented-icon.svg"
+  );
 });
 function cleanError(error) {
   switch (error.code) {
@@ -142,9 +167,12 @@ function cleanError(error) {
       return error.message.replace("Error ", "");
   }
 }
-$("#raised-content.raise-class .handle, #raised-content.raise-class .handle-container").on("click touchstart mousedown", function () {
-  $(this).parent("#raised-content").toggleClass("raised");
-});
+$("#raised-content.raise-class .handle, #raised-content.raise-class .handle-container").on(
+  "click touchstart mousedown",
+  function () {
+    $(this).parent("#raised-content").toggleClass("raised");
+  }
+);
 
 //swipes
 try {

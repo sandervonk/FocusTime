@@ -11,12 +11,18 @@
     <link rel="stylesheet" href="../css/app.min.css?version=[-version-number-]" />
     <meta name="theme-color" content="#ffffff" />
     <link rel="manifest" href="../manifest.json" />
-    <meta name="description" content="Improve your productivity by scheduling out your time into more meaningful 'focus sessions' with FocusTime." />
+    <meta
+      name="description"
+      content="Improve your productivity by scheduling out your time into more meaningful 'focus sessions' with FocusTime."
+    />
     <!-- opengraph info -->
     <meta property="og:title" content="FocusTime" />
-    <meta property="og:description" content="Improve your productivity by scheduling out your time into more meaningful 'focus sessions' with FocusTime." />
-    <meta property="og:image" content="https://sander.vonk.one/FocusTime/img/hero-img.png" />
-    <meta property="og:url" content="https://sander.vonk.one/FocusTime/" />
+    <meta
+      property="og:description"
+      content="Improve your productivity by scheduling out your time into more meaningful 'focus sessions' with FocusTime."
+    />
+    <meta property="og:image" content="https://sandervonk.github.io/FocusTime/img/hero-img.png" />
+    <meta property="og:url" content="https://svonk.me/FocusTime/" />
     <!-- preload common icons -->
     <link rel="preload" href="../img/icon/tasks/clock-icon.svg" as="image" />
     <link rel="preload" href="../img/icon/tasks/date-icon.svg" as="image" />
@@ -28,9 +34,15 @@
       <div id="carousel" style="left: 0">
         <div id="home" class="carousel-page">
           <div id="home-head-row" class="flex-row flex-nowrap">
-            <div id="home-text" class="header-text">Hi&nbsp;<span data-auth-role="name">and Welcome</span>!</div>
+            <div id="home-text" class="header-text">
+              Hi&nbsp;<span data-auth-role="name">and Welcome</span>!
+            </div>
             <div id="home-logout" data-auth-role="logoutprompt">
-              <object title="Profile Picture" data="../img/icon/interface/pfp.svg" type="image/svg+xml">
+              <object
+                title="Profile Picture"
+                data="../img/icon/interface/pfp.svg"
+                type="image/svg+xml"
+              >
                 <img alt="icon" src="../img/icon/interface/pfp.png" />
               </object>
             </div>
@@ -48,7 +60,9 @@
                 <div id="progress-stats">
                   <div class="flex-row flex-nowrap" id="progress-percentage">
                     <div id="progress-completed" class="header-small">Your Progress</div>
-                    <div id="progress-total" class="header-small"><span data-role="progress-percentage">##</span>%</div>
+                    <div id="progress-total" class="header-small">
+                      <span data-role="progress-percentage">##</span>%
+                    </div>
                   </div>
                   <div id="progress-bar-container">
                     <div id="progress-bar" data-role="progress-bar" style="width: 0%"></div>
@@ -105,7 +119,13 @@
             <div class="card">
               <div class="card-title header-small">Goal Date (Optional)</div>
               <div class="card-subtitle">Pick a date to complete this task by</div>
-              <input data-role="task-info-date" type="date" min="" max="" aria-label="Completion Date" />
+              <input
+                data-role="task-info-date"
+                type="date"
+                min=""
+                max=""
+                aria-label="Completion Date"
+              />
             </div>
             <div class="card">
               <div class="card-title header-small">Class or Tag</div>
@@ -117,12 +137,18 @@
             </div>
             <div class="card" data-role="vite-add-card" style="display: none">
               <div class="card-title header-small">VITE! Card (Optional)</div>
-              <div class="card-subtitle">Connect your VITE! French Practice account to view practice statistics at a glance</div>
-              <button style="margin-top: 20px" data-role="add-vite-card">Add VITE! Integration</button>
+              <div class="card-subtitle">
+                Connect your VITE! French Practice account to view practice statistics at a glance
+              </div>
+              <button style="margin-top: 20px" data-role="add-vite-card">
+                Add VITE! Integration
+              </button>
             </div>
           </div>
           <hr id="button-spacer" style="height: 80px" />
-          <button data-role="create-task" class="bottom-button disabled" style="bottom: 110px">Create</button>
+          <button data-role="create-task" class="bottom-button disabled" style="bottom: 110px">
+            Create
+          </button>
         </div>
         <div id="session" class="carousel-page">
           <div id="task-add-title" class="header-large page-title">Start A Focus Session</div>
@@ -146,40 +172,87 @@
             </div>
             <div class="card">
               <div class="card-title header-small">Pick some tunes (optional)</div>
-              <div class="card-subtitle">Paste a Spotify playlist link below to listen as you work</div>
-              <div class="flex-row flex-nowrap" style="justify-content: space-between; margin-top: 10px">
-                <input data-role="task-info-title" style="margin-right: 10px; margin-top: 0px" type="text" placeholder="https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT?si=506f6f9c99b3476f" />
+              <div class="card-subtitle">
+                Paste a Spotify playlist link below to listen as you work
+              </div>
+              <div
+                class="flex-row flex-nowrap"
+                style="justify-content: space-between; margin-top: 10px"
+              >
+                <input
+                  data-role="task-info-title"
+                  style="margin-right: 10px; margin-top: 0px"
+                  type="text"
+                  placeholder="https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT?si=506f6f9c99b3476f"
+                />
                 <div id="submit-spotify-link" class="flex-center">🡢</div>
               </div>
             </div>
           </div>
           <hr id="button-spacer" style="height: 80px" />
-          <button placeholdaction data-role="start-session" class="bottom-button" style="bottom: 110px">Begin</button>
+          <button
+            placeholdaction
+            data-role="start-session"
+            class="bottom-button"
+            style="bottom: 110px"
+          >
+            Begin
+          </button>
         </div>
       </div>
     </div>
     <nav>
       <div class="nav-item active" id="home">
-        <object class="icon-primary" title="Tab Icon" data="../img/icon/pages/home.svg" type="image/svg+xml">
+        <object
+          class="icon-primary"
+          title="Tab Icon"
+          data="../img/icon/pages/home.svg"
+          type="image/svg+xml"
+        >
           <img alt="icon" src="../img/icon/pages/home.png" />
         </object>
-        <object class="icon-alt" title="Inactive Tab Icon" data="../img/icon/pages/home-alt.svg" type="image/svg+xml">
+        <object
+          class="icon-alt"
+          title="Inactive Tab Icon"
+          data="../img/icon/pages/home-alt.svg"
+          type="image/svg+xml"
+        >
           <img alt="icon" src="../img/icon/pages/home-alt.png" />
         </object>
       </div>
       <div class="nav-item" id="add">
-        <object class="icon-primary" title="Tab Icon" data="../img/icon/pages/add.svg" type="image/svg+xml">
+        <object
+          class="icon-primary"
+          title="Tab Icon"
+          data="../img/icon/pages/add.svg"
+          type="image/svg+xml"
+        >
           <img alt="icon" src="../img/icon/pages/add.png" />
         </object>
-        <object class="icon-alt" title="Inactive Tab Icon" data="../img/icon/pages/add-alt.svg" type="image/svg+xml">
+        <object
+          class="icon-alt"
+          title="Inactive Tab Icon"
+          data="../img/icon/pages/add-alt.svg"
+          type="image/svg+xml"
+        >
           <img alt="icon" src="../img/icon/pages/add-alt.png" />
         </object>
       </div>
       <div class="nav-item" id="session">
-        <object class="icon-primary" title="Tab Icon" data="../img/icon/pages/session.svg" type="image/svg+xml">
+        <object
+          class="icon-primary"
+          title="Tab Icon"
+          data="../img/icon/pages/session.svg"
+          type="image/svg+xml"
+        >
           <img alt="icon" src="../img/icon/pages/session.png" />
         </object>
-        <object class="icon-alt" title="Inactive Tab Icon" data="../img/icon/pages/session-alt.svg" type="image/svg+xml">
+        <object
+          class="icon-alt"
+          title="Inactive Tab Icon"
+          data="../img/icon/pages/session-alt.svg"
+          type="image/svg+xml"
+        >
           <img alt="icon" src="../img/icon/pages/session-alt.png" />
         </object>
       </div>
