@@ -3,7 +3,13 @@ let buttonClicked = false;
 auth.onAuthStateChanged((userInfo) => {
   if (user && !buttonClicked) {
     // User is signed in, redirect to app with toast
-    new Toast("You are already signed in!", "default", 1000, "./img/icon/toast/info-unlocked-icon.svg", "./app/");
+    new Toast(
+      "You are already signed in!",
+      "default",
+      1000,
+      "./img/icon/toast/info-unlocked-icon.svg",
+      "./app/"
+    );
   }
 });
 $("#raised-close").click(() => {
@@ -23,7 +29,13 @@ $(document).keypress(function (e) {
 });
 $(".input-pair input").on("change input click", function () {
   //change button's disabled property depending on if all fields are completed
-  if ($("#name-input").val() != "" && $("#email-input").val() != "" && $("#password-input").val() != "" && $("#age-input").prop("checked") && $("#terms-input").prop("checked")) {
+  if (
+    $("#name-input").val() != "" &&
+    $("#email-input").val() != "" &&
+    $("#password-input").val() != "" &&
+    $("#age-input").prop("checked") &&
+    $("#terms-input").prop("checked")
+  ) {
     $("#signup").removeClass("disabled");
   } else {
     $("#signup").addClass("disabled");
@@ -75,7 +87,13 @@ $("#signup").click(() => {
             { merge: true }
           )
           .then(() => {
-            new Toast("Account created!", "default", 1000, "./img/icon/toast/info-unlocked-icon.svg", "./app/");
+            new Toast(
+              "Account created!",
+              "default",
+              1000,
+              "./img/icon/toast/info-unlocked-icon.svg",
+              "./app/"
+            );
             window.location.href = "/FocusTime/app/";
           })
           .catch((error) => {
@@ -108,18 +126,34 @@ $("#signup").click(() => {
                         { merge: true }
                       )
                       .then(() => {
-                        new Toast("Signed in and created missing userdoc", "default", 3000, "./img/icon/toast/success-icon.svg", "./app/");
+                        new Toast(
+                          "Signed in and created missing userdoc",
+                          "default",
+                          3000,
+                          "./img/icon/toast/success-icon.svg",
+                          "./app/"
+                        );
                       })
                       .catch((error) => {
                         new ErrorToast("Error creating missing userdoc", cleanError(error), 2000);
                       });
                   } else {
-                    new Toast("Account already exists and password matched, signed in", "default", 3000, "./img/icon/toast/success-icon.svg", "./app/");
+                    new Toast(
+                      "Account already exists and password matched, signed in",
+                      "default",
+                      3000,
+                      "./img/icon/toast/success-icon.svg",
+                      "./app/"
+                    );
                   }
                 });
             })
             .catch((error) => {
-              new ErrorToast("Account already exists but could not log in:", cleanError(error), 2000);
+              new ErrorToast(
+                "Account already exists but could not log in:",
+                cleanError(error),
+                2000
+              );
             });
         } else {
           new ErrorToast("Error creating account", cleanError(error), 2000);
